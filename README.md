@@ -1,6 +1,37 @@
-# Exame Certo
+# Exame Certo - Centralização de Exames e Informações Médicas
 
-O projeto "Exame Certo" visa a criação de um webservice que centraliza informações de exames laboratoriais e clínicos do usuário, permitindo o armazenamento e consulta dos resultados em um único lugar.
+## Visão Geral
+
+Exame Certo é uma aplicação web desenvolvida para centralizar exames laboratoriais e informações médicas de pacientes, facilitando o acesso e a análise de dados de saúde ao longo do tempo. A aplicação oferece uma plataforma segura e eficiente onde pacientes podem armazenar, organizar e compartilhar seus dados clínicos com profissionais de saúde.
+
+Este projeto adota uma arquitetura sólida e escalável baseada nos seguintes princípios e padrões de design:
+
+### Clean Architecture
+
+A arquitetura limpa, ou Clean Architecture, é utilizada para manter uma separação clara entre as diferentes camadas da aplicação. Isso promove a independência de frameworks, UI, banco de dados e qualquer outra dependência externa, garantindo que as regras de negócio permaneçam isoladas e facilmente testáveis.
+
+### Domain-Driven Design (DDD)
+
+dotamos o Domain-Driven Design (DDD) para focar na modelagem do domínio de forma a refletir com precisão o mundo real. DDD nos ajuda a capturar a complexidade do negócio em um modelo de software que seja compreensível e flexível. As entidades, agregados, repositórios e serviços são modelados para expressar claramente as regras e lógica de negócio.
+
+### Princípios SOLID
+Os princípios SOLID são seguidos rigorosamente para garantir que o código seja robusto, flexível e de fácil manutenção:
+
+S - Single Responsibility Principle (SRP): Cada classe ou módulo tem uma única responsabilidade.
+O - Open/Closed Principle (OCP): O código é aberto para extensão, mas fechado para modificação.
+L - Liskov Substitution Principle (LSP): Subtipos devem ser substituíveis por seus tipos base sem alterar a corretude do programa.
+I - Interface Segregation Principle (ISP): Módulos não devem ser forçados a depender de interfaces que não utilizam.
+D - Dependency Inversion Principle (DIP): Abstrações não devem depender de detalhes, e sim o contrário.
+
+### Padrões de Design
+A aplicação também faz uso de diversos padrões de design para resolver problemas recorrentes de forma eficaz e promover boas práticas de codificação:
+
+Factory Pattern: Utilizado para centralizar e encapsular a criação de objetos complexos, especialmente quando objetos precisam ser criados de diferentes maneiras.
+Builder Pattern: Facilita a construção de objetos complexos de forma gradual, garantindo que o objeto final esteja em um estado consistente.
+Repository Pattern: Abstrai o acesso ao banco de dados e facilita a substituição da camada de persistência sem impactar as regras de negócio.
+Service Layer: Centraliza a lógica de aplicação, tornando o código mais modular e permitindo o reuso de funcionalidades.
+
+---
 
 ### Desafios Identificados
 
