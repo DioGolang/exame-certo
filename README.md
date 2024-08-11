@@ -1,6 +1,6 @@
 # Exame Certo
 
-O projeto "Fatos de Saúde" visa a criação de um webservice que centraliza informações de exames laboratoriais e clínicos do usuário, permitindo o armazenamento e consulta dos resultados em um único lugar.
+O projeto "Exame Certo" visa a criação de um webservice que centraliza informações de exames laboratoriais e clínicos do usuário, permitindo o armazenamento e consulta dos resultados em um único lugar.
 
 ### Desafios Identificados
 
