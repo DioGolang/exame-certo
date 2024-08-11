@@ -23,14 +23,19 @@ L - Liskov Substitution Principle (LSP): Subtipos devem ser substituíveis por s
 I - Interface Segregation Principle (ISP): Módulos não devem ser forçados a depender de interfaces que não utilizam.
 D - Dependency Inversion Principle (DIP): Abstrações não devem depender de detalhes, e sim o contrário.
 
-### Padrões de Design
-A aplicação também faz uso de diversos padrões de design para resolver problemas recorrentes de forma eficaz e promover boas práticas de codificação:
+ ## Padrões de Design Aplicados
 
-Factory Pattern: Utilizado para centralizar e encapsular a criação de objetos complexos, especialmente quando objetos precisam ser criados de diferentes maneiras.
-Builder Pattern: Facilita a construção de objetos complexos de forma gradual, garantindo que o objeto final esteja em um estado consistente.
-Repository Pattern: Abstrai o acesso ao banco de dados e facilita a substituição da camada de persistência sem impactar as regras de negócio.
-Service Layer: Centraliza a lógica de aplicação, tornando o código mais modular e permitindo o reuso de funcionalidades.
+1. **Repository Pattern:**
+   - Para abstrair a lógica de persistência de dados e permitir a troca de tecnologias de armazenamento sem impacto no domínio.
 
+2. **Factory Pattern:**
+   - Para criar instâncias complexas de objetos de domínio com dependências.
+
+3. **Service Layer:**
+   - Para encapsular a lógica de aplicação, mantendo a camada de domínio limpa e focada.
+
+4. **Event-Driven Architecture:**
+   - Para processar eventos de webhooks e sincronização de dados de forma desacoplada e assíncrona.
 ---
 
 ### Desafios Identificados
@@ -132,18 +137,4 @@ O sistema será desenvolvido usando os princípios do **Domain-Driven Design (DD
 
 5. **Chart.js/D3.js:**
    - Utilizadas para a geração de gráficos de evolução dos exames na interface de usuário.
-
- ## Padrões de Design Aplicados
-
-1. **Repository Pattern:**
-   - Para abstrair a lógica de persistência de dados e permitir a troca de tecnologias de armazenamento sem impacto no domínio.
-
-2. **Factory Pattern:**
-   - Para criar instâncias complexas de objetos de domínio com dependências.
-
-3. **Service Layer:**
-   - Para encapsular a lógica de aplicação, mantendo a camada de domínio limpa e focada.
-
-4. **Event-Driven Architecture:**
-   - Para processar eventos de webhooks e sincronização de dados de forma desacoplada e assíncrona.
 
