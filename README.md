@@ -17,11 +17,11 @@ dotamos o Domain-Driven Design (DDD) para focar na modelagem do domínio de form
 ### Princípios SOLID
 Os princípios SOLID são seguidos rigorosamente para garantir que o código seja robusto, flexível e de fácil manutenção:
 
-S - Single Responsibility Principle (SRP): Cada classe ou módulo tem uma única responsabilidade.
-O - Open/Closed Principle (OCP): O código é aberto para extensão, mas fechado para modificação.
-L - Liskov Substitution Principle (LSP): Subtipos devem ser substituíveis por seus tipos base sem alterar a corretude do programa.
-I - Interface Segregation Principle (ISP): Módulos não devem ser forçados a depender de interfaces que não utilizam.
-D - Dependency Inversion Principle (DIP): Abstrações não devem depender de detalhes, e sim o contrário.
+- S - Single Responsibility Principle (SRP): Cada classe ou módulo tem uma única responsabilidade.
+- O - Open/Closed Principle (OCP): O código é aberto para extensão, mas fechado para modificação.
+- L - Liskov Substitution Principle (LSP): Subtipos devem ser substituíveis por seus tipos base sem alterar a corretude do programa.
+- I - Interface Segregation Principle (ISP): Módulos não devem ser forçados a depender de interfaces que não utilizam.
+- D - Dependency Inversion Principle (DIP): Abstrações não devem depender de detalhes, e sim o contrário.
 
  ## Padrões de Design Aplicados
 
@@ -117,6 +117,80 @@ O sistema será desenvolvido usando os princípios do **Domain-Driven Design (DD
    - A autenticação é gerida com JWT ou OAuth2, garantindo que apenas usuários autenticados e autorizados acessem os dados.
    - Certificação digital é usada para garantir a autenticidade nas interações com EHRs.
 
+---
+
+## Relacionamentos Atualizados
+
+### Estrutura das Entidades com Tenant Discriminator
+
+- PatientEntity
+- DoctorEntity
+- ClinicEntity
+- AnamnesisEntity
+- ExamEntity
+- ReportEntity
+
+Cada entidade relevante terá um campo tenant_id para garantir o isolamento dos dados por clínica.
+
+1. PatientEntity
+- Um paciente pode estar associado a várias clínicas. O campo *tenant_id* é usado para garantir que as associações de um paciente sejam isoladas por clínica.
+
+2. DoctorEntity
+Um médico pode estar associado a várias clínicas e atender vários pacientes. O tenant_id garante que os dados sejam filtrados por clínica.
+
+3. ClinicEntity
+A clínica é o tenant no sistema, com muitos médicos e pacientes associados. As operações de leitura e gravação são isoladas por tenant_id.
+
+4. AnamnesisEntity
+A anamnese pertence a um paciente e a um médico, ambos associados ao mesmo tenant (clínica). Isso garante que a anamnese seja isolada por clínica. 
+
+5. ExamEntity
+Um exame pertence a um paciente, a um médico e a uma clínica, todos associados ao mesmo tenant (clínica).
+
+6. ReportEntity
+Um laudo (report) é associado a um exame e a um médico, garantindo que o tenant_id seja consistente com a clínica em questão.
+
+
+### Explicação dos Relacionamentos e Isolamento por Tenant
+
+1. Tenant Context: 
+- Cada clínica (tenant) tem seu próprio tenant_id. Todas as operações de leitura e gravação são filtradas por esse tenant_id, garantindo que os dados sejam isolados por clínica.
+
+2. Shared Database: 
+- Todas as clínicas compartilham o mesmo banco de dados físico, mas os dados são logicamente separados pelo tenant_id, o que simplifica o gerenciamento e a escalabilidade.
+
+3. Bounded Contexts:
+
+- Gestão de Pacientes: O PatientEntity é o Aggregate Root no contexto de "Gestão de Pacientes".
+- Gestão de Médicos: O DoctorEntity é o Aggregate Root no contexto de "Gestão de Médicos".
+
+Esses contextos são isolados e interagem de forma controlada, utilizando o tenant_id para garantir que as interações entre pacientes e médicos sejam filtradas corretamente.
+
+4. Service Layer e Tenant Filtering:
+
+- Todas as operações realizadas pela camada de serviço devem sempre passar o tenant_id para garantir que apenas os dados da clínica atual sejam acessados ou manipulados.
+
+5. Tabelas de Junção e Chaves Estrangeiras:
+
+- Tabela de Junção: Relacionamentos muitos-para-muitos, como entre médicos e clínicas, são modelados com tabelas de junção (doctor_clinics, patient_clinics).
+- Chaves Estrangeiras: As chaves estrangeiras garantem a integridade referencial e asseguram que os dados estejam corretamente associados ao tenant_id.
+
+
+### Relacionamentos entre as entidades por tenant_id
+
+- PatientEntity: Um paciente pode estar associado a várias clínicas (ManyToMany), e cada associação tem um tenant_id específico. Isso garante que o paciente possa existir em diferentes clínicas com registros distintos para cada uma.
+
+- DoctorEntity: Um médico pode estar associado a várias clínicas (ManyToMany), e o tenant_id identifica a clínica específica para cada associação.
+
+- ClinicEntity: A clínica possui muitos médicos e pacientes associados (ManyToMany), e o tenant_id é usado para garantir que as operações de leitura e gravação sejam isoladas por clínica.
+
+- AnamnesisEntity: Uma anamnese pertence a um paciente e a um médico, ambos com o mesmo tenant_id, garantindo que a anamnese seja isolada para uma clínica específica.
+
+- ExamEntity: Um exame pertence a um paciente, a um médico, e a uma clínica. O tenant_id assegura que o exame seja associado corretamente à clínica correspondente.
+
+
+---
+
 ## Tecnologias Utilizadas
 
 1. **NestJS:**
@@ -137,4 +211,9 @@ O sistema será desenvolvido usando os princípios do **Domain-Driven Design (DD
 
 5. **Chart.js/D3.js:**
    - Utilizadas para a geração de gráficos de evolução dos exames na interface de usuário.
+
+
+
+
+
 
