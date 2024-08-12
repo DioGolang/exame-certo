@@ -215,7 +215,7 @@ Esses contextos são isolados e interagem de forma controlada, utilizando o tena
 6. **JWT**
 - Os tokens JWT permitem autenticação sem estado e escalável, com a capacidade de incluir informações de controle de acesso.
 
-6. **Chart.js/D3.js:**
+7. **Chart.js/D3.js:**
    - Utilizadas para a geração de gráficos de evolução dos exames na interface de usuário.
 
 
