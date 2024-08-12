@@ -9,6 +9,8 @@ import { ContactInfo } from "../value-objects/contact-info.vo";
 export class Doctor {
   id: string; // UUID
   name: string;
+  email: string;
+  passwordHash: string;
   contactInfo: ContactInfo;
   professionalAddress: Address;
   registrationNumber: string;

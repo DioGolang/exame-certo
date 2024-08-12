@@ -9,6 +9,8 @@ import { MaritalStatus } from "../enums/marital-status.enum";
 export class Patient{
   id: string;
   name: string;
+  email: string;
+  passwordHash: string;
   dateOfBirth: Date;
   sex: Sex;
   maritalStatus: MaritalStatus;

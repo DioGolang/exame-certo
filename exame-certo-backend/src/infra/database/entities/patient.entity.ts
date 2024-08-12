@@ -16,7 +16,16 @@ export class PatientEntity{
   id: string;
 
   @Column()
+  tenant_id: string;
+
+  @Column()
   name: string;
+
+  @Column()
+  email:string;
+
+  @Column()
+  passwordHash: string;
 
   @Column()
   dateOfBirth: Date;
@@ -45,17 +54,18 @@ export class PatientEntity{
   @Column({ nullable: true })
   healthInsurance?: string;
 
+  @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.patient)
+  anamneses: AnamnesisEntity[];
+
   @OneToMany(() => ExamEntity, exam => exam.patient)
   exams: ExamEntity[];
 
-  @ManyToOne(() => DoctorEntity, doctor => doctor.patients)
-  doctor: DoctorEntity;
-
   @ManyToMany(() => ClinicEntity, clinic => clinic.patients)
-  @JoinTable()
+  @JoinTable({ name: 'patient_clinics' })
   clinics: ClinicEntity[];
 
-  @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.patient)
-  anamneses: AnamnesisEntity[];
+  @ManyToMany(() => DoctorEntity, doctor => doctor.patients)
+  @JoinTable({ name: 'patient_doctors' })
+  doctors: DoctorEntity[];
 
 }

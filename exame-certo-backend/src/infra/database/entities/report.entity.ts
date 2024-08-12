@@ -11,6 +11,9 @@ export class ReportEntity{
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  tenant_id: string;
+
   @ManyToOne(() => ExamEntity, exam => exam.reports)
   exam: ExamEntity;
 

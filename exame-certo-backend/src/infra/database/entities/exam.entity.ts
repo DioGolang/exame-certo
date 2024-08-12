@@ -13,7 +13,10 @@ import { ReportEntity } from "./report.entity";
 @Entity('exams')
 export class ExamEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
+
+  @Column()
+  tenant_id: string;
 
   @ManyToOne(() => PatientEntity, patient => patient.exams)
   patient: PatientEntity;

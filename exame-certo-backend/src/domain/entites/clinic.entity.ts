@@ -8,6 +8,8 @@ import { ContactInfo } from "../value-objects/contact-info.vo";
 export class Clinic {
   id: string; // UUID
   name: string;
+  email: string;
+  passwordHash: string;
   address: Address;
   contactInfo: ContactInfo;
   doctors: Doctor[];

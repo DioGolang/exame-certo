@@ -12,6 +12,15 @@ export class ClinicEntity{
   id: string;
 
   @Column()
+  tenant_id: string;
+
+  @Column()
+  email:string;
+
+  @Column()
+  passwordHash: string;
+
+  @Column()
   name: string;
 
   @Column('jsonb')
@@ -20,13 +29,13 @@ export class ClinicEntity{
   @Column('jsonb')
   contactInfo: ContactInfo;
 
-  @OneToMany(() => DoctorEntity, doctor => doctor.clinic)
+  @OneToMany(() => ExamEntity, exam => exam.clinic)
+  exams: ExamEntity[]
+
+  @ManyToMany(() => DoctorEntity, doctor => doctor.clinics)
   doctors: DoctorEntity[];
 
   @ManyToMany(() => PatientEntity, patient => patient.clinics)
-  patients: PatientEntity[]
-
-  @OneToMany(() => ExamEntity, exam => exam.clinic)
-  exams: ExamEntity[]
+  patients: PatientEntity[];
 
 }

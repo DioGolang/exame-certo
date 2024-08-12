@@ -8,7 +8,10 @@ import { DoctorEntity } from "./doctor.entity";
 @Entity('anamneses')
 export class AnamnesisEntity{
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
+
+  @Column()
+  tenant_id: string;
 
   @ManyToOne(() => PatientEntity, patient => patient.anamneses)
   patient: PatientEntity;

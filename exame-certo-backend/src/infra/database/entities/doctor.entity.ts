@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Address } from "../../../domain/value-objects/address.vo";
 import { ContactInfo } from "../../../domain/value-objects/contact-info.vo";
 import { PatientEntity } from "./patient.entity";
@@ -14,7 +14,16 @@ export class DoctorEntity{
   id: string;
 
   @Column()
+  tenant_id: string;
+
+  @Column()
   name: string;
+
+  @Column()
+  email:string;
+
+  @Column()
+  passwordHash: string;
 
   @Column('jsonb')
   address: Address;
@@ -28,19 +37,20 @@ export class DoctorEntity{
   @Column()
   specialization: string;
 
-  @ManyToOne(() => ClinicEntity, clinic => clinic.doctors)
-  clinic: ClinicEntity;
-
-  @OneToMany(() => PatientEntity, patient => patient.doctor)
-  patients: PatientEntity[];
+  @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.doctor)
+  anamnese: AnamnesisEntity[];
 
   @OneToMany(() => ExamEntity, exam => exam.doctor)
   exams: ExamEntity[];
 
-  @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.doctor)
-  anamnese: AnamnesisEntity[];
-
   @OneToMany(() => ReportEntity, report => report.doctor)
   reports: ReportEntity[];
+
+  @ManyToMany(() => PatientEntity, patient => patient.doctors)
+  patients: PatientEntity[];
+
+  @ManyToMany(() => ClinicEntity, clinic => clinic.doctors)
+  @JoinTable({ name: 'doctor_clinics' })
+  clinics: ClinicEntity[];
 
 }
