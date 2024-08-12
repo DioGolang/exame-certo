@@ -136,19 +136,19 @@ Cada entidade relevante terá um campo tenant_id para garantir o isolamento dos 
 - Um paciente pode estar associado a várias clínicas. O campo *tenant_id* é usado para garantir que as associações de um paciente sejam isoladas por clínica.
 
 2. DoctorEntity
-Um médico pode estar associado a várias clínicas e atender vários pacientes. O tenant_id garante que os dados sejam filtrados por clínica.
+- Um médico pode estar associado a várias clínicas e atender vários pacientes. O tenant_id garante que os dados sejam filtrados por clínica.
 
 3. ClinicEntity
-A clínica é o tenant no sistema, com muitos médicos e pacientes associados. As operações de leitura e gravação são isoladas por tenant_id.
+- A clínica é o tenant no sistema, com muitos médicos e pacientes associados. As operações de leitura e gravação são isoladas por tenant_id.
 
 4. AnamnesisEntity
-A anamnese pertence a um paciente e a um médico, ambos associados ao mesmo tenant (clínica). Isso garante que a anamnese seja isolada por clínica. 
+- A anamnese pertence a um paciente e a um médico, ambos associados ao mesmo tenant (clínica). Isso garante que a anamnese seja isolada por clínica. 
 
 5. ExamEntity
-Um exame pertence a um paciente, a um médico e a uma clínica, todos associados ao mesmo tenant (clínica).
+- Um exame pertence a um paciente, a um médico e a uma clínica, todos associados ao mesmo tenant (clínica).
 
 6. ReportEntity
-Um laudo (report) é associado a um exame e a um médico, garantindo que o tenant_id seja consistente com a clínica em questão.
+- Um laudo (report) é associado a um exame e a um médico, garantindo que o tenant_id seja consistente com a clínica em questão.
 
 
 ### Explicação dos Relacionamentos e Isolamento por Tenant
@@ -209,7 +209,13 @@ Esses contextos são isolados e interagem de forma controlada, utilizando o tena
 4. **OCR:**
    - Biblioteca Tesseract.js para OCR e conversão de laudos em texto pesquisável.
 
-5. **Chart.js/D3.js:**
+5. **Keycloak**
+- Keycloak fornece uma solução completa para autenticação, gerenciamento de usuários e controle de acesso.
+
+6. **JWT**
+- Os tokens JWT permitem autenticação sem estado e escalável, com a capacidade de incluir informações de controle de acesso.
+
+6. **Chart.js/D3.js:**
    - Utilizadas para a geração de gráficos de evolução dos exames na interface de usuário.
 
 
