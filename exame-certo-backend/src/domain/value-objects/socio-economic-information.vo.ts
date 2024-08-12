@@ -1,3 +1,4 @@
+import { EducationLevel } from "../enums/education-level.enum";
 
 enum IncomeLevel {
   HIGH = "renda mensal domiciliar superior a 10 salários",
@@ -9,13 +10,6 @@ enum IncomeLevel {
   NotInformed = 'Não Informado'
 }
 
-enum EducationLevel {
-  Elementary = 'Ensino Fundamental',
-  Middle = 'Ensino Médio',
-  HigherEducation = 'Ensino Superior',
-  Postgraduate = 'Pós-graduação',
-  NotInformed = 'Não Informado'
-}
 
 export class SocioEconomicInformation {
   profession: string;

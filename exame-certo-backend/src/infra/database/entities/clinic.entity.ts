@@ -1,0 +1,32 @@
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ContactInfo } from "../../../domain/value-objects/contact-info.vo";
+import { Address } from "../../../domain/value-objects/address.vo";
+import { PatientEntity } from "./patient.entity";
+import { DoctorEntity } from "./doctor.entity";
+import { ExamEntity } from "./exam.entity";
+
+
+@Entity('clinics')
+export class ClinicEntity{
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  name: string;
+
+  @Column('jsonb')
+  address: Address;
+
+  @Column('jsonb')
+  contactInfo: ContactInfo;
+
+  @OneToMany(() => DoctorEntity, doctor => doctor.clinic)
+  doctors: DoctorEntity[];
+
+  @ManyToMany(() => PatientEntity, patient => patient.clinics)
+  patients: PatientEntity[]
+
+  @OneToMany(() => ExamEntity, exam => exam.clinic)
+  exams: ExamEntity[]
+
+}

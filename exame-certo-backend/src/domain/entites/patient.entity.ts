@@ -3,6 +3,7 @@ import { Address } from "../value-objects/address.vo";
 import { SocioEconomicInformation } from "../value-objects/socio-economic-information.vo";
 import { Sex } from "../enums/sex.enum";
 import { ContactInfo } from "../value-objects/contact-info.vo";
+import { MaritalStatus } from "../enums/marital-status.enum";
 
 
 export class Patient{
@@ -10,7 +11,7 @@ export class Patient{
   name: string;
   dateOfBirth: Date;
   sex: Sex;
-  maritalStatus: string;
+  maritalStatus: MaritalStatus;
   address: Address;
   contactInfo: ContactInfo;
   identificationNumber: CPF;

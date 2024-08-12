@@ -5,9 +5,17 @@ import { DomainModule } from './domain/domain.module';
 import { ApplicationModule } from './application/application.module';
 import { InfraModule } from './infra/infra.module';
 import { PresentationModule } from './presentation/presentation.module';
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { typeOrmConfig } from "./infra/database/typeorm.config";
 
 @Module({
-  imports: [DomainModule, ApplicationModule, InfraModule, PresentationModule],
+  imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
+    DomainModule,
+    ApplicationModule,
+    InfraModule,
+    PresentationModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
