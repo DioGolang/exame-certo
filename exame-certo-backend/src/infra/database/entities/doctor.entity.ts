@@ -50,7 +50,6 @@ export class DoctorEntity{
   patients: PatientEntity[];
 
   @ManyToMany(() => ClinicEntity, clinic => clinic.doctors)
-  @JoinTable({ name: 'doctor_clinics' })
   clinics: ClinicEntity[];
 
 }

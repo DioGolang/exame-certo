@@ -6,22 +6,30 @@ Exame Certo é uma aplicação web desenvolvida para centralizar exames laborato
 
 Este projeto adota uma arquitetura sólida e escalável baseada nos seguintes princípios e padrões de design:
 
+---
+
 ### Clean Architecture
 
 A arquitetura limpa, ou Clean Architecture, é utilizada para manter uma separação clara entre as diferentes camadas da aplicação. Isso promove a independência de frameworks, UI, banco de dados e qualquer outra dependência externa, garantindo que as regras de negócio permaneçam isoladas e facilmente testáveis.
+
+---
 
 ### Domain-Driven Design (DDD)
 
 dotamos o Domain-Driven Design (DDD) para focar na modelagem do domínio de forma a refletir com precisão o mundo real. DDD nos ajuda a capturar a complexidade do negócio em um modelo de software que seja compreensível e flexível. As entidades, agregados, repositórios e serviços são modelados para expressar claramente as regras e lógica de negócio.
 
+---
+
 ### Princípios SOLID
 Os princípios SOLID são seguidos rigorosamente para garantir que o código seja robusto, flexível e de fácil manutenção:
 
-- S - Single Responsibility Principle (SRP): Cada classe ou módulo tem uma única responsabilidade.
-- O - Open/Closed Principle (OCP): O código é aberto para extensão, mas fechado para modificação.
-- L - Liskov Substitution Principle (LSP): Subtipos devem ser substituíveis por seus tipos base sem alterar a corretude do programa.
-- I - Interface Segregation Principle (ISP): Módulos não devem ser forçados a depender de interfaces que não utilizam.
-- D - Dependency Inversion Principle (DIP): Abstrações não devem depender de detalhes, e sim o contrário.
+- **S** - *Single Responsibility Principle (SRP):* Cada classe ou módulo tem uma única responsabilidade.
+- **O** - *Open/Closed Principle (OCP):* O código é aberto para extensão, mas fechado para modificação.
+- **L** - *Liskov Substitution Principle (LSP):* Subtipos devem ser substituíveis por seus tipos base sem alterar a corretude do programa.
+- **I** - *Interface Segregation Principle (ISP):* Módulos não devem ser forçados a depender de interfaces que não utilizam.
+- **D** - *Dependency Inversion Principle (DIP):* Abstrações não devem depender de detalhes, e sim o contrário.
+
+---
 
  ## Padrões de Design Aplicados
 
@@ -49,9 +57,10 @@ Os princípios SOLID são seguidos rigorosamente para garantir que o código sej
 7. **Autenticação e Segurança:** JWT, OAuth2.
 8. **Processamento Assíncrono:** Gerenciamento de tarefas assíncronas.
 
+---
+
 ## Requirements
 
----
 
 ### *Must Have*
 
@@ -68,6 +77,8 @@ Os princípios SOLID são seguidos rigorosamente para garantir que o código sej
 ### *Won't Have*
 
 * Prontuário Eletrônico Completo.
+
+---
 
 ## Method
 
@@ -97,6 +108,8 @@ O sistema será desenvolvido usando os princípios do **Domain-Driven Design (DD
    - Implementada usando Next.js para fornecer uma interface responsiva e interativa.
    - Páginas e componentes React.js que se comunicam com a API desenvolvida em NestJS.
    - Representação gráfica dos dados (gráficos de evolução) usando bibliotecas como Chart.js ou D3.js.
+
+---
 
 ## Fluxo de Dados
 
@@ -210,16 +223,11 @@ Esses contextos são isolados e interagem de forma controlada, utilizando o tena
    - Biblioteca Tesseract.js para OCR e conversão de laudos em texto pesquisável.
 
 5. **Keycloak**
-- Keycloak fornece uma solução completa para autenticação, gerenciamento de usuários e controle de acesso.
+   - Keycloak fornece uma solução completa para autenticação, gerenciamento de usuários e controle de acesso.
 
 6. **JWT**
-- Os tokens JWT permitem autenticação sem estado e escalável, com a capacidade de incluir informações de controle de acesso.
+   - Os tokens JWT permitem autenticação sem estado e escalável, com a capacidade de incluir informações de controle de acesso.
 
 7. **Chart.js/D3.js:**
    - Utilizadas para a geração de gráficos de evolução dos exames na interface de usuário.
-
-
-
-
-
 

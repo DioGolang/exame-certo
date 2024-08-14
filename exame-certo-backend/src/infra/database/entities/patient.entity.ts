@@ -61,11 +61,9 @@ export class PatientEntity{
   exams: ExamEntity[];
 
   @ManyToMany(() => ClinicEntity, clinic => clinic.patients)
-  @JoinTable({ name: 'patient_clinics' })
   clinics: ClinicEntity[];
 
   @ManyToMany(() => DoctorEntity, doctor => doctor.patients)
-  @JoinTable({ name: 'patient_doctors' })
   doctors: DoctorEntity[];
 
 }
