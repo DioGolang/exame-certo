@@ -1,16 +1,16 @@
-import { Sex } from "../enums/sex.enum";
+import { PatientValidationService } from "../services/patient-validation.service";
 import { MaritalStatus } from "../enums/marital-status.enum";
-import { AddressDto } from "../../application/dtos/address.dto";
-import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
-import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
-import { DocumentationDto } from "../../application/dtos/documentation.dto";
-import { IHasher } from "../interfaces/hasher.interface";
-import { Patient } from "../entites/patient.entity";
+import { Sex } from "../enums/sex.enum";
 import { Address } from "../value-objects/address.vo";
 import { ContactInfo } from "../value-objects/contact-info.vo";
 import { SocioEconomicInformation } from "../value-objects/socio-economic-information.vo";
 import { Documentation } from "../value-objects/documentation.vo";
-
+import { IHasher } from "../interfaces/hasher.interface";
+import { AddressDto } from "../../application/dtos/address.dto";
+import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
+import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
+import { DocumentationDto } from "../../application/dtos/documentation.dto";
+import { Patient } from "../entites/patient.entity";
 
 export class PatientBuilder {
   private _id: string | null = null;
@@ -25,8 +25,18 @@ export class PatientBuilder {
   private _contactInfo: ContactInfo;
   private _socioeconomicInformation: SocioEconomicInformation;
   private _documentation: Documentation;
-  private _hashPassword: IHasher;
   private _healthInsurance?: string;
+
+  private readonly _validator: PatientValidationService;
+  private readonly _hasher: IHasher;
+
+  constructor(
+    validator: PatientValidationService,
+    hasher: IHasher
+  ) {
+    this._validator = validator;
+    this._hasher = hasher;
+  }
 
   withId(id: string): this {
     this._id = id;
@@ -45,11 +55,6 @@ export class PatientBuilder {
 
   withEmail(email: string): this {
     this._email = email;
-    return this;
-  }
-
-  withPassword(password: string): this {
-    this._password = password;
     return this;
   }
 
@@ -88,23 +93,19 @@ export class PatientBuilder {
     return this;
   }
 
-  withHasher(hashPassword: IHasher): this {
-    this._hashPassword = hashPassword;
-    return this;
-  }
-
-  withHealthInsurance(healthInsurance: string): this {
+  withHealthInsurance(healthInsurance?: string): this {
     this._healthInsurance = healthInsurance;
     return this;
   }
 
-  build(): Patient {
-    return new Patient(
+ async build(): Promise<Patient> {
+    const hashedPassword = await this._hasher.hash(this._password);
+    const patient = new Patient(
       this._id,
       this._name,
       this._lastName,
       this._email,
-      this._password,
+      hashedPassword,
       this._dateOfBirth,
       this._sex,
       this._maritalStatus,
@@ -112,8 +113,12 @@ export class PatientBuilder {
       this._contactInfo,
       this._socioeconomicInformation,
       this._documentation,
-      this._hashPassword,
+      this._hasher,
       this._healthInsurance
     );
+
+    this._validator.validate(patient);
+
+    return patient;
   }
 }

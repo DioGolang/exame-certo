@@ -29,8 +29,8 @@ export class Patient{
     return this._name;
   }
 
-  get lastname():string{
-    return this._lastname;
+  get lastName():string{
+    return this._lastName;
   }
 
   get email(): string{
@@ -49,5 +49,8 @@ export class Patient{
     return this._maritalStatus;
   }
 
+  async verifyPassword(password: string): Promise<boolean> {
+    return await this._hashPassword.compare(password, this._password);
+  }
 
 }
