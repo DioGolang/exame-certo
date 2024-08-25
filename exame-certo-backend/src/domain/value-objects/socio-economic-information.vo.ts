@@ -1,22 +1,13 @@
 import { EducationLevel } from "../enums/education-level.enum";
-
-enum IncomeLevel {
-  HIGH = "renda mensal domiciliar superior a 10 salários",
-  HIGH_AVERAGE = "renda mensal domiciliar entre quatro a 10 salários",
-  AVERAGE = "renda mensal domiciliar entre três salários e quatro salários",
-  LOW_AVERAGE = "renda mensal domiciliar entre  dois salários e três salários",
-  LOW = "renda mensal domiciliar entre um salário e dois salários",
-  VERY_LOW = "renda mensal domiciliar igual ou menor salário mínimo",
-  NotInformed = 'Não Informado'
-}
-
+import { IncomeLevel } from "../enums/income-level.enum";
+import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
 
 export class SocioEconomicInformation {
-  profession: string;
-  educationLevel: EducationLevel;
-  housingConditions: string; // Condições de moradia (ex: tipo de habitação, número de pessoas na residência)
-  incomeLevel: IncomeLevel;
-  socialSupport: string; // Suporte social (ex: rede de apoio, acesso a serviços públicos)
+ public readonly profession: string;
+ public readonly educationLevel: EducationLevel;
+ public readonly housingConditions: string; // Condições de moradia (ex: tipo de habitação, número de pessoas na residência)
+ public readonly incomeLevel: IncomeLevel;
+ public readonly socialSupport: string; // Suporte social (ex: rede de apoio, acesso a serviços públicos)
 
   constructor(
     profession: string,
@@ -30,5 +21,16 @@ export class SocioEconomicInformation {
     this.housingConditions = housingConditions;
     this.incomeLevel = incomeLevel;
     this.socialSupport = socialSupport || 'Não informado';
+  }
+
+  static fromDto(socioEconimicInformation: SocioEconomicInformationDto): SocioEconomicInformation{
+    return new SocioEconomicInformation(
+      socioEconimicInformation.profession,
+      socioEconimicInformation.educationLevel,
+      socioEconimicInformation.housingConditions,
+      socioEconimicInformation.incomeLevel,
+      socioEconimicInformation.socialSupport
+    )
+
   }
 }

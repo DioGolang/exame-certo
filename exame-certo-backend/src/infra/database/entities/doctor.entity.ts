@@ -38,7 +38,7 @@ export class DoctorEntity{
   specialization: string;
 
   @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.doctor)
-  anamnese: AnamnesisEntity[];
+  anamnesis: AnamnesisEntity[];
 
   @OneToMany(() => ExamEntity, exam => exam.doctor)
   exams: ExamEntity[];

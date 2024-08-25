@@ -1,18 +1,19 @@
+import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
 
 export class ContactInfo{
- private phone: string;
- private email: string;
+ public readonly phone: string;
+ public readonly email: string;
 
   constructor(phone: string, email: string) {
     this.phone = phone;
     this.email = email;
   }
 
-  get Phone(): string {
-    return this.phone;
+  static fromDto(contactInfo: ContactInfoDto): ContactInfo{
+    return new ContactInfo(
+      contactInfo.phone,
+      contactInfo.email,
+    )
   }
 
-  get Email(): string {
-    return this.email;
-  }
 }

@@ -8,6 +8,7 @@ import { ExamEntity } from "./exam.entity";
 import { DoctorEntity } from "./doctor.entity";
 import { ClinicEntity } from "./clinic.entity";
 import { AnamnesisEntity } from "./anamnesis.entity";
+import { Documentation } from "../../../domain/value-objects/documentation.vo";
 
 
 @Entity('patients')
@@ -20,6 +21,9 @@ export class PatientEntity{
 
   @Column()
   name: string;
+
+  @Column()
+  lastName: string;
 
   @Column()
   email:string;
@@ -42,20 +46,17 @@ export class PatientEntity{
   @Column('jsonb')
   contactInfo: ContactInfo;
 
-  @Column()
-  identificationNumber: string;
+  @Column('jsonb')
+  documentation: Documentation;
 
   @Column('jsonb')
   socioeconomicInformation: SocioEconomicInformation;
 
   @Column({ nullable: true })
-  cnsNumber?: string;
-
-  @Column({ nullable: true })
   healthInsurance?: string;
 
   @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.patient)
-  anamneses: AnamnesisEntity[];
+  anamnesis: AnamnesisEntity[];
 
   @OneToMany(() => ExamEntity, exam => exam.patient)
   exams: ExamEntity[];

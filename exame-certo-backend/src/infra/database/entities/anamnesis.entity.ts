@@ -5,7 +5,7 @@ import { PatientEntity } from "./patient.entity";
 import { DoctorEntity } from "./doctor.entity";
 
 
-@Entity('anamneses')
+@Entity('anamnesis')
 export class AnamnesisEntity{
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -13,10 +13,10 @@ export class AnamnesisEntity{
   @Column()
   tenant_id: string;
 
-  @ManyToOne(() => PatientEntity, patient => patient.anamneses)
+  @ManyToOne(() => PatientEntity, patient => patient.anamnesis)
   patient: PatientEntity;
 
-  @ManyToOne(() => DoctorEntity, doctor => doctor.anamnese)
+  @ManyToOne(() => DoctorEntity, doctor => doctor.anamnesis)
   doctor: DoctorEntity;
 
   @Column()
