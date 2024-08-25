@@ -25,4 +25,29 @@ export class Patient{
     private readonly _healthInsurance?: string,
   ) { }
 
+  get name():string{
+    return this._name;
+  }
+
+  get lastname():string{
+    return this._lastname;
+  }
+
+  get email(): string{
+    return this._email
+  }
+
+  get dateOfBirth(): Date{
+    return this._dateOfBirth;
+  }
+
+  get sex(): Sex{
+    return this._sex;
+  }
+
+  get maritalStatus():MaritalStatus{
+    return this._maritalStatus;
+  }
+
+
 }
