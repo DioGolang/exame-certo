@@ -25,11 +25,15 @@ export class Patient{
     private readonly _healthInsurance?: string,
   ) { }
 
-  get name():string{
+  get id(): string{
+    return this._id;
+  }
+
+  get name(): string{
     return this._name;
   }
 
-  get lastName():string{
+  get lastName(): string{
     return this._lastName;
   }
 
@@ -45,7 +49,7 @@ export class Patient{
     return this._sex;
   }
 
-  get maritalStatus():MaritalStatus{
+  get maritalStatus(): MaritalStatus{
     return this._maritalStatus;
   }
 

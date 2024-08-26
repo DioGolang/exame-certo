@@ -10,7 +10,7 @@ export class ContactInfo{
  public readonly extension2?: string;
  public readonly extension3?: string;
 
-  constructor(phone: string, emergencyPhone:string, emergencyPhone2: string, emergencyPhone3 :string, email: string, extension: string, extension2: string, extension3: string) {
+  constructor(phone: string, emergencyPhone:string, emergencyPhone2: string, emergencyPhone3 :string, email: string, extension?: string, extension2?: string, extension3?: string) {
     this.phone = phone;
     this.emergencyPhone = emergencyPhone;
     this.emergencyPhone2 = emergencyPhone2;

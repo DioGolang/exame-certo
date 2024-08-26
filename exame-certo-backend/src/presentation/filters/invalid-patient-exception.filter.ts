@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, HttpStatus } from "@nestjs/common";
 import { InvalidPatientException } from "../../domain/exceptions/invalid-patient.exception";
-import { ExceptionFilter, HttpException } from "@nestjs/common";
+import { ExceptionFilter } from "@nestjs/common";
 import { Request, Response } from 'express';
 
 @Catch(InvalidPatientException)

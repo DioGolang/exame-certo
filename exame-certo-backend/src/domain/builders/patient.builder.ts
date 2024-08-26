@@ -1,4 +1,4 @@
-import { PatientValidationService } from "../services/patient-validation.service";
+import { PatientValidationService } from "../services/validation/patient-validation.service";
 import { MaritalStatus } from "../enums/marital-status.enum";
 import { Sex } from "../enums/sex.enum";
 import { Address } from "../value-objects/address.vo";
@@ -38,7 +38,7 @@ export class PatientBuilder {
     this._hasher = hasher;
   }
 
-  withId(id: string): this {
+  withId(id?: string): this {
     this._id = id;
     return this;
   }

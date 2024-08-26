@@ -11,16 +11,68 @@ import { PersonalHistory } from "../value-objects/personal-history.vo";
 //AP: Antecedentes fisiológicos
 
 export class Anamnesis {
-  id: string;
-  patient: Patient;
-  doctor: Doctor;
-  date: Date;
-  identification: Identification;
-  mainComplaint: string;
-  historyOfPresentIllness: string;
-  reviewOfSystems: string;
-  pastMedicalHistory: string;
-  familyHistory: string;
-  socialHistory: string;
-  personalHistory: PersonalHistory;
+
+  constructor(
+    private readonly _id: string | null,
+    private readonly _patient: Patient,
+    private readonly _doctor: Doctor,
+    private readonly _date: Date,
+    private readonly _identification: Identification,
+    private readonly _mainComplaint: string,
+    private readonly _historyOfPresentIllness: string,
+    private readonly _reviewOfSystems: string,
+    private readonly _pastMedicalHistory: string,
+    private readonly _familyHistory: string,
+    private readonly _socialHistory: string,
+    private readonly _personalHistory: PersonalHistory,
+  ) { }
+
+  get id(): string {
+    return this._id
+  }
+
+  get patient(): Patient{
+    return this._patient
+  }
+
+  get doctor(): Doctor{
+    return this._doctor
+  }
+
+  get date(): Date{
+    return this._date
+  }
+
+  get identification(): Identification{
+    return this._identification
+  }
+
+  get mainComplaint(): string{
+    return this._mainComplaint
+  }
+
+  get historyOfPresentIllness(): string{
+    return this._historyOfPresentIllness
+  }
+
+  get reviewOfSystems(): string{
+    return this._reviewOfSystems
+  }
+
+  get pastMedicalHistory(): string{
+    return this._pastMedicalHistory
+  }
+
+  get familyHistory(): string{
+    return this._familyHistory
+  }
+
+  get socialHistory(): string{
+    return this._socialHistory
+  }
+
+  get personalHistory(): PersonalHistory{
+    return this._personalHistory
+  }
+
 }
