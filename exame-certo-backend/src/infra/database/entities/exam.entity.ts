@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ReferenceValues } from "../../../domain/value-objects/reference-values.vo";
 import { ExamValues } from "../../../domain/value-objects/exam-values.vo";
 import { TUSSCode } from "../../../domain/value-objects/tuss-code.vo";
@@ -27,7 +27,7 @@ export class ExamEntity {
   @ManyToOne(() => DoctorEntity, doctor => doctor.exams)
   doctor: DoctorEntity;
 
-  @OneToMany(() => ReportEntity, report => report.exam)
+  @ManyToMany(() => ReportEntity, report => report.exams)
   reports: ReportEntity[];
 
   @Column()

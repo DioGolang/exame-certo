@@ -14,6 +14,7 @@ export class Anamnesis {
 
   constructor(
     private readonly _id: string | null,
+    private readonly _tenantId: string,
     private readonly _patient: Patient,
     private readonly _doctor: Doctor,
     private readonly _date: Date,
@@ -31,13 +32,6 @@ export class Anamnesis {
     return this._id
   }
 
-  get patient(): Patient{
-    return this._patient
-  }
-
-  get doctor(): Doctor{
-    return this._doctor
-  }
 
   get date(): Date{
     return this._date

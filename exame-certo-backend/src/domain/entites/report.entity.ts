@@ -1,15 +1,16 @@
-import { Exam } from "./exam.entity";
-import { Doctor } from "./doctor.entity";
 import { Signature } from "../value-objects/signature.vo";
 import { AdditionalInformation } from "../value-objects/additional-information.vo";
 import { CID10 } from "../value-objects/cid.vo";
+import { Exam } from "./exam.entity";
+import { Doctor } from "./doctor.entity";
 
 
 export class Report {
 
   constructor(
    private readonly _id: string | null,
-   private readonly _exam: Exam,
+   private readonly _tenantId: string,
+   private readonly _exams: Exam[],
    private readonly _doctor: Doctor,
    private readonly _date: Date,
    private readonly _diagnosis: string,
@@ -33,13 +34,6 @@ export class Report {
     return this._id;
   }
 
-  get exam(): Exam{
-    return this._exam;
-  }
-
-  get doctor(): Doctor{
-    return this._doctor;
-  }
 
   get date(): Date{
     return this._date;

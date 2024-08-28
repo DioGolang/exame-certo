@@ -1,19 +1,22 @@
 import { Patient } from "./patient.entity";
-import { Clinic } from "./clinic.entity";
 import { Doctor } from "./doctor.entity";
 import { ExamValues } from "../value-objects/exam-values.vo";
 import { ReferenceValues } from "../value-objects/reference-values.vo";
 import { TUSSCode } from "../value-objects/tuss-code.vo";
 import { CBHPMCode } from "../value-objects/cbhpm-code.vo";
 import { CIEFASCode } from "../value-objects/ciefas-code.vo";
+import { Report } from "./report.entity";
+import { Clinic } from "./clinic.entity";
 
 export class Exam {
 
   constructor(
    private readonly _id: string | null,
+   private readonly _tenantId: string,
    private readonly _patient: Patient,
    private readonly _clinic: Clinic,
    private readonly _doctor: Doctor,
+   private readonly _reports: Report[],
    private readonly _date: Date,
    private readonly _type: string,
    private readonly _method: string,
@@ -31,17 +34,6 @@ export class Exam {
     return this._id;
   }
 
-  get patient(): Patient {
-    return this._patient;
-  }
-
-  get clinic(): Clinic {
-    return this._clinic;
-  }
-
-  get doctor(): Doctor {
-    return this._doctor;
-  }
 
   get date(): Date {
     return this._date;

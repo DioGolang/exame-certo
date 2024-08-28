@@ -31,7 +31,7 @@ export class ClinicBuilder{
   }
 
   withId(id?: string): this {
-    this._id = id;
+    this._id = id || null;
     return this;
   }
 

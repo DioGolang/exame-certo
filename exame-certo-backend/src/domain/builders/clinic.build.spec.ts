@@ -107,7 +107,6 @@ describe('ClinicBuilder', () => {
 
     await expect(
       new ClinicBuilder(validator, hasher)
-        .withId('clinic_id')
         .withName('Clinic Name')
         .withEmail('')
         .withAddress(address)

@@ -1,17 +1,17 @@
 import { Address } from "../value-objects/address.vo";
 import { Clinic } from "./clinic.entity";
-import { Patient } from "./patient.entity";
-import { Exam } from "./exam.entity";
-import { Anamnesis } from "./anamnesis.entity";
 import { ContactInfo } from "../value-objects/contact-info.vo";
 import { IHasher } from "../interfaces/hasher.interface";
+import { Anamnesis } from "./anamnesis.entity";
+import { Exam } from "./exam.entity";
+import { Patient } from "./patient.entity";
 import { Report } from "./report.entity";
-
 
 export class Doctor {
 
  constructor(
    private readonly  _id: string | null, // UUID
+   private readonly _tenantId: string,
    private readonly _name: string,
    private readonly _email: string,
    private readonly _password: string,
@@ -19,11 +19,11 @@ export class Doctor {
    private readonly _professionalAddress: Address,
    private readonly _registrationNumber: string,
    private readonly _specialization: string,
-   private readonly _clinic: Clinic,
-   private readonly _patients: Patient[],
-   private readonly _exams: Exam[],
    private readonly _anamnesis: Anamnesis[],
+   private readonly _exams: Exam[],
    private readonly _reports: Report[],
+   private readonly _patients: Patient[],
+   private readonly _clinics: Clinic[],
    private readonly _hashPassword: IHasher,
  ) { }
 

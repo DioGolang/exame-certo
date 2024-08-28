@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Signature } from "../../../domain/value-objects/signature.vo";
 import { AdditionalInformation } from "../../../domain/value-objects/additional-information.vo";
 import { CID10 } from "../../../domain/value-objects/cid.vo";
@@ -14,8 +14,8 @@ export class ReportEntity{
   @Column()
   tenant_id: string;
 
-  @ManyToOne(() => ExamEntity, exam => exam.reports)
-  exam: ExamEntity;
+  @ManyToMany(() => ExamEntity, exam => exam.reports)
+  exams: ExamEntity[];
 
   @ManyToOne(() => DoctorEntity, doctor => doctor.reports)
   doctor: DoctorEntity;

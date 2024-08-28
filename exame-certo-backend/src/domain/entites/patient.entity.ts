@@ -5,11 +5,16 @@ import { ContactInfo } from "../value-objects/contact-info.vo";
 import { MaritalStatus } from "../enums/marital-status.enum";
 import { Documentation } from "../value-objects/documentation.vo";
 import { IHasher } from "../interfaces/hasher.interface";
+import { Anamnesis } from "./anamnesis.entity";
+import { Exam } from "./exam.entity";
+import { Clinic } from "./clinic.entity";
+import { Doctor } from "./doctor.entity";
 
 export class Patient{
 
   constructor(
     private readonly _id: string | null,
+    private readonly _tenantId: string,
     private readonly _name: string,
     private readonly _lastName: string,
     private readonly _email: string,
@@ -22,6 +27,10 @@ export class Patient{
     private readonly _socioeconomicInformation: SocioEconomicInformation,
     private readonly _documentation: Documentation,
     private readonly _hashPassword: IHasher,
+    private readonly _anamnesis: Anamnesis[],
+    private readonly _exams: Exam[],
+    private readonly _clinics: Clinic[],
+    private readonly _doctors: Doctor[],
     private readonly _healthInsurance?: string,
   ) { }
 
