@@ -51,4 +51,7 @@ export class Doctor {
     return await this._hashPassword.compare(password, this._password);
   }
 
+
+  // isAssociatedWithClinic
+
 }

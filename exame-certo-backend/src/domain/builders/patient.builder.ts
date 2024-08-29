@@ -11,9 +11,14 @@ import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
 import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
 import { DocumentationDto } from "../../application/dtos/documentation.dto";
 import { Patient } from "../entites/patient.entity";
+import { Anamnesis } from "../entites/anamnesis.entity";
+import { Exam } from "../entites/exam.entity";
+import { Clinic } from "../entites/clinic.entity";
+import { Doctor } from "../entites/doctor.entity";
 
 export class PatientBuilder {
   private _id: string | null = null;
+  private _tenantId: string;
   private _name: string;
   private _lastName: string;
   private _email: string;
@@ -25,6 +30,10 @@ export class PatientBuilder {
   private _contactInfo: ContactInfo;
   private _socioeconomicInformation: SocioEconomicInformation;
   private _documentation: Documentation;
+  private _anamnesis: Anamnesis[];
+  private _exams: Exam[];
+  private _clinics: Clinic[];
+  private _doctors: Doctor[];
   private _healthInsurance?: string;
 
   private readonly _validator: PatientValidationService;
@@ -39,6 +48,11 @@ export class PatientBuilder {
   }
 
   withId(id?: string): this {
+    this._id = id;
+    return this;
+  }
+
+  withtenantId(id: string): this {
     this._id = id;
     return this;
   }
@@ -88,6 +102,26 @@ export class PatientBuilder {
     return this;
   }
 
+  withAnamnesis(anamnesis: Anamnesis[]): this {
+    this._anamnesis = [...anamnesis];
+    return this;
+  }
+
+  withExams(exams: Exam[]): this {
+    this._exams = [...exams];
+    return this;
+  }
+
+  withClinics(clinics: Clinic[]): this {
+    this._clinics= [...clinics];
+    return this;
+  }
+
+  withDoctor(doctors: Doctor[]): this {
+    this._doctors= [...doctors];
+    return this;
+  }
+
   withDocumentation(documentationDto: DocumentationDto): this {
     this._documentation = Documentation.fromDto(documentationDto);
     return this;
@@ -102,6 +136,7 @@ export class PatientBuilder {
     const hashedPassword = await this._hasher.hash(this._password);
     const patient = new Patient(
       this._id,
+      this._tenantId,
       this._name,
       this._lastName,
       this._email,
@@ -114,6 +149,10 @@ export class PatientBuilder {
       this._socioeconomicInformation,
       this._documentation,
       this._hasher,
+      this._anamnesis,
+      this._exams,
+      this._clinics,
+      this._doctors,
       this._healthInsurance
     );
 
