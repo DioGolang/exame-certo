@@ -14,9 +14,6 @@ export class DoctorEntity{
   id: string;
 
   @Column()
-  tenant_id: string;
-
-  @Column()
   name: string;
 
   @Column()
@@ -45,9 +42,6 @@ export class DoctorEntity{
 
   @OneToMany(() => ReportEntity, report => report.doctor)
   reports: ReportEntity[];
-
-  @ManyToMany(() => PatientEntity, patient => patient.doctors)
-  patients: PatientEntity[];
 
   @ManyToMany(() => ClinicEntity, clinic => clinic.doctors)
   clinics: ClinicEntity[];

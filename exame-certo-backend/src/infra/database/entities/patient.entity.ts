@@ -17,9 +17,6 @@ export class PatientEntity{
   id: string;
 
   @Column()
-  tenant_id: string;
-
-  @Column()
   name: string;
 
   @Column()
@@ -63,9 +60,6 @@ export class PatientEntity{
 
   @ManyToMany(() => ClinicEntity, clinic => clinic.patients)
   clinics: ClinicEntity[];
-
-  @ManyToMany(() => DoctorEntity, doctor => doctor.patients)
-  doctors: DoctorEntity[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

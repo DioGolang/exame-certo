@@ -4,15 +4,13 @@ import { Address } from "../../../domain/value-objects/address.vo";
 import { PatientEntity } from "./patient.entity";
 import { DoctorEntity } from "./doctor.entity";
 import { ExamEntity } from "./exam.entity";
+import { AnamnesisEntity } from "./anamnesis.entity";
 
 
 @Entity('clinics')
 export class ClinicEntity{
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column()
-  tenant_id: string;
 
   @Column()
   email:string;
@@ -30,7 +28,10 @@ export class ClinicEntity{
   contactInfo: ContactInfo;
 
   @OneToMany(() => ExamEntity, exam => exam.clinic)
-  exams: ExamEntity[]
+  exams: ExamEntity[];
+
+  @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.clinic)
+  anamnesis: AnamnesisEntity[];
 
   @ManyToMany(() => DoctorEntity, doctor => doctor.clinics)
   doctors: DoctorEntity[];

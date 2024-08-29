@@ -8,6 +8,8 @@ import { Anamnesis } from "./anamnesis.entity";
 import { Exam } from "./exam.entity";
 import { Clinic } from "./clinic.entity";
 import { Doctor } from "./doctor.entity";
+import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
+import { Email } from "../value-objects/email.vo";
 
 export class Patient{
 
@@ -18,10 +20,9 @@ export class Patient{
 
   constructor(
     private _id: string | null,
-    private readonly _tenantId: string,
     private readonly _name: string,
     private readonly _lastName: string,
-    private readonly _email: string,
+    private readonly _email: Email,
     private readonly _passwordHash: string,
     private readonly _dateOfBirth: Date,
     private readonly _sex: Sex,
@@ -57,7 +58,7 @@ export class Patient{
   }
 
   get email(): string {
-    return this._email;
+    return this._email.value;
   }
 
   get dateOfBirth(): Date {
@@ -92,13 +93,6 @@ export class Patient{
     return this._healthInsurance;
   }
 
-  //validate
-  private validate() {
-    if (!this._tenantId) throw new Error("Tenant ID is required");
-    if (!this._name) throw new Error("Name is required");
-    if (!this._email || !this._email.includes('@')) throw new Error("Valid email is required");
-    // Additional validation logic here
-  }
 
   // Methods to obtain the collections
    get anamnesis(): Anamnesis[] {
@@ -118,8 +112,105 @@ export class Patient{
   }
 
   // Methods to add elements to the collections
-  public isAssociatedWithClinic(clinic: Clinic): boolean {
-    return this._clinics.includes(clinic);
+  // Generic methods for adding elements to collections
+  private addToCollection<T>(collection: T[], item: T, checkFn: (item: T) => void): void {
+    checkFn(item);
+    collection.push(item);
   }
+
+  // Add methods for specific collections
+  public addAnamnesis(anamnesis: Anamnesis): void {
+    this.addToCollection(this._anamnesis, anamnesis, this.checkAnamnesis.bind(this));
+  }
+
+  public addExam(exam: Exam): void {
+    this.addToCollection(this._exams, exam, this.checkExam.bind(this));
+  }
+
+  // Similar methods for addDoctor, addClinic...
+
+  // Validation for elements in collections
+  private checkAnamnesis(anamnesis: Anamnesis): void {
+    if (!anamnesis) throw new InvalidPatientException("Anamnesis is required");
+    if (this._anamnesis.some(a => a.id === anamnesis.id)) {
+      throw new InvalidPatientException("Anamnesis already added.");
+    }
+  }
+
+  private checkExam(exam: Exam): void {
+    if (!exam) throw new InvalidPatientException("Exam is required");
+    if (this._exams.some(e => e.id === exam.id)) {
+      throw new InvalidPatientException("Exam already added.");
+    }
+  }
+
+  // Generic remove method for collections
+  private removeFromCollection<T>(collection: T[], item: T, notFoundMessage: string): void {
+    const index = collection.indexOf(item);
+    if (index === -1) {
+      throw new Error(notFoundMessage);
+    }
+    collection.splice(index, 1);
+  }
+
+  // Remove methods
+  public removeAnamnesis(anamnesis: Anamnesis): void {
+    this.removeFromCollection(this._anamnesis, anamnesis, 'Anamnesis not found');
+  }
+
+  public removeExam(exam: Exam): void {
+    this.removeFromCollection(this._exams, exam, 'Exam not found');
+  }
+
+  // Similar methods for removeDoctor, removeClinic...
+
+  // Methods to check if an item is associated
+  public isAssociatedWith<T>(collection: T[], item: T): boolean {
+    return collection.includes(item);
+  }
+
+  public isAssociatedWithDoctor(doctor: Doctor): boolean {
+    return this.isAssociatedWith(this._doctors, doctor);
+  }
+
+  public isAssociatedWithClinic(clinic: Clinic): boolean {
+    return this.isAssociatedWith(this._clinics, clinic);
+  }
+
+
+  // Validate method
+  private validate(): void {
+    const errors: string[] = [];
+    this.checkField(this._name, "Name is required", errors);
+    this.checkField(this._lastName, "Last name is required", errors);
+    this.checkField(this._email.value, "Email is required", errors);
+    this.checkPassword(this._passwordHash, errors);
+    this.checkDateField(this._dateOfBirth, "Date of birth is required", errors);
+
+    if (errors.length > 0) {
+      throw new InvalidPatientException(errors.join("; "));
+    }
+  }
+
+  // Utility validation methods
+  private checkField(field: string, errorMessage: string, errors: string[]): void {
+    if (!field || field.trim() === '') {
+      errors.push(errorMessage);
+    }
+  }
+
+  private checkDateField(field: Date, errorMessage: string, errors: string[]): void {
+    if (!field) {
+      errors.push(errorMessage);
+    }
+  }
+
+  private checkPassword(password: string, errors: string[]): void {
+    if (!password || password.trim() === '') {
+      errors.push("Password is required");
+    }
+  }
+
+
 
 }

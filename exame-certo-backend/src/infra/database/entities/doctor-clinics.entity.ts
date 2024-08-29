@@ -7,9 +7,6 @@ export class DoctorClinicEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  tenant_id: string;
-
   @ManyToOne(() => DoctorEntity, doctor => doctor.clinics)
   doctor: DoctorEntity;
 

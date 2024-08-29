@@ -3,25 +3,25 @@ import { Doctor } from "./doctor.entity";
 import { Patient } from "./patient.entity";
 import { Exam } from "./exam.entity";
 import { ContactInfo } from "../value-objects/contact-info.vo";
-import { IHasher } from "../interfaces/hasher.interface";
 import { InvalidClinicException } from "../exceptions/invalid-clinic.exception";
+import { Anamnesis } from "./anamnesis.entity";
 
 export class Clinic {
 
   private readonly _id: string | null;
 
+  private readonly _patients: Patient[] = [];
+  private readonly _doctors: Doctor[] = [];
+  private readonly _exams: Exam[] = [];
+  private readonly _anamnesis: Anamnesis[] = [];
+
   constructor(
    id: string | null,
-   private readonly _tenantId: string,
    private readonly _name: string,
    private readonly _email: string,
    private readonly _password: string,
    private readonly _address: Address,
    private readonly _contactInfo: ContactInfo,
-   private readonly _hashPassword: IHasher,
-   private readonly _exams: Exam[],
-   private readonly _doctors: Doctor[],
-   private readonly _patients: Patient[],
   ) {
     this._id = id;
     this.validate();
@@ -51,10 +51,18 @@ export class Clinic {
     return this._password;
   }
 
-  async verifyPassword(password: string): Promise<boolean> {
-    return await this._hashPassword.compare(password, this._password);
+  //Methods for adding elements to collections
+  public addPatient(patient: Patient): void {
+    if (!this._patients.includes(patient)) {
+      this._patients.push(patient);
+    }
   }
 
+  public addDoctor(doctor: Doctor): void {
+    if (!this._doctors.includes(doctor)) {
+      this._doctors.push(doctor);
+    }
+  }
 
 
   private validate(): void{
@@ -74,12 +82,5 @@ export class Clinic {
       errors.push(errorMessage);
     }
   }
-
-  async validatePassword(password: string): Promise<void>{
-    if(!await this.verifyPassword(password)){
-      throw new InvalidClinicException("Invalid password");
-    }
-  }
-
 
 }

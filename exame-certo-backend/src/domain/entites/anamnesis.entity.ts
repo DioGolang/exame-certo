@@ -2,6 +2,8 @@ import { Patient } from "./patient.entity";
 import { Doctor } from "./doctor.entity";
 import { Identification } from "../value-objects/identification.vo";
 import { PersonalHistory } from "../value-objects/personal-history.vo";
+import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
+import { InvalidAnamnesisException } from "../exceptions/invalid-anamnesis.exception";
 
 //QUEIXA PRINCIPAL E DURAÇÃO (Q.D.)
 //HISTÓRIA DA MOLÉSTIA ATUAL (H.M.A.)
@@ -13,11 +15,10 @@ import { PersonalHistory } from "../value-objects/personal-history.vo";
 export class Anamnesis {
 
   constructor(
-    private readonly _id: string | null,
-    private readonly _tenantId: string,
+    private _id: string | null,
+    private readonly _date: Date,
     private readonly _patient: Patient,
     private readonly _doctor: Doctor,
-    private readonly _date: Date,
     private readonly _identification: Identification,
     private readonly _mainComplaint: string,
     private readonly _historyOfPresentIllness: string,
@@ -26,7 +27,9 @@ export class Anamnesis {
     private readonly _familyHistory: string,
     private readonly _socialHistory: string,
     private readonly _personalHistory: PersonalHistory,
-  ) { }
+  ) {
+    this.validate();
+  }
 
   get id(): string {
     return this._id
@@ -67,6 +70,27 @@ export class Anamnesis {
 
   get personalHistory(): PersonalHistory{
     return this._personalHistory
+  }
+
+  //validate
+  private checkField(field: string, errorMessage: string, errors: string[]): void {
+    if (!field || field.trim() === '') {
+      errors.push(errorMessage);
+    }
+  }
+
+  private validate(): void {
+    const errors: string[] = [];
+    this.checkField(this._mainComplaint, 'Main complaint is required', errors);
+    this.checkField(this._historyOfPresentIllness, 'History of present illness is required', errors);
+    this.checkField(this._reviewOfSystems, 'Review of systems is required', errors);
+    this.checkField(this._pastMedicalHistory, 'Past medical history is required', errors);
+    this.checkField(this._familyHistory, 'Family history is required', errors);
+    this.checkField(this._socialHistory, 'Social history is required', errors);
+
+    if (errors.length > 0 ){
+      throw new InvalidAnamnesisException(errors.join("; "));
+    }
   }
 
 }

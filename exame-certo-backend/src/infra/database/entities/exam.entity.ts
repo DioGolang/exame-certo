@@ -15,9 +15,6 @@ export class ExamEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  tenant_id: string;
-
   @ManyToOne(() => PatientEntity, patient => patient.exams)
   patient: PatientEntity;
 

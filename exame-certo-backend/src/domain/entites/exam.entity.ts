@@ -7,16 +7,17 @@ import { CBHPMCode } from "../value-objects/cbhpm-code.vo";
 import { CIEFASCode } from "../value-objects/ciefas-code.vo";
 import { Report } from "./report.entity";
 import { Clinic } from "./clinic.entity";
+import { InvalidExamException } from "../exceptions/invalid-exam.exception";
 
 export class Exam {
 
+  private readonly _patient: Patient;
+  private readonly _doctor: Doctor;
+  private readonly _clinic: Clinic;
+  private readonly _report: Report;
+
   constructor(
    private readonly _id: string | null,
-   private readonly _tenantId: string,
-   private readonly _patient: Patient,
-   private readonly _clinic: Clinic,
-   private readonly _doctor: Doctor,
-   private readonly _reports: Report[],
    private readonly _date: Date,
    private readonly _type: string,
    private readonly _method: string,
@@ -28,7 +29,9 @@ export class Exam {
    private readonly _ciefasCode: CIEFASCode,
    private readonly _clinicalHistory: string,
    private readonly _mainComplaint: string,
-  ) { }
+  ) {
+    this.validate();
+  }
 
   get id(): string{
     return this._id;
@@ -78,5 +81,27 @@ export class Exam {
   get mainComplaint(): string {
     return this._mainComplaint;
   }
+
+
+  //validate
+  private checkField(field: string, errorMessage: string, errors: string[]): void {
+    if (!field || field.trim() === '') {
+      errors.push(errorMessage);
+    }
+  }
+
+  public validate(): void {
+    const errors: string[] = [];
+    this.checkField(this._type, 'Type is required', errors);
+    this.checkField(this._method, 'Method is required', errors);
+    this.checkField(this._clinicalHistory, 'Clinical history is required', errors);
+    this.checkField(this._mainComplaint, 'Main complaint is required', errors);
+
+    if (errors.length > 0 ){
+      throw new InvalidExamException(errors.join("; "));
+    }
+  }
+
+
 
 }
