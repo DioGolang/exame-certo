@@ -11,13 +11,12 @@ import { InvalidExamException } from "../exceptions/invalid-exam.exception";
 
 export class Exam {
 
-  private readonly _patient: Patient;
-  private readonly _doctor: Doctor;
-  private readonly _clinic: Clinic;
-  private readonly _report: Report;
-
   constructor(
    private readonly _id: string | null,
+   private readonly _patient: Patient,
+   private readonly _doctor: Doctor,
+   private readonly _clinic: Clinic,
+   private readonly _report: Report,
    private readonly _date: Date,
    private readonly _type: string,
    private readonly _method: string,
@@ -80,6 +79,22 @@ export class Exam {
 
   get mainComplaint(): string {
     return this._mainComplaint;
+  }
+
+  get patient(): Patient {
+    return this._patient;
+  }
+
+  get doctor(): Doctor {
+    return this._doctor;
+  }
+
+  get clinic(): Clinic {
+    return this._clinic;
+  }
+
+  get report(): Report {
+    return this._report;
   }
 
 

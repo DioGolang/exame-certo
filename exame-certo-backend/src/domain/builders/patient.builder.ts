@@ -1,163 +1,89 @@
-import { PatientValidationService } from "../services/validation/patient-validation.service";
-import { MaritalStatus } from "../enums/marital-status.enum";
-import { Sex } from "../enums/sex.enum";
-import { Address } from "../value-objects/address.vo";
-import { ContactInfo } from "../value-objects/contact-info.vo";
+import { PatientProps } from "../interfaces/patient-props.interface";
+import { v4 as uuidv4 } from 'uuid';
 import { SocioEconomicInformation } from "../value-objects/socio-economic-information.vo";
 import { Documentation } from "../value-objects/documentation.vo";
-import { IHasher } from "../interfaces/hasher.interface";
-import { AddressDto } from "../../application/dtos/address.dto";
-import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
-import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
-import { DocumentationDto } from "../../application/dtos/documentation.dto";
-import { Patient } from "../entites/patient.entity";
-import { Anamnesis } from "../entites/anamnesis.entity";
-import { Exam } from "../entites/exam.entity";
-import { Clinic } from "../entites/clinic.entity";
-import { Doctor } from "../entites/doctor.entity";
+import { ContactInfo } from "../value-objects/contact-info.vo";
+import { Address } from "../value-objects/address.vo";
+import { MaritalStatus } from "../enums/marital-status.enum";
+import { Sex } from "../enums/sex.enum";
+import { Email } from "../value-objects/email.vo";
 
-export class PatientBuilder {
-  private _id: string | null = null;
-  private _tenantId: string;
-  private _name: string;
-  private _lastName: string;
-  private _email: string;
-  private _password: string;
-  private _dateOfBirth: Date;
-  private _sex: Sex;
-  private _maritalStatus: MaritalStatus;
-  private _address: Address;
-  private _contactInfo: ContactInfo;
-  private _socioeconomicInformation: SocioEconomicInformation;
-  private _documentation: Documentation;
-  private _anamnesis: Anamnesis[];
-  private _exams: Exam[];
-  private _clinics: Clinic[];
-  private _doctors: Doctor[];
-  private _healthInsurance?: string;
+export class PatientBuilder{
+  private _id: string;
+  private _props: Partial<PatientProps> = {};
 
-  private readonly _validator: PatientValidationService;
-  private readonly _hasher: IHasher;
+  private constructor() {}
 
-  constructor(
-    validator: PatientValidationService,
-    hasher: IHasher
-  ) {
-    this._validator = validator;
-    this._hasher = hasher;
+  public static createNew(): PatientBuilder {
+    const builder = new PatientBuilder();
+    builder._id = uuidv4();
+    return builder;
   }
 
-  withId(id?: string): this {
-    this._id = id;
+  public static rehydrate(id: string): PatientBuilder {
+    const builder = new PatientBuilder();
+    builder._id = id;
+    return builder;
+  }
+
+  public withName(name: string): PatientBuilder {
+    this._props.name = name;
     return this;
   }
 
-  withtenantId(id: string): this {
-    this._id = id;
+  public withLastName(lastName: string): PatientBuilder {
+    this._props.lastName = lastName;
     return this;
   }
 
-  withName(name: string): this {
-    this._name = name;
+  public withEmail(email: Email): PatientBuilder {
+    this._props.email = email;
     return this;
   }
 
-  withLastName(lastName: string): this {
-    this._lastName = lastName;
+  public withPasswordHash(passwordHash: string): PatientBuilder {
+    this._props.passwordHash = passwordHash;
     return this;
   }
 
-  withEmail(email: string): this {
-    this._email = email;
+  public withDateOfBirth(dateOfBirth: Date): PatientBuilder {
+    this._props.dateOfBirth = dateOfBirth;
     return this;
   }
 
-  withDateOfBirth(dateOfBirth: Date): this {
-    this._dateOfBirth = dateOfBirth;
+  public withSex(sex: Sex): PatientBuilder {
+    this._props.sex = sex;
     return this;
   }
 
-  withSex(sex: Sex): this {
-    this._sex = sex;
+  public withMaritalStatus(maritalStatus: MaritalStatus): PatientBuilder {
+    this._props.maritalStatus = maritalStatus;
     return this;
   }
 
-  withMaritalStatus(maritalStatus: MaritalStatus): this {
-    this._maritalStatus = maritalStatus;
+  public withAddress(address: Address): PatientBuilder {
+    this._props.address = address;
     return this;
   }
 
-  withAddress(addressDto: AddressDto): this {
-    this._address = Address.fromDto(addressDto);
+  public withContactInfo(contactInfo: ContactInfo): PatientBuilder {
+    this._props.contactInfo = contactInfo;
     return this;
   }
 
-  withContactInfo(contactInfoDto: ContactInfoDto): this {
-    this._contactInfo = ContactInfo.fromDto(contactInfoDto);
+  public withDocumentation(documentation: Documentation): PatientBuilder {
+    this._props.documentation = documentation;
     return this;
   }
 
-  withSocioeconomicInformation(socioeconomicInformationDto: SocioEconomicInformationDto): this {
-    this._socioeconomicInformation = SocioEconomicInformation.fromDto(socioeconomicInformationDto);
+  public withSocioeconomicInformation(info: SocioEconomicInformation): PatientBuilder {
+    this._props.socioeconomicInformation = info;
     return this;
   }
 
-  withAnamnesis(anamnesis: Anamnesis[]): this {
-    this._anamnesis = [...anamnesis];
+  public withHealthInsurance(healthInsurance: string): PatientBuilder {
+    this._props.healthInsurance = healthInsurance;
     return this;
   }
 
-  withExams(exams: Exam[]): this {
-    this._exams = [...exams];
-    return this;
-  }
-
-  withClinics(clinics: Clinic[]): this {
-    this._clinics= [...clinics];
-    return this;
-  }
-
-  withDoctor(doctors: Doctor[]): this {
-    this._doctors= [...doctors];
-    return this;
-  }
-
-  withDocumentation(documentationDto: DocumentationDto): this {
-    this._documentation = Documentation.fromDto(documentationDto);
-    return this;
-  }
-
-  withHealthInsurance(healthInsurance?: string): this {
-    this._healthInsurance = healthInsurance;
-    return this;
-  }
-
- async build(): Promise<Patient> {
-    const hashedPassword = await this._hasher.hash(this._password);
-    const patient = new Patient(
-      this._id,
-      this._tenantId,
-      this._name,
-      this._lastName,
-      this._email,
-      hashedPassword,
-      this._dateOfBirth,
-      this._sex,
-      this._maritalStatus,
-      this._address,
-      this._contactInfo,
-      this._socioeconomicInformation,
-      this._documentation,
-      this._hasher,
-      this._anamnesis,
-      this._exams,
-      this._clinics,
-      this._doctors,
-      this._healthInsurance
-    );
-
-    this._validator.validate(patient);
-
-    return patient;
-  }
 }

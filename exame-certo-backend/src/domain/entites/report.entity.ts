@@ -8,10 +8,10 @@ import { InvalidReportException } from "../exceptions/invalid-report.exception";
 export class Report {
 
   private readonly _exams: Exam[];
-  private readonly _doctor: Doctor;
 
   constructor(
    private _id: string | null,
+   private readonly _doctor: Doctor,
    private readonly _date: Date,
    private readonly _diagnosis: string,
    private readonly _cid_10: CID10[],

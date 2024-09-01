@@ -9,88 +9,70 @@ import { Exam } from "./exam.entity";
 import { Clinic } from "./clinic.entity";
 import { Doctor } from "./doctor.entity";
 import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
-import { Email } from "../value-objects/email.vo";
+import { PatientProps } from "../interfaces/patient-props.interface";
 
 export class Patient{
 
+  private readonly  _id: string;
+  private readonly props: Readonly<PatientProps>;
   private readonly _anamnesis: Anamnesis[] = [];
   private readonly _exams: Exam[] = [];
   private readonly _clinics: Clinic[] = [];
   private readonly _doctors: Doctor[] = [];
 
-  constructor(
-    private _id: string | null,
-    private readonly _name: string,
-    private readonly _lastName: string,
-    private readonly _email: Email,
-    private readonly _passwordHash: string,
-    private readonly _dateOfBirth: Date,
-    private readonly _sex: Sex,
-    private readonly _maritalStatus: MaritalStatus,
-    private readonly _address: Address,
-    private readonly _contactInfo: ContactInfo,
-    private readonly _socioeconomicInformation: SocioEconomicInformation,
-    private readonly _documentation: Documentation,
-    private readonly _healthInsurance?: string,
-  ) {
+  constructor(id: string, props: PatientProps) {
+    this._id = id;
+    this.props = {...props };
     this.validate()
   }
 
 
-  public setId(id: string): void {
-    this._id = id;
-  }
-
-  //GETTERS
   get id(): string {
-    if (!this._id) {
-      throw new Error('ID is not set');
-    }
     return this._id;
   }
 
   get name(): string {
-    return this._name;
+    return this.props.name;
   }
 
   get lastName(): string {
-    return this._lastName;
+    return this.props.lastName;
   }
 
   get email(): string {
-    return this._email.value;
+    return this.props.email.value;
   }
 
   get dateOfBirth(): Date {
-    return this._dateOfBirth;
+    return this.props.dateOfBirth;
   }
 
   get sex(): Sex {
-    return this._sex;
+    return this.props.sex;
   }
 
   get maritalStatus(): MaritalStatus {
-    return this._maritalStatus;
+    return this.props.maritalStatus;
   }
 
   get address(): Address {
-    return this._address;
+    return this.props.address;
   }
 
   get contactInfo(): ContactInfo {
-    return this._contactInfo;
+    return this.props.contactInfo;
   }
 
   get socioeconomicInformation(): SocioEconomicInformation {
-    return this._socioeconomicInformation;
+    return this.props.socioeconomicInformation;
   }
 
   get documentation(): Documentation {
-    return this._documentation;
+    return this.props.documentation;
   }
 
   get healthInsurance(): string | undefined {
-    return this._healthInsurance;
+    return this.props.healthInsurance;
   }
 
 
@@ -181,11 +163,11 @@ export class Patient{
   // Validate method
   private validate(): void {
     const errors: string[] = [];
-    this.checkField(this._name, "Name is required", errors);
-    this.checkField(this._lastName, "Last name is required", errors);
-    this.checkField(this._email.value, "Email is required", errors);
-    this.checkPassword(this._passwordHash, errors);
-    this.checkDateField(this._dateOfBirth, "Date of birth is required", errors);
+    this.checkField(this.props.name, "Name is required", errors);
+    this.checkField(this.props.lastName, "Last name is required", errors);
+    this.checkField(this.props.email.value, "Email is required", errors);
+    this.checkPassword(this.props.passwordHash, errors);
+    this.checkDateField(this.props.dateOfBirth, "Date of birth is required", errors);
 
     if (errors.length > 0) {
       throw new InvalidPatientException(errors.join("; "));
@@ -210,7 +192,5 @@ export class Patient{
       errors.push("Password is required");
     }
   }
-
-
 
 }
