@@ -1,49 +1,44 @@
-import { Address } from "../value-objects/address.vo";
 import { Clinic } from "./clinic.entity";
-import { ContactInfo } from "../value-objects/contact-info.vo";
 import { Anamnesis } from "./anamnesis.entity";
 import { Exam } from "./exam.entity";
-import { Patient } from "./patient.entity";
 import { Report } from "./report.entity";
 import { InvalidDoctorException } from "../exceptions/invalid-doctor.exception";
+import { DoctorProps } from "../interfaces/props/doctor-props.interface";
 
 export class Doctor {
+
+ private readonly _id: string;
+ private readonly _props: Readonly<DoctorProps>;
 
   private readonly _anamnesis: Anamnesis[] = [];
   private readonly _exams: Exam[] = [];
   private readonly _clinics: Clinic[] = [];
-  private readonly _patients: Patient[] = [];
   private readonly _reports: Report[] = [];
 
- constructor(
-   private _id: string | null,
-   private readonly _name: string,
-   private readonly _email: string,
-   private readonly _passwordHash: string,
-   private readonly _contactInfo: ContactInfo,
-   private readonly _professionalAddress: Address,
-   private readonly _registrationNumber: string,
-   private readonly _specialization: string,
- ) { }
+ constructor(id: string, props: DoctorProps) {
+  this._id = id;
+  this._props = {...props};
+  this.validate();
+ }
 
   get id(): string{
    return this._id
   }
 
   get name(): string{
-   return this._name
+   return this._props.name
   }
 
   get email(): string{
-   return this._email
+   return this._props.email.value
   }
 
   get registrationNumber(): string{
-   return this._registrationNumber
+   return this._props.registrationNumber
   }
 
   get specialization(): string{
-   return this._specialization
+   return this._props.specialization
   }
 
   // async verifyPassword(password: string): Promise<boolean> {
@@ -67,8 +62,8 @@ export class Doctor {
 
  private validate(): void {
   const errors: string[] = [];
-  this.checkField(this._name, "Name is required", errors);
-  this.checkPassword(this._passwordHash, errors);
+  this.checkField(this._props.name, "Name is required", errors);
+  this.checkPassword(this._props.passwordHash, errors);
 
   if (errors.length > 0 ){
    throw new InvalidDoctorException(errors.join("; "));
@@ -76,14 +71,7 @@ export class Doctor {
  }
 
 
-
  // Methods for adding patients and clinics
- public addPatient(patient: Patient): void {
-  if (!this._patients.includes(patient)) {
-   this._patients.push(patient);
-  }
- }
-
  public addClinic(clinic: Clinic): void {
   if (!this._clinics.includes(clinic)) {
    this._clinics.push(clinic);

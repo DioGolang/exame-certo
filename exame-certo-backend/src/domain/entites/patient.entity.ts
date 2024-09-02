@@ -9,12 +9,12 @@ import { Exam } from "./exam.entity";
 import { Clinic } from "./clinic.entity";
 import { Doctor } from "./doctor.entity";
 import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
-import { PatientProps } from "../interfaces/patient-props.interface";
+import { PatientProps } from "../interfaces/props/patient-props.interface";
 
 export class Patient{
 
   private readonly  _id: string;
-  private readonly props: Readonly<PatientProps>;
+  private readonly _props: Readonly<PatientProps>;
   private readonly _anamnesis: Anamnesis[] = [];
   private readonly _exams: Exam[] = [];
   private readonly _clinics: Clinic[] = [];
@@ -22,7 +22,7 @@ export class Patient{
 
   constructor(id: string, props: PatientProps) {
     this._id = id;
-    this.props = {...props };
+    this._props = {...props };
     this.validate()
   }
 
@@ -32,47 +32,47 @@ export class Patient{
   }
 
   get name(): string {
-    return this.props.name;
+    return this._props.name;
   }
 
   get lastName(): string {
-    return this.props.lastName;
+    return this._props.lastName;
   }
 
   get email(): string {
-    return this.props.email.value;
+    return this._props.email.value;
   }
 
   get dateOfBirth(): Date {
-    return this.props.dateOfBirth;
+    return this._props.dateOfBirth;
   }
 
   get sex(): Sex {
-    return this.props.sex;
+    return this._props.sex;
   }
 
   get maritalStatus(): MaritalStatus {
-    return this.props.maritalStatus;
+    return this._props.maritalStatus;
   }
 
   get address(): Address {
-    return this.props.address;
+    return this._props.address;
   }
 
   get contactInfo(): ContactInfo {
-    return this.props.contactInfo;
+    return this._props.contactInfo;
   }
 
   get socioeconomicInformation(): SocioEconomicInformation {
-    return this.props.socioeconomicInformation;
+    return this._props.socioeconomicInformation;
   }
 
   get documentation(): Documentation {
-    return this.props.documentation;
+    return this._props.documentation;
   }
 
   get healthInsurance(): string | undefined {
-    return this.props.healthInsurance;
+    return this._props.healthInsurance;
   }
 
 
@@ -163,11 +163,11 @@ export class Patient{
   // Validate method
   private validate(): void {
     const errors: string[] = [];
-    this.checkField(this.props.name, "Name is required", errors);
-    this.checkField(this.props.lastName, "Last name is required", errors);
-    this.checkField(this.props.email.value, "Email is required", errors);
-    this.checkPassword(this.props.passwordHash, errors);
-    this.checkDateField(this.props.dateOfBirth, "Date of birth is required", errors);
+    this.checkField(this._props.name, "Name is required", errors);
+    this.checkField(this._props.lastName, "Last name is required", errors);
+    this.checkField(this._props.email.value, "Email is required", errors);
+    this.checkPassword(this._props.passwordHash, errors);
+    this.checkDateField(this._props.dateOfBirth, "Date of birth is required", errors);
 
     if (errors.length > 0) {
       throw new InvalidPatientException(errors.join("; "));

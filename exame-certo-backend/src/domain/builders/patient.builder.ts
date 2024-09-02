@@ -1,4 +1,4 @@
-import { PatientProps } from "../interfaces/patient-props.interface";
+import { PatientProps } from "../interfaces/props/patient-props.interface";
 import { v4 as uuidv4 } from 'uuid';
 import { SocioEconomicInformation } from "../value-objects/socio-economic-information.vo";
 import { Documentation } from "../value-objects/documentation.vo";
@@ -7,6 +7,7 @@ import { Address } from "../value-objects/address.vo";
 import { MaritalStatus } from "../enums/marital-status.enum";
 import { Sex } from "../enums/sex.enum";
 import { Email } from "../value-objects/email.vo";
+import { Patient } from "../entites/patient.entity";
 
 export class PatientBuilder{
   private _id: string;
@@ -85,5 +86,12 @@ export class PatientBuilder{
     this._props.healthInsurance = healthInsurance;
     return this;
   }
+
+
+
+  public async build(): Promise<Patient> {
+    return new Patient(this._id, this._props as PatientProps);
+  }
+
 
 }

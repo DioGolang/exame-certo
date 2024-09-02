@@ -5,52 +5,23 @@ import { Exam } from "./exam.entity";
 import { ContactInfo } from "../value-objects/contact-info.vo";
 import { InvalidClinicException } from "../exceptions/invalid-clinic.exception";
 import { Anamnesis } from "./anamnesis.entity";
+import { ClinicProps } from "../interfaces/props/clinic-props.interface";
 
 export class Clinic {
 
-  private readonly _id: string | null;
-
+  private readonly _id: string;
+  private readonly _props: Readonly<ClinicProps>;
   private readonly _patients: Patient[] = [];
   private readonly _doctors: Doctor[] = [];
   private readonly _exams: Exam[] = [];
   private readonly _anamnesis: Anamnesis[] = [];
 
-  constructor(
-   id: string | null,
-   private readonly _name: string,
-   private readonly _email: string,
-   private readonly _password: string,
-   private readonly _address: Address,
-   private readonly _contactInfo: ContactInfo,
-  ) {
+  constructor(id: string, props: ClinicProps) {
     this._id = id;
+    this._props = { ...props };
     this.validate();
   }
-
-  get id(): string{
-    return this._id;
-  }
-
-  get name(): string{
-    return this._name;
-  }
-
-  get email(): string{
-    return this._email;
-  }
-
-  get address(): Address{
-    return this._address;
-  }
-
-  get contactInfo(): ContactInfo{
-    return this._contactInfo;
-  }
-
-  get password(): string{
-    return this._password;
-  }
-
+  
   //Methods for adding elements to collections
   public addPatient(patient: Patient): void {
     if (!this._patients.includes(patient)) {
@@ -68,9 +39,9 @@ export class Clinic {
   private validate(): void{
     const errors: string[] = [];
 
-    this.checkField(this._name, "Name is required", errors);
-    this.checkField(this._email, "Email is required", errors);
-    this.checkField(this._password, "Password is required", errors);
+    this.checkField(this._props.name, "Name is required", errors);
+    this.checkField(this._props.email.value, "Email is required", errors);
+    this.checkField(this._props.passwordHash, "Password is required", errors);
 
     if (errors.length > 0 ){
       throw new InvalidClinicException(errors.join("; "));
@@ -81,6 +52,31 @@ export class Clinic {
     if(!field || field.trim() === ""){
       errors.push(errorMessage);
     }
+  }
+
+
+  get id(): string{
+    return this._id;
+  }
+
+  get name(): string{
+    return this._props.name;
+  }
+
+  get email(): string{
+    return this._props.email.value;
+  }
+
+  get address(): Address{
+    return this._props.address;
+  }
+
+  get contactInfo(): ContactInfo{
+    return this._props.contactInfo;
+  }
+
+  get password(): string{
+    return this._props.passwordHash;
   }
 
 }

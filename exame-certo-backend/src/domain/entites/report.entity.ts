@@ -4,101 +4,18 @@ import { CID10 } from "../value-objects/cid.vo";
 import { Exam } from "./exam.entity";
 import { Doctor } from "./doctor.entity";
 import { InvalidReportException } from "../exceptions/invalid-report.exception";
+import { ReportProps } from "../interfaces/props/report-props.interface";
 
 export class Report {
 
+  private readonly _id: string;
+  private readonly _props: Readonly<ReportProps>;
   private readonly _exams: Exam[];
 
-  constructor(
-   private _id: string | null,
-   private readonly _doctor: Doctor,
-   private readonly _date: Date,
-   private readonly _diagnosis: string,
-   private readonly _cid_10: CID10[],
-   private readonly _justification: string,
-   private readonly _conduct: string,
-   private readonly _hypothesis: string,
-   private readonly _additionalInformation: AdditionalInformation,
-   private readonly _signature: Signature,
-   private readonly _prognosis: string,
-   private readonly _rest_start_date: Date,
-   private readonly _rest_duration: Date,
-   private readonly _therapeutic_conduct: string,
-   private readonly _clinical_evolution: string,
-   private readonly _health_consequences: string,
-   private readonly _consultation_reason: string,
-   private readonly _illness_history: string,
-  ) {
+  constructor(id: string, props: ReportProps) {
+    this._id = id;
+    this._props = {...props};
     this.validate();
-  }
-
-  get id(): string{
-    return this._id;
-  }
-
-
-  get date(): Date{
-    return this._date;
-  }
-
-  get diagnosis(): string{
-    return this._diagnosis;
-  }
-
-  get cid_10(): CID10[]{
-    return this._cid_10;
-  }
-
-  get justification(): string{
-    return this._justification;
-  }
-
-  get conduct(): string{
-    return this._conduct;
-  }
-
-  get hypothesis(): string{
-    return this._hypothesis;
-  }
-
-  get additionalInformation(): AdditionalInformation{
-    return this._additionalInformation;
-  }
-
-  get signature(): Signature{
-    return this._signature;
-  }
-
-  get prognosis(): string{
-    return this._prognosis;
-  }
-
-  get rest_start_date(): Date{
-    return this._rest_start_date;
-  }
-
-  get rest_duration(): Date{
-    return this._rest_duration;
-  }
-
-  get therapeutic_conduct(): string{
-    return this._therapeutic_conduct;
-  }
-
-  get clinical_evolution(): string{
-    return this._clinical_evolution;
-  }
-
-  get health_consequences(): string{
-    return this._health_consequences;
-  }
-
-  get consultation_reason(): string{
-    return this._consultation_reason;
-  }
-
-  get illness_history(): string{
-    return this._illness_history;
   }
 
   //validate
@@ -116,22 +33,91 @@ export class Report {
 
   private validate() {
     const errors: string[] = [];
-    this.checkField(this._diagnosis, 'Diagnosis is required', errors);
-    this.checkField(this._justification, 'Justification is required', errors);
-    this.checkField(this._conduct, 'Conduct is required', errors);
-    this.checkField(this._hypothesis, 'Hypothesis is required', errors);
-    this.checkField(this._prognosis, 'Prognosis is required', errors);
-    this.checkField(this._therapeutic_conduct, 'Therapeutic conduct is required', errors);
-    this.checkField(this._clinical_evolution, 'Clinical evolution is required', errors);
-    this.checkField(this._health_consequences, 'Health consequences is required', errors);
-    this.checkField(this._consultation_reason, 'Consultation reason is required', errors);
-    this.checkField(this._illness_history, 'Illness history is required', errors);
-    this.checkDateField(this._rest_start_date, 'Rest start date is required', errors);
-    this.checkDateField(this._rest_duration, 'Rest duration is required', errors);
+    this.checkField(this._props.diagnosis, 'Diagnosis is required', errors);
+    this.checkField(this._props.justification, 'Justification is required', errors);
+    this.checkField(this._props.conduct, 'Conduct is required', errors);
+    this.checkField(this._props.hypothesis, 'Hypothesis is required', errors);
+    this.checkField(this._props.prognosis, 'Prognosis is required', errors);
+    this.checkField(this._props.therapeutic_conduct, 'Therapeutic conduct is required', errors);
+    this.checkField(this._props.clinical_evolution, 'Clinical evolution is required', errors);
+    this.checkField(this._props.health_consequences, 'Health consequences is required', errors);
+    this.checkField(this._props.consultation_reason, 'Consultation reason is required', errors);
+    this.checkField(this._props.illness_history, 'Illness history is required', errors);
+    this.checkDateField(this._props.rest_start_date, 'Rest start date is required', errors);
+    this.checkDateField(this._props.rest_duration, 'Rest duration is required', errors);
 
     if (errors.length > 0 ){
       throw new InvalidReportException(errors.join("; "));
     }
+  }
+
+  get id(): string{
+    return this._id;
+  }
+
+
+  get date(): Date{
+    return this._props.date;
+  }
+
+  get diagnosis(): string{
+    return this._props.diagnosis;
+  }
+
+  get cid_10(): CID10[]{
+    return this._props.CID_10;
+  }
+
+  get justification(): string{
+    return this._props.justification;
+  }
+
+  get conduct(): string{
+    return this._props.conduct;
+  }
+
+  get hypothesis(): string{
+    return this._props.hypothesis;
+  }
+
+  get additionalInformation(): AdditionalInformation{
+    return this._props.additionalInformation;
+  }
+
+  get signature(): Signature{
+    return this._props.signature;
+  }
+
+  get prognosis(): string{
+    return this._props.prognosis;
+  }
+
+  get rest_start_date(): Date{
+    return this._props.rest_start_date;
+  }
+
+  get rest_duration(): Date{
+    return this._props.rest_duration;
+  }
+
+  get therapeutic_conduct(): string{
+    return this._props.therapeutic_conduct;
+  }
+
+  get clinical_evolution(): string{
+    return this._props.clinical_evolution;
+  }
+
+  get health_consequences(): string{
+    return this._props.health_consequences;
+  }
+
+  get consultation_reason(): string{
+    return this._props.consultation_reason;
+  }
+
+  get illness_history(): string{
+    return this._props.illness_history;
   }
 
 }
