@@ -2,6 +2,8 @@ import { Identification } from "../value-objects/identification.vo";
 import { PersonalHistory } from "../value-objects/personal-history.vo";
 import { InvalidAnamnesisException } from "../exceptions/invalid-anamnesis.exception";
 import { AnamnesisProps } from "../interfaces/props/anamnesis-props.interface";
+import { Patient } from "./patient.entity";
+import { Doctor } from "./doctor.entity";
 
 //QUEIXA PRINCIPAL E DURAÇÃO (Q.D.) -
 //HISTÓRIA DA MOLÉSTIA ATUAL (H.M.A.) -
@@ -28,6 +30,14 @@ export class Anamnesis {
 
   get date(): Date{
     return this._props.date
+  }
+
+  get patient(): Patient{
+    return this._props.patient
+  }
+
+  get doctor(): Doctor{
+    return this._props.doctor
   }
 
   get identification(): Identification{

@@ -23,10 +23,10 @@ export class DoctorEntity{
   passwordHash: string;
 
   @Column('jsonb')
-  address: Address;
+  contactInfo: ContactInfo;
 
   @Column('jsonb')
-  contactInfo: ContactInfo;
+  professionalAddress: Address;
 
   @Column()
   registrationNumber: string;

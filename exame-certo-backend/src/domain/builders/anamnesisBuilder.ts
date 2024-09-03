@@ -7,71 +7,71 @@ import { PersonalHistory } from "../value-objects/personal-history.vo";
 import { Anamnesis } from "../entities/anamnesis.entity";
 
 
-export class AnamnesisBuild{
+export class AnamnesisBuilder {
   private _id: string;
   private _props: Partial<AnamnesisProps> = {};
 
   private constructor() { }
 
 
-  public static createNew(): AnamnesisBuild{
-   const build = new AnamnesisBuild()
+  public static create(): AnamnesisBuilder{
+   const build = new AnamnesisBuilder()
     build._id = uuidv4();
     return build;
   }
 
-  public static rehydrate(id:string): AnamnesisBuild{
-    const build = new AnamnesisBuild()
+  public static rehydrate(id:string): AnamnesisBuilder{
+    const build = new AnamnesisBuilder()
     build._id = id;
     return build;
   }
 
-  public withPatient(patient: Patient): AnamnesisBuild{
+  public withPatient(patient: Patient): AnamnesisBuilder{
     this._props.patient = patient;
     return this;
   }
 
-  public withDoctor(doctor: Doctor): AnamnesisBuild{
+  public withDoctor(doctor: Doctor): AnamnesisBuilder{
     this._props.doctor = doctor;
     return this;
   }
 
-  public withIdentification(identification: Identification): AnamnesisBuild{
+  public withIdentification(identification: Identification): AnamnesisBuilder{
     this._props.identification = identification;
     return this;
   }
 
-  public withMainComplaint(mainComplaint: string): AnamnesisBuild{
+  public withMainComplaint(mainComplaint: string): AnamnesisBuilder{
     this._props.mainComplaint = mainComplaint;
     return this;
   }
 
-  public withHistoryOfPresentIllness(historyOfPresentIllness: string): AnamnesisBuild{
+  public withHistoryOfPresentIllness(historyOfPresentIllness: string): AnamnesisBuilder{
     this._props.historyOfPresentIllness = historyOfPresentIllness;
     return this;
   }
 
-  public withReviewOfSystems(reviewOfSystems: string): AnamnesisBuild{
+  public withReviewOfSystems(reviewOfSystems: string): AnamnesisBuilder{
     this._props.reviewOfSystems = reviewOfSystems
     return this;
   }
 
-  public withPastMedicalHistory(pastMedicalHistory: string): AnamnesisBuild{
+  public withPastMedicalHistory(pastMedicalHistory: string): AnamnesisBuilder{
     this._props.pastMedicalHistory = pastMedicalHistory
     return this;
   }
 
-  public withFamilyHistory(familyHistory: string): AnamnesisBuild{
+  public withFamilyHistory(familyHistory: string): AnamnesisBuilder{
     this._props.familyHistory = familyHistory;
     return this;
   }
 
-  public withSocialHistory(socialHistory: string): AnamnesisBuild{
+  public withSocialHistory(socialHistory: string): AnamnesisBuilder{
     this._props.socialHistory = socialHistory;
     return this;
   }
 
-  public withPersonalHistory(personalHistory: PersonalHistory): AnamnesisBuild{
+  public withPersonalHistory(personalHistory: PersonalHistory): AnamnesisBuilder{
     this._props.personalHistory = personalHistory;
     return this;
   }

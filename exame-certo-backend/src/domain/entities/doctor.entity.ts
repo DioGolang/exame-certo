@@ -4,10 +4,13 @@ import { Exam } from "./exam.entity";
 import { Report } from "./report.entity";
 import { InvalidDoctorException } from "../exceptions/invalid-doctor.exception";
 import { DoctorProps } from "../interfaces/props/doctor-props.interface";
+import { ContactInfo } from "../value-objects/contact-info.vo";
+import { Address } from "../value-objects/address.vo";
 
 export class Doctor {
 
  private readonly _id: string;
+ private readonly _passwordHash: string;
  private readonly _props: Readonly<DoctorProps>;
 
   private readonly _anamnesis: Anamnesis[] = [];
@@ -25,6 +28,10 @@ export class Doctor {
    return this._id
   }
 
+  get passwordHash(): string{
+    return this._passwordHash
+  }
+
   get name(): string{
    return this._props.name
   }
@@ -32,7 +39,7 @@ export class Doctor {
   get email(): string{
    return this._props.email.value
   }
-
+// passwordHash, clinics
   get registrationNumber(): string{
    return this._props.registrationNumber
   }
@@ -40,6 +47,30 @@ export class Doctor {
   get specialization(): string{
    return this._props.specialization
   }
+
+  get contactInfo(): ContactInfo{
+   return this._props.contactInfo
+  }
+
+  get professionalAddress(): Address{
+   return this._props.professionalAddress
+  }
+
+  get anamnesis(): Anamnesis[] {
+   return this._anamnesis;
+  }
+
+ get exams(): Exam[] {
+  return this._exams;
+ }
+
+ get reports(): Report[] {
+  return this._reports;
+ }
+
+ get clinics(): Clinic[] {
+  return this._clinics;
+ }
 
   // async verifyPassword(password: string): Promise<boolean> {
   //   return await this._hashPassword.compare(password, this._password);
@@ -63,7 +94,7 @@ export class Doctor {
  private validate(): void {
   const errors: string[] = [];
   this.checkField(this._props.name, "Name is required", errors);
-  this.checkPassword(this._props.passwordHash, errors);
+  this.checkPassword(this._passwordHash, errors);
 
   if (errors.length > 0 ){
    throw new InvalidDoctorException(errors.join("; "));

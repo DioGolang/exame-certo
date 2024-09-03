@@ -181,6 +181,14 @@ export class Patient{
     return this._props.healthInsurance;
   }
 
+  get createdAt(): Date {
+    return this._props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._props.updatedAt;
+  }
+
   // Methods to obtain the collections
   get anamnesis(): Anamnesis[] {
     return [...this._anamnesis];
@@ -197,5 +205,6 @@ export class Patient{
   get doctors(): Doctor[] {
     return [...this._doctors];
   }
+
 
 }

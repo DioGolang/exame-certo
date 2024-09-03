@@ -14,12 +14,15 @@ import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
 import { DocumentationDto } from "../../application/dtos/documentation.dto";
 import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
 
+
 export class PatientBuilder{
+
   private _id: string;
   private _passwordHash: string;
   private _props: Partial<PatientProps> = {};
 
   private constructor(private hasher: Hasher) {}
+
 
   public static async create(hasher: Hasher, password: string): Promise<PatientBuilder> {
     const builder = new PatientBuilder(hasher);
@@ -90,7 +93,6 @@ export class PatientBuilder{
     this._props.healthInsurance = healthInsurance;
     return this;
   }
-
 
   public build(): Patient {
     return new Patient(this._id, this._passwordHash, this._props as PatientProps);

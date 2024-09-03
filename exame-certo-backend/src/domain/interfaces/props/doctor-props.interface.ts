@@ -6,7 +6,6 @@ import { Address } from "../../value-objects/address.vo";
 export interface DoctorProps{
   name: string;
   email: Email;
-  passwordHash: string;
   contactInfo: ContactInfo;
   professionalAddress: Address;
   registrationNumber: string;

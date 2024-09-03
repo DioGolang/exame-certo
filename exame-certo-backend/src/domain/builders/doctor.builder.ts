@@ -5,22 +5,26 @@ import { Doctor } from "../entities/doctor.entity";
 import { DoctorProps } from "../interfaces/props/doctor-props.interface";
 import { v4 as uuidv4 } from 'uuid';
 import { Email } from "../value-objects/email.vo";
+import { Hasher } from "../interfaces/hasher.interface";
 
 export class DoctorBuilder{
   private _id: string;
+  private _passwordHash: string;
   private _props: Partial<DoctorProps>;
 
-  private constructor() { }
+  private constructor(private hasher: Hasher) { }
 
-  public static createNew(): DoctorBuilder{
-    const builder = new DoctorBuilder();
+  public static async create(hasher: Hasher, password: string): Promise<DoctorBuilder>{
+    const builder = new DoctorBuilder(hasher);
     builder._id = uuidv4();
+    builder._passwordHash = await hasher.hash(password);
     return builder;
   }
 
-  public static rehydrate(id: string): DoctorBuilder{
-    const builder = new DoctorBuilder();
+  public static rehydrate(id: string, hasher: Hasher, password: string): DoctorBuilder{
+    const builder = new DoctorBuilder(hasher);
     builder._id = id;
+    builder._passwordHash = password;
     return builder;
   }
 

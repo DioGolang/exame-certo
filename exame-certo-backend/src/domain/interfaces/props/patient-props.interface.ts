@@ -20,4 +20,6 @@ export interface PatientProps{
   documentation: Documentation;
   socioeconomicInformation: SocioEconomicInformation;
   healthInsurance?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
