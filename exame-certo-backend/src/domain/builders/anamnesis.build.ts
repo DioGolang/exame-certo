@@ -1,10 +1,10 @@
 import { AnamnesisProps } from "../interfaces/props/anamnesis-props.interface";
 import { v4 as uuidv4 } from 'uuid';
-import { Patient } from "../entites/patient.entity";
-import { Doctor } from "../entites/doctor.entity";
+import { Patient } from "../entities/patient.entity";
+import { Doctor } from "../entities/doctor.entity";
 import { Identification } from "../value-objects/identification.vo";
 import { PersonalHistory } from "../value-objects/personal-history.vo";
-import { Anamnesis } from "../entites/anamnesis.entity";
+import { Anamnesis } from "../entities/anamnesis.entity";
 
 
 export class AnamnesisBuild{

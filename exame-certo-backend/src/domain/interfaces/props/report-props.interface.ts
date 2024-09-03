@@ -1,4 +1,4 @@
-import { Doctor } from "../../entites/doctor.entity";
+import { Doctor } from "../../entities/doctor.entity";
 import { CID10 } from "../../value-objects/cid.vo";
 import { AdditionalInformation } from "../../value-objects/additional-information.vo";
 import { Signature } from "../../value-objects/signature.vo";

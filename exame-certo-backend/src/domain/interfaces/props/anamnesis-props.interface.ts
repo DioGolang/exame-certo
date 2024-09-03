@@ -1,5 +1,5 @@
-import { Patient } from "../../entites/patient.entity";
-import { Doctor } from "../../entites/doctor.entity";
+import { Patient } from "../../entities/patient.entity";
+import { Doctor } from "../../entities/doctor.entity";
 import { Identification } from "../../value-objects/identification.vo";
 import { PersonalHistory } from "../../value-objects/personal-history.vo";
 

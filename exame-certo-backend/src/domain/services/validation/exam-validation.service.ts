@@ -1,4 +1,4 @@
-import { Exam } from "../../entites/exam.entity";
+import { Exam } from "../../entities/exam.entity";
 import { InvalidExamException } from "../../exceptions/invalid-exam.exception";
 
 

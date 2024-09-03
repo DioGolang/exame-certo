@@ -26,9 +26,9 @@ export class SocioEconomicInformation {
   static fromDto(socioEconimicInformation: SocioEconomicInformationDto): SocioEconomicInformation{
     return new SocioEconomicInformation(
       socioEconimicInformation.profession,
-      socioEconimicInformation.educationLevel,
+      socioEconimicInformation.educationLevel as EducationLevel,
       socioEconimicInformation.housingConditions,
-      socioEconimicInformation.incomeLevel,
+      socioEconimicInformation.incomeLevel as IncomeLevel,
       socioEconimicInformation.socialSupport
     )
 

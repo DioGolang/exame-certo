@@ -1,5 +1,5 @@
 import { InvalidAnamnesisException } from "../../exceptions/invalid-anamnesis.exception";
-import { Anamnesis } from "../../entites/anamnesis.entity";
+import { Anamnesis } from "../../entities/anamnesis.entity";
 
 
 export class AnamnesisValidationService{

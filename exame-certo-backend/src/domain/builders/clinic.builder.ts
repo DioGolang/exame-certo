@@ -1,7 +1,7 @@
 import { Address } from "../value-objects/address.vo";
 import { ContactInfo } from "../value-objects/contact-info.vo";
 import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
-import { Clinic } from "../entites/clinic.entity";
+import { Clinic } from "../entities/clinic.entity";
 import { ClinicProps } from "../interfaces/props/clinic-props.interface";
 import { v4 as uuidv4 } from 'uuid';
 import { Email } from "../value-objects/email.vo";

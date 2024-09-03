@@ -1,16 +1,16 @@
 import { Address } from '../value-objects/address.vo';
 import { ContactInfo } from '../value-objects/contact-info.vo';
-import { Doctor } from '../entites/doctor.entity';
-import { Patient } from '../entites/patient.entity';
-import { Exam } from '../entites/exam.entity';
-import { IHasher } from '../interfaces/hasher.interface';
-import { Clinic } from '../entites/clinic.entity';
+import { Doctor } from '../entities/doctor.entity';
+import { Patient } from '../entities/patient.entity';
+import { Exam } from '../entities/exam.entity';
+import { Hasher } from '../interfaces/hasher.interface';
+import { Clinic } from '../entities/clinic.entity';
 import { ClinicValidationService } from '../services/validation/clinic-validation.service';
 import { ClinicBuilder } from './clinic.builder';
 import { InvalidClinicException } from '../exceptions/invalid-clinic.exception';
 
 describe('ClinicBuilder', () => {
-  let hasher: IHasher;
+  let hasher: Hasher;
   let validator: ClinicValidationService;
 
   beforeEach(() => {

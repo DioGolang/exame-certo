@@ -3,8 +3,8 @@ import { IncomeLevel } from "../../domain/enums/income-level.enum";
 
 export class SocioEconomicInformationDto {
   profession: string;
-  educationLevel: EducationLevel;
+  educationLevel: string;
   housingConditions: string;
-  incomeLevel: IncomeLevel;
+  incomeLevel: string;
   socialSupport: string;
 }

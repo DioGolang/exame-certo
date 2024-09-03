@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { Signature } from "../value-objects/signature.vo";
 import { AdditionalInformation } from "../value-objects/additional-information.vo";
 import { CID10 } from "../value-objects/cid.vo";
-import { Doctor } from "../entites/doctor.entity";
-import { Report } from "../entites/report.entity";
+import { Doctor } from "../entities/doctor.entity";
+import { Report } from "../entities/report.entity";
 
 export class ReportBuild{
   private _id: string;

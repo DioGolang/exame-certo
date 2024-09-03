@@ -1,4 +1,4 @@
-import { Doctor } from "../../entites/doctor.entity";
+import { Doctor } from "../../entities/doctor.entity";
 import { InvalidDoctorException } from "../../exceptions/invalid-doctor.exception";
 
 export class DoctorValidationService{

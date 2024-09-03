@@ -7,23 +7,31 @@ import { Address } from "../value-objects/address.vo";
 import { MaritalStatus } from "../enums/marital-status.enum";
 import { Sex } from "../enums/sex.enum";
 import { Email } from "../value-objects/email.vo";
-import { Patient } from "../entites/patient.entity";
+import { Patient } from "../entities/patient.entity";
+import { Hasher } from "../interfaces/hasher.interface";
+import { AddressDto } from "../../application/dtos/address.dto";
+import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
+import { DocumentationDto } from "../../application/dtos/documentation.dto";
+import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
 
 export class PatientBuilder{
   private _id: string;
+  private _passwordHash: string;
   private _props: Partial<PatientProps> = {};
 
-  private constructor() {}
+  private constructor(private hasher: Hasher) {}
 
-  public static createNew(): PatientBuilder {
-    const builder = new PatientBuilder();
+  public static async create(hasher: Hasher, password: string): Promise<PatientBuilder> {
+    const builder = new PatientBuilder(hasher);
     builder._id = uuidv4();
+    builder._passwordHash = await hasher.hash(password);
     return builder;
   }
 
-  public static rehydrate(id: string): PatientBuilder {
-    const builder = new PatientBuilder();
+  public static rehydrate(id: string, hasher: Hasher, password: string): PatientBuilder {
+    const builder = new PatientBuilder(hasher);
     builder._id = id;
+    builder._passwordHash = password;
     return builder;
   }
 
@@ -32,18 +40,14 @@ export class PatientBuilder{
     return this;
   }
 
+
   public withLastName(lastName: string): PatientBuilder {
     this._props.lastName = lastName;
     return this;
   }
 
-  public withEmail(email: Email): PatientBuilder {
-    this._props.email = email;
-    return this;
-  }
-
-  public withPasswordHash(passwordHash: string): PatientBuilder {
-    this._props.passwordHash = passwordHash;
+  public withEmail(email: string): PatientBuilder {
+    this._props.email = Email.create(email);
     return this;
   }
 
@@ -62,23 +66,23 @@ export class PatientBuilder{
     return this;
   }
 
-  public withAddress(address: Address): PatientBuilder {
-    this._props.address = address;
+  public withAddress(address: AddressDto): PatientBuilder {
+    this._props.address = Address.fromDto(address);
     return this;
   }
 
-  public withContactInfo(contactInfo: ContactInfo): PatientBuilder {
-    this._props.contactInfo = contactInfo;
+  public withContactInfo(contactInfo: ContactInfoDto): PatientBuilder {
+    this._props.contactInfo = ContactInfo.fromDto(contactInfo);
     return this;
   }
 
-  public withDocumentation(documentation: Documentation): PatientBuilder {
-    this._props.documentation = documentation;
+  public withDocumentation(documentation: DocumentationDto): PatientBuilder {
+    this._props.documentation = Documentation.fromDto(documentation);
     return this;
   }
 
-  public withSocioeconomicInformation(info: SocioEconomicInformation): PatientBuilder {
-    this._props.socioeconomicInformation = info;
+  public withSocioeconomicInformation(info: SocioEconomicInformationDto): PatientBuilder {
+    this._props.socioeconomicInformation = SocioEconomicInformation.fromDto(info);
     return this;
   }
 
@@ -88,10 +92,7 @@ export class PatientBuilder{
   }
 
 
-
-  public async build(): Promise<Patient> {
-    return new Patient(this._id, this._props as PatientProps);
+  public build(): Patient {
+    return new Patient(this._id, this._passwordHash, this._props as PatientProps);
   }
-
-
 }

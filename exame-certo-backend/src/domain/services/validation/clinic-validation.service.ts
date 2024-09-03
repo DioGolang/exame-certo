@@ -1,4 +1,4 @@
-import { Clinic } from "../../entites/clinic.entity";
+import { Clinic } from "../../entities/clinic.entity";
 import { InvalidClinicException } from "../../exceptions/invalid-clinic.exception";
 
 

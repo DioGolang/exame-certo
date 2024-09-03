@@ -14,84 +14,20 @@ import { PatientProps } from "../interfaces/props/patient-props.interface";
 export class Patient{
 
   private readonly  _id: string;
+  private readonly _passwordHash: string;
   private readonly _props: Readonly<PatientProps>;
   private readonly _anamnesis: Anamnesis[] = [];
   private readonly _exams: Exam[] = [];
   private readonly _clinics: Clinic[] = [];
   private readonly _doctors: Doctor[] = [];
 
-  constructor(id: string, props: PatientProps) {
+  constructor(id: string, passwordHash: string, props: PatientProps) {
     this._id = id;
+    this._passwordHash = passwordHash;
     this._props = {...props };
     this.validate()
   }
 
-
-  get id(): string {
-    return this._id;
-  }
-
-  get name(): string {
-    return this._props.name;
-  }
-
-  get lastName(): string {
-    return this._props.lastName;
-  }
-
-  get email(): string {
-    return this._props.email.value;
-  }
-
-  get dateOfBirth(): Date {
-    return this._props.dateOfBirth;
-  }
-
-  get sex(): Sex {
-    return this._props.sex;
-  }
-
-  get maritalStatus(): MaritalStatus {
-    return this._props.maritalStatus;
-  }
-
-  get address(): Address {
-    return this._props.address;
-  }
-
-  get contactInfo(): ContactInfo {
-    return this._props.contactInfo;
-  }
-
-  get socioeconomicInformation(): SocioEconomicInformation {
-    return this._props.socioeconomicInformation;
-  }
-
-  get documentation(): Documentation {
-    return this._props.documentation;
-  }
-
-  get healthInsurance(): string | undefined {
-    return this._props.healthInsurance;
-  }
-
-
-  // Methods to obtain the collections
-   get anamnesis(): Anamnesis[] {
-    return [...this._anamnesis];
-  }
-
-   get exams(): Exam[] {
-    return [...this._exams];
-  }
-
-   get clinics(): Clinic[] {
-    return [...this._clinics];
-  }
-
-   get doctors(): Doctor[] {
-    return [...this._doctors];
-  }
 
   // Methods to add elements to the collections
   // Generic methods for adding elements to collections
@@ -191,6 +127,75 @@ export class Patient{
     if (!password || password.trim() === '') {
       errors.push("Password is required");
     }
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  get passwordHash(): string {
+    return this._passwordHash;
+  }
+
+  get name(): string {
+    return this._props.name;
+  }
+
+  get lastName(): string {
+    return this._props.lastName;
+  }
+
+  get email(): string {
+    return this._props.email.value;
+  }
+
+  get dateOfBirth(): Date {
+    return this._props.dateOfBirth;
+  }
+
+  get sex(): Sex {
+    return this._props.sex;
+  }
+
+  get maritalStatus(): MaritalStatus {
+    return this._props.maritalStatus;
+  }
+
+  get address(): Address {
+    return this._props.address;
+  }
+
+  get contactInfo(): ContactInfo {
+    return this._props.contactInfo;
+  }
+
+  get socioeconomicInformation(): SocioEconomicInformation {
+    return this._props.socioeconomicInformation;
+  }
+
+  get documentation(): Documentation {
+    return this._props.documentation;
+  }
+
+  get healthInsurance(): string | undefined {
+    return this._props.healthInsurance;
+  }
+
+  // Methods to obtain the collections
+  get anamnesis(): Anamnesis[] {
+    return [...this._anamnesis];
+  }
+
+  get exams(): Exam[] {
+    return [...this._exams];
+  }
+
+  get clinics(): Clinic[] {
+    return [...this._clinics];
+  }
+
+  get doctors(): Doctor[] {
+    return [...this._doctors];
   }
 
 }

@@ -1,5 +1,5 @@
 import { InvalidReportException } from "../../exceptions/invalid-report.exception";
-import { Report } from "../../entites/report.entity";
+import { Report } from "../../entities/report.entity";
 
 
 export class ReportValidationService{

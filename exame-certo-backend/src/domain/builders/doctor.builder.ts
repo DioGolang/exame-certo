@@ -1,7 +1,7 @@
 import { ContactInfo } from "../value-objects/contact-info.vo";
 import { Address } from "../value-objects/address.vo";
 import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
-import { Doctor } from "../entites/doctor.entity";
+import { Doctor } from "../entities/doctor.entity";
 import { DoctorProps } from "../interfaces/props/doctor-props.interface";
 import { v4 as uuidv4 } from 'uuid';
 import { Email } from "../value-objects/email.vo";

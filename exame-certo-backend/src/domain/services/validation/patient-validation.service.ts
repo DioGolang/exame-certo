@@ -1,7 +1,7 @@
 
 import { Sex } from "../../enums/sex.enum";
 import { MaritalStatus } from "../../enums/marital-status.enum";
-import { Patient } from "../../entites/patient.entity";
+import { Patient } from "../../entities/patient.entity";
 import { InvalidPatientException } from "../../exceptions/invalid-patient.exception";
 
 

@@ -1,12 +1,12 @@
 import { ExamProps } from "../interfaces/props/exam-props.interface";
 import { v4 as uuidv4 } from 'uuid';
-import { Patient } from "../entites/patient.entity";
-import { Exam } from "../entites/exam.entity";
+import { Patient } from "../entities/patient.entity";
+import { Exam } from "../entities/exam.entity";
 import { ReferenceValues } from "../value-objects/reference-values.vo";
 import { ExamValues } from "../value-objects/exam-values.vo";
-import { Report } from "../entites/report.entity";
-import { Clinic } from "../entites/clinic.entity";
-import { Doctor } from "../entites/doctor.entity";
+import { Report } from "../entities/report.entity";
+import { Clinic } from "../entities/clinic.entity";
+import { Doctor } from "../entities/doctor.entity";
 import { TUSSCode } from "../value-objects/tuss-code.vo";
 import { CBHPMCode } from "../value-objects/cbhpm-code.vo";
 import { CIEFASCode } from "../value-objects/ciefas-code.vo";
