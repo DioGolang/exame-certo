@@ -31,10 +31,13 @@ export class ExamEntity {
   date: Date;
 
   @Column()
+  type: string;
+
+  @Column()
   method: string;
 
   @Column('jsonb')
-  examValues: ExamValues;
+  valuesObtained: ExamValues;
 
   @Column('jsonb')
   referenceValues: ReferenceValues;

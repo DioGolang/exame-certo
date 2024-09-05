@@ -1,10 +1,9 @@
 import { AnamnesisEntity } from "../../entities/anamnesis.entity";
 import { Anamnesis } from "../../../../domain/entities/anamnesis.entity";
 import { AnamnesisBuilder } from "../../../../domain/builders/anamnesisBuilder";
-import { Hasher } from "../../../../domain/interfaces/hasher.interface";
 
 export class AnamnesisMapper {
-  public static toDomain(entity: AnamnesisEntity, hasher: Hasher): Anamnesis {
+  public static toDomain(entity: AnamnesisEntity): Anamnesis {
     const builder = this.createOrRehydrateBuilder(entity);
     builder
       .withIdentification(entity.identification)
@@ -22,7 +21,8 @@ export class AnamnesisMapper {
     const entity = new AnamnesisEntity();
     entity.id = domain.id;
     // entity.patient = domain.patient;
-   // entity.doctor = domain.doctor;
+    // entity.doctor = domain.doctor;
+    //entity.clinic = domain.clinic;
     entity.identification = domain.identification;
     entity.mainComplaint = domain.mainComplaint;
     entity.historyOfPresentIllness = domain.historyOfPresentIllness;

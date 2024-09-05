@@ -11,7 +11,6 @@ export interface PatientProps{
   name: string;
   lastName: string;
   email: Email;
-  passwordHash: string;
   dateOfBirth: Date;
   sex: Sex;
   maritalStatus: MaritalStatus;

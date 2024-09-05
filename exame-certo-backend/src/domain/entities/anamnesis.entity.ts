@@ -4,6 +4,7 @@ import { InvalidAnamnesisException } from "../exceptions/invalid-anamnesis.excep
 import { AnamnesisProps } from "../interfaces/props/anamnesis-props.interface";
 import { Patient } from "./patient.entity";
 import { Doctor } from "./doctor.entity";
+import { Clinic } from "./clinic.entity";
 
 //QUEIXA PRINCIPAL E DURAÇÃO (Q.D.) -
 //HISTÓRIA DA MOLÉSTIA ATUAL (H.M.A.) -
@@ -38,6 +39,10 @@ export class Anamnesis {
 
   get doctor(): Doctor{
     return this._props.doctor
+  }
+
+  get clinic(): Clinic{
+    return this._props.clinic
   }
 
   get identification(): Identification{

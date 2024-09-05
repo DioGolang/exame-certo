@@ -3,14 +3,14 @@ import { ContactInfo } from '../value-objects/contact-info.vo';
 import { Doctor } from '../entities/doctor.entity';
 import { Patient } from '../entities/patient.entity';
 import { Exam } from '../entities/exam.entity';
-import { Hasher } from '../interfaces/hasher.interface';
+import { PasswordHash } from '../../application/interfaces/hasher.interface';
 import { Clinic } from '../entities/clinic.entity';
 import { ClinicValidationService } from '../services/validation/clinic-validation.service';
 import { ClinicBuilder } from './clinic.builder';
 import { InvalidClinicException } from '../exceptions/invalid-clinic.exception';
 
 describe('ClinicBuilder', () => {
-  let hasher: Hasher;
+  let hasher: PasswordHash;
   let validator: ClinicValidationService;
 
   beforeEach(() => {

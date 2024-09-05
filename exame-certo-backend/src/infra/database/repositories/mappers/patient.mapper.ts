@@ -1,15 +1,19 @@
 import { PatientEntity } from "../../entities/patient.entity";
 import { Patient } from "../../../../domain/entities/patient.entity";
 import { PatientBuilder } from "../../../../domain/builders/patient.builder";
-import { Hasher } from "../../../../domain/interfaces/hasher.interface";
 import { Sex } from "../../../../domain/enums/sex.enum";
 import { MaritalStatus } from "../../../../domain/enums/marital-status.enum";
 import { DocumentationMapper } from "./document.mapper";
+import { AnamnesisMapper } from "./anamnesis.mapper";
+import { ClinicMapper } from "./clinic.mapper";
+import { ExamMapper } from "./exam.mapper";
 
 export class PatientMapper {
-  public static async toDomain(entity: PatientEntity, hasher: Hasher): Promise<Patient> {
+
+  public static async toDomain(entity: PatientEntity): Promise<Patient> {
     const documentation = DocumentationMapper.toDto(entity.documentation);
-    const builder = await this.createOrRehydrateBuilder(entity, hasher);
+    const builder = await this.createOrRehydrateBuilder(entity);
+
     builder
       .withName(entity.name)
       .withLastName(entity.lastName)
@@ -22,11 +26,13 @@ export class PatientMapper {
       .withDocumentation(documentation)
       .withSocioeconomicInformation(entity.socioeconomicInformation)
       .withHealthInsurance(entity.healthInsurance);
+
     return builder.build();
   }
 
   public static toPersistence(domain: Patient): PatientEntity {
     const entity = new PatientEntity();
+
     entity.id = domain.id;
     entity.name = domain.name;
     entity.lastName = domain.lastName;
@@ -40,13 +46,20 @@ export class PatientMapper {
     entity.socioeconomicInformation = domain.socioeconomicInformation;
     entity.documentation = domain.documentation;
     entity.healthInsurance = domain.healthInsurance;
+    entity.anamnesis = domain.anamnesis.map(AnamnesisMapper.toPersistence);
+    entity.exams = domain.exams.map(ExamMapper.toPersistence);
+    entity.clinics = domain.clinics.map(ClinicMapper.toPersistence);
+    entity.createdAt = domain.createdAt || new Date();
+    entity.updatedAt = domain.updatedAt || new Date();
+
     return entity;
   }
 
-  private static async createOrRehydrateBuilder(entity: PatientEntity, hasher: Hasher): Promise<PatientBuilder> {
+  private static async createOrRehydrateBuilder(entity: PatientEntity): Promise<PatientBuilder> {
     if (entity.id) {
-      return PatientBuilder.rehydrate(entity.id, hasher, entity.passwordHash);
+      return PatientBuilder.rehydrate(entity.id, entity.passwordHash);
     }
-    return await PatientBuilder.create(hasher, entity.passwordHash);
+    return PatientBuilder.create(entity.passwordHash);
   }
+
 }

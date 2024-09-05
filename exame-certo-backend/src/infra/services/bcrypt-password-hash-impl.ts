@@ -1,7 +1,7 @@
-import { Hasher } from "../../domain/interfaces/hasher.interface";
+import { PasswordHash } from "../../application/interfaces/hasher.interface";
 import bcrypt from "bcrypt";
 
-export class BcryptPasswordHasher implements Hasher {
+export class BcryptPasswordHashImpl implements PasswordHash {
   private readonly saltRounds = 10;
 
   async hash(password: string): Promise<string> {

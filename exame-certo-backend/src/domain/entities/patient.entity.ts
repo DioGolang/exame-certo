@@ -10,31 +10,34 @@ import { Clinic } from "./clinic.entity";
 import { Doctor } from "./doctor.entity";
 import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
 import { PatientProps } from "../interfaces/props/patient-props.interface";
+import { PasswordHash } from "../../application/interfaces/hasher.interface";
 
 export class Patient{
 
-  private readonly  _id: string;
-  private readonly _passwordHash: string;
+  private readonly _id: string;
+  private _password: string;
   private readonly _props: Readonly<PatientProps>;
   private readonly _anamnesis: Anamnesis[] = [];
   private readonly _exams: Exam[] = [];
   private readonly _clinics: Clinic[] = [];
   private readonly _doctors: Doctor[] = [];
 
-  constructor(id: string, passwordHash: string, props: PatientProps) {
+  constructor(id: string, private readonly passwordHashed: PasswordHash, props: PatientProps) {
     this._id = id;
-    this._passwordHash = passwordHash;
     this._props = {...props };
     this.validate()
   }
 
+  async setPassword(password: string): Promise<void> {
+    this._password = await this.passwordHashed.hash(password);
+  }
+
+  async validatePassword(rawPassword: string): Promise<boolean> {
+    return await this.passwordHashed.compare(rawPassword, this._password);
+  }
 
   // Methods to add elements to the collections
   // Generic methods for adding elements to collections
-  private addToCollection<T>(collection: T[], item: T, checkFn: (item: T) => void): void {
-    checkFn(item);
-    collection.push(item);
-  }
 
   // Add methods for specific collections
   public addAnamnesis(anamnesis: Anamnesis): void {
@@ -45,9 +48,20 @@ export class Patient{
     this.addToCollection(this._exams, exam, this.checkExam.bind(this));
   }
 
-  // Similar methods for addDoctor, addClinic...
+  public addClinic(clinic: Clinic): void {
+    this.addToCollection(this._clinics, clinic, this.checkClinic.bind(this));
+  }
 
-  // Validation for elements in collections
+  public addDoctor(doctor: Doctor): void {
+    this.addToCollection(this._doctors, doctor, this.checkDoctor.bind(this));
+  }
+
+  private addToCollection<T>(collection: T[], item: T, checkFn: (item: T) => void): void {
+    checkFn(item);
+    collection.push(item);
+  }
+
+  // Generic methods for checking if an item is already in a collection
   private checkAnamnesis(anamnesis: Anamnesis): void {
     if (!anamnesis) throw new InvalidPatientException("Anamnesis is required");
     if (this._anamnesis.some(a => a.id === anamnesis.id)) {
@@ -59,6 +73,20 @@ export class Patient{
     if (!exam) throw new InvalidPatientException("Exam is required");
     if (this._exams.some(e => e.id === exam.id)) {
       throw new InvalidPatientException("Exam already added.");
+    }
+  }
+
+  private checkClinic(clinic: Clinic): void {
+    if (!clinic) throw new InvalidPatientException("Clinic is required");
+    if (this._clinics.some(c => c.id === clinic.id)) {
+      throw new InvalidPatientException("Clinic already added.");
+    }
+  }
+
+  private checkDoctor(doctor: Doctor): void {
+    if (!doctor) throw new InvalidPatientException("Doctor is required");
+    if (this._doctors.some(d => d.id === doctor.id)) {
+      throw new InvalidPatientException("Doctor already added.");
     }
   }
 
@@ -95,14 +123,12 @@ export class Patient{
     return this.isAssociatedWith(this._clinics, clinic);
   }
 
-
   // Validate method
   private validate(): void {
     const errors: string[] = [];
     this.checkField(this._props.name, "Name is required", errors);
     this.checkField(this._props.lastName, "Last name is required", errors);
     this.checkField(this._props.email.value, "Email is required", errors);
-    this.checkPassword(this._props.passwordHash, errors);
     this.checkDateField(this._props.dateOfBirth, "Date of birth is required", errors);
 
     if (errors.length > 0) {
@@ -134,7 +160,7 @@ export class Patient{
   }
 
   get passwordHash(): string {
-    return this._passwordHash;
+    return this._password;
   }
 
   get name(): string {

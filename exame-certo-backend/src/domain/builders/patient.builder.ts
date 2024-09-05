@@ -8,33 +8,41 @@ import { MaritalStatus } from "../enums/marital-status.enum";
 import { Sex } from "../enums/sex.enum";
 import { Email } from "../value-objects/email.vo";
 import { Patient } from "../entities/patient.entity";
-import { Hasher } from "../interfaces/hasher.interface";
+import { PasswordHash } from "../../application/interfaces/hasher.interface";
 import { AddressDto } from "../../application/dtos/address.dto";
 import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
 import { DocumentationDto } from "../../application/dtos/documentation.dto";
 import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
+import { Anamnesis } from "../entities/anamnesis.entity";
+import { Exam } from "../entities/exam.entity";
+import { Clinic } from "../entities/clinic.entity";
+import { Doctor } from "../entities/doctor.entity";
 
 
 export class PatientBuilder{
 
   private _id: string;
-  private _passwordHash: string;
   private _props: Partial<PatientProps> = {};
+  private anamnesis: Anamnesis[] = [];
+  private exams: Exam[] = [];
+  private clinics: Clinic[] = [];
+  private doctors: Doctor[] = [];
+  private static _passwordHash: PasswordHash;
 
-  private constructor(private hasher: Hasher) {}
+  private constructor(private readonly password: string) {}
 
-
-  public static async create(hasher: Hasher, password: string): Promise<PatientBuilder> {
-    const builder = new PatientBuilder(hasher);
+  public static setPasswordHash(passwordHash: PasswordHash): void {
+    PatientBuilder._passwordHash = passwordHash;
+  }
+  public static async create(password: string): Promise<PatientBuilder> {
+    const builder = new PatientBuilder(password);
     builder._id = uuidv4();
-    builder._passwordHash = await hasher.hash(password);
     return builder;
   }
 
-  public static rehydrate(id: string, hasher: Hasher, password: string): PatientBuilder {
-    const builder = new PatientBuilder(hasher);
+  public static rehydrate(id: string, password: string): PatientBuilder {
+    const builder = new PatientBuilder(password);
     builder._id = id;
-    builder._passwordHash = password;
     return builder;
   }
 
@@ -94,7 +102,34 @@ export class PatientBuilder{
     return this;
   }
 
-  public build(): Patient {
-    return new Patient(this._id, this._passwordHash, this._props as PatientProps);
+  addAnamnesis(anamnesis: Anamnesis): PatientBuilder {
+    this.anamnesis.push(anamnesis);
+    return this;
+  }
+
+  addExam(exam: Exam): PatientBuilder {
+    this.exams.push(exam);
+    return this;
+  }
+
+  addClinic(clinic: Clinic): PatientBuilder {
+    this.clinics.push(clinic);
+    return this;
+  }
+
+  addDoctor(doctor: Doctor): PatientBuilder {
+    this.doctors.push(doctor);
+    return this;
+  }
+
+  public async build(): Promise<Patient> {
+
+    const patient = new Patient(this._id, PatientBuilder._passwordHash, this._props as PatientProps);
+    await patient.setPassword(this.password);
+    this.anamnesis.forEach(a => patient.addAnamnesis(a));
+    this.exams.forEach(e => patient.addExam(e));
+    this.clinics.forEach(c => patient.addClinic(c));
+    this.doctors.forEach(d => patient.addDoctor(d));
+    return patient
   }
 }

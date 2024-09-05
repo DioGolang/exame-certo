@@ -35,7 +35,6 @@ export class Clinic {
     }
   }
 
-
   private validate(): void{
     const errors: string[] = [];
 

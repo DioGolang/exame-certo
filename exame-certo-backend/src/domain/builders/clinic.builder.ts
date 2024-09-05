@@ -31,8 +31,8 @@ export class ClinicBuilder{
     return this;
   }
 
-  withEmail(email: Email): ClinicBuilder {
-    this._props.email = email;
+  withEmail(email: string): ClinicBuilder {
+    this._props.email = Email.create(email);
     return this;
   }
 

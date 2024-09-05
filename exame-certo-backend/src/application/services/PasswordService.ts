@@ -1,9 +1,9 @@
-import { Hasher } from "../../domain/interfaces/hasher.interface";
+import { PasswordHash } from "../interfaces/hasher.interface";
 
 export class PasswordService{
-  private hasher: Hasher;
+  private hasher: PasswordHash;
 
-  constructor(hasher: Hasher){
+  constructor(hasher: PasswordHash){
     this.hasher = hasher;
   }
 
