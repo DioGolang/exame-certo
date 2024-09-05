@@ -12,7 +12,7 @@ export class PatientMapper {
 
   public static async toDomain(entity: PatientEntity): Promise<Patient> {
     const documentation = DocumentationMapper.toDto(entity.documentation);
-    const builder = await this.createOrRehydrateBuilder(entity);
+    const builder = await PatientBuilder.createOrRehydrate(entity.id, entity.passwordHash);
 
     builder
       .withName(entity.name)
@@ -26,6 +26,10 @@ export class PatientMapper {
       .withDocumentation(documentation)
       .withSocioeconomicInformation(entity.socioeconomicInformation)
       .withHealthInsurance(entity.healthInsurance);
+
+    entity.anamnesis.forEach(anamnesis => builder.addAnamnesis(AnamnesisMapper.toDomain(anamnesis)));
+    // entity.exams.forEach(exam => builder.addExam(ExamMapper.toDomain(exam)));
+    // entity.clinics.forEach(clinic => builder.addClinic(ClinicMapper.toDomain(clinic)));
 
     return builder.build();
   }
@@ -53,13 +57,6 @@ export class PatientMapper {
     entity.updatedAt = domain.updatedAt || new Date();
 
     return entity;
-  }
-
-  private static async createOrRehydrateBuilder(entity: PatientEntity): Promise<PatientBuilder> {
-    if (entity.id) {
-      return PatientBuilder.rehydrate(entity.id, entity.passwordHash);
-    }
-    return PatientBuilder.create(entity.passwordHash);
   }
 
 }

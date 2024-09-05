@@ -22,18 +22,15 @@ export class Patient{
   private readonly _clinics: Clinic[] = [];
   private readonly _doctors: Doctor[] = [];
 
-  constructor(id: string, private readonly passwordHashed: PasswordHash, props: PatientProps) {
+  constructor(id: string, props: PatientProps, passwordHash: string) {
     this._id = id;
     this._props = {...props };
+    this._password = passwordHash;
     this.validate()
   }
 
-  async setPassword(password: string): Promise<void> {
-    this._password = await this.passwordHashed.hash(password);
-  }
-
-  async validatePassword(rawPassword: string): Promise<boolean> {
-    return await this.passwordHashed.compare(rawPassword, this._password);
+  async validatePassword(rawPassword: string, passwordHash: PasswordHash): Promise<boolean> {
+    return await passwordHash.compare(rawPassword, this._password);
   }
 
   // Methods to add elements to the collections
