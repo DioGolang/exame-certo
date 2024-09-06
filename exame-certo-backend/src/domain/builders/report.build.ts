@@ -5,10 +5,12 @@ import { AdditionalInformation } from "../value-objects/additional-information.v
 import { CID10 } from "../value-objects/cid.vo";
 import { Doctor } from "../entities/doctor.entity";
 import { Report } from "../entities/report.entity";
+import { Exam } from "../entities/exam.entity";
 
 export class ReportBuild{
   private _id: string;
   private _props: Partial<ReportProps> = {};
+  private _exams: Exam[] = [];
 
   private constructor() { }
 
@@ -111,7 +113,15 @@ export class ReportBuild{
     return this;
   }
 
-  async build(): Promise<Report>{
-    return new Report(this._id, this._props as ReportProps);
+  addExam(exam: Exam): ReportBuild {
+    this._exams.push(exam);
+    return this;
   }
+
+  async build(): Promise<Report>{
+    const report = new Report(this._id, this._props as ReportProps);
+    this._exams.forEach(e => report.addExam(e));
+    return report;
+  }
+
 }

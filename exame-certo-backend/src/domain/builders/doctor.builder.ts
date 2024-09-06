@@ -6,26 +6,40 @@ import { DoctorProps } from "../interfaces/props/doctor-props.interface";
 import { v4 as uuidv4 } from 'uuid';
 import { Email } from "../value-objects/email.vo";
 import { PasswordHash } from "../../application/interfaces/hasher.interface";
+import { Anamnesis } from "../entities/anamnesis.entity";
+import { Exam } from "../entities/exam.entity";
+import { Clinic } from "../entities/clinic.entity";
+import { Report } from "../entities/report.entity";
+import { PasswordUtils } from "../../shared/utils/password.utils";
 
 export class DoctorBuilder{
-  private _id: string;
-  private _passwordHash: string;
+  private readonly _id: string;
+  private readonly _password: string;
   private _props: Partial<DoctorProps>;
+  private _anamnesis: Anamnesis[] = [];
+  private _exams: Exam[] = [];
+  private _clinics: Clinic[] = [];
+  private _reports: Report[] = [];
 
-  private constructor(private hasher: PasswordHash) { }
-
-  public static async create(hasher: PasswordHash, password: string): Promise<DoctorBuilder>{
-    const builder = new DoctorBuilder(hasher);
-    builder._id = uuidv4();
-    builder._passwordHash = await hasher.hash(password);
-    return builder;
+  private constructor(password?: string, private readonly encryptedPassword?: string, id?: string) {
+    this._id = id || uuidv4();
+    this._password = password || '';
   }
 
-  public static rehydrate(id: string, hasher: PasswordHash, password: string): DoctorBuilder{
-    const builder = new DoctorBuilder(hasher);
-    builder._id = id;
-    builder._passwordHash = password;
-    return builder;
+  public static create(password: string): DoctorBuilder{
+    return new DoctorBuilder(password);
+  }
+
+  public static rehydrate(id: string, encryptedPassword: string): DoctorBuilder{
+    return new DoctorBuilder(undefined, encryptedPassword, id);
+  }
+
+  public static createOrRehydrate(id?: string, password?: string, encryptedPassword?: string): DoctorBuilder {
+    if (id) {
+      return this.rehydrate(id, encryptedPassword!);
+    } else {
+      return this.create(password!);
+    }
   }
 
   withEmail(email: Email): DoctorBuilder {
@@ -53,8 +67,36 @@ export class DoctorBuilder{
     return this
   }
 
-   async build(): Promise<Doctor> {
-    return new Doctor(this._id, this._props as DoctorProps);
+  addAnamnesis(anamnesis: Anamnesis): DoctorBuilder {
+    this._anamnesis.push(anamnesis);
+    return this;
   }
 
+  addExam(exam: Exam): DoctorBuilder {
+    this._exams.push(exam);
+    return this;
+  }
+
+  addClinic(clinic: Clinic): DoctorBuilder {
+    this._clinics.push(clinic);
+    return this;
+  }
+
+  addReport(report: Report): DoctorBuilder {
+    this._reports.push(report);
+    return this;
+  }
+
+   async build(): Promise<Doctor> {
+    const finalPasswordHash = await PasswordUtils.determinePasswordHash(
+      this._password,
+      this.encryptedPassword
+    );
+    const doctor = new Doctor(this._id, this._props as DoctorProps, finalPasswordHash);
+    this._anamnesis.forEach(a => doctor.addAnamnesis(a));
+    this._exams.forEach(e => doctor.addExam(e));
+    this._clinics.forEach(c => doctor.addClinic(c));
+    this._reports.forEach(r => doctor.addReport(r));
+    return doctor;
+   }
 }
