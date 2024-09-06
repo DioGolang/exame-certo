@@ -27,9 +27,15 @@ export class PatientMapper {
       .withSocioeconomicInformation(entity.socioeconomicInformation)
       .withHealthInsurance(entity.healthInsurance);
 
-    entity.anamnesis.forEach(anamnesis => builder.addAnamnesis(AnamnesisMapper.toDomain(anamnesis)));
-    // entity.exams.forEach(exam => builder.addExam(ExamMapper.toDomain(exam)));
-    // entity.clinics.forEach(clinic => builder.addClinic(ClinicMapper.toDomain(clinic)));
+    if (entity.anamnesis) {
+      entity.anamnesis.forEach(anamnesis => builder.addAnamnesis(AnamnesisMapper.toDomain(anamnesis)));
+    }
+    // if (entity.exams) {
+    //   entity.exams.forEach(exam => builder.addExam(ExamMapper.toDomain(exam)));
+    // }
+    // if (entity.clinics) {
+    //   entity.clinics.forEach(clinic => builder.addClinic(ClinicMapper.toDomain(clinic)));
+    // }
 
     return builder.build();
   }

@@ -5,6 +5,8 @@ import { Exam } from "./exam.entity";
 import { Doctor } from "./doctor.entity";
 import { InvalidReportException } from "../exceptions/invalid-report.exception";
 import { ReportProps } from "../interfaces/props/report-props.interface";
+import { ValidationUtils } from "../../shared/utils/validation.utils";
+import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
 
 export class Report {
 
@@ -19,36 +21,41 @@ export class Report {
   }
 
   //validate
-  private checkField(field: string, errorMessage: string, errors: string[]): void {
-    if (!field || field.trim() === '') {
-      errors.push(errorMessage);
-    }
-  }
-
-  private checkDateField(field: Date, errorMessage: string, errors: string[]): void {
-    if (!field) {
-      errors.push(errorMessage);
-    }
-  }
 
   private validate() {
     const errors: string[] = [];
-    this.checkField(this._props.diagnosis, 'Diagnosis is required', errors);
-    this.checkField(this._props.justification, 'Justification is required', errors);
-    this.checkField(this._props.conduct, 'Conduct is required', errors);
-    this.checkField(this._props.hypothesis, 'Hypothesis is required', errors);
-    this.checkField(this._props.prognosis, 'Prognosis is required', errors);
-    this.checkField(this._props.therapeutic_conduct, 'Therapeutic conduct is required', errors);
-    this.checkField(this._props.clinical_evolution, 'Clinical evolution is required', errors);
-    this.checkField(this._props.health_consequences, 'Health consequences is required', errors);
-    this.checkField(this._props.consultation_reason, 'Consultation reason is required', errors);
-    this.checkField(this._props.illness_history, 'Illness history is required', errors);
-    this.checkDateField(this._props.rest_start_date, 'Rest start date is required', errors);
-    this.checkDateField(this._props.rest_duration, 'Rest duration is required', errors);
+    ValidationUtils.checkField(this._props.diagnosis, 'Diagnosis is required', errors);
+    ValidationUtils.checkField(this._props.justification, 'Justification is required', errors);
+    ValidationUtils.checkField(this._props.conduct, 'Conduct is required', errors);
+    ValidationUtils.checkField(this._props.hypothesis, 'Hypothesis is required', errors);
+    ValidationUtils.checkField(this._props.prognosis, 'Prognosis is required', errors);
+    ValidationUtils.checkField(this._props.therapeutic_conduct, 'Therapeutic conduct is required', errors);
+    ValidationUtils.checkField(this._props.clinical_evolution, 'Clinical evolution is required', errors);
+    ValidationUtils.checkField(this._props.health_consequences, 'Health consequences is required', errors);
+    ValidationUtils.checkField(this._props.consultation_reason, 'Consultation reason is required', errors);
+    ValidationUtils.checkField(this._props.illness_history, 'Illness history is required', errors);
+    ValidationUtils.checkDateField(this._props.rest_start_date, 'Rest start date is required', errors);
+    ValidationUtils.checkDateField(this._props.rest_duration, 'Rest duration is required', errors);
 
     if (errors.length > 0 ){
       throw new InvalidReportException(errors.join("; "));
     }
+  }
+
+  // Add methods for specific collections
+  public addExam(exam: Exam): void {
+    EntityUtils.addToCollection(this._exams, exam, (item) =>
+      EntityUtils.checkDuplicate(item, this._exams, "Exam", InvalidReportException)
+    );
+  }
+
+  public removeExam(exam: Exam): void {
+    EntityUtils.removeFromCollection(
+      this._exams,
+      exam,
+      InvalidReportException,
+      "Exam not found"
+    );
   }
 
   get id(): string{

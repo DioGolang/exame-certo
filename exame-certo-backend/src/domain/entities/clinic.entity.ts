@@ -6,51 +6,115 @@ import { ContactInfo } from "../value-objects/contact-info.vo";
 import { InvalidClinicException } from "../exceptions/invalid-clinic.exception";
 import { Anamnesis } from "./anamnesis.entity";
 import { ClinicProps } from "../interfaces/props/clinic-props.interface";
+import { PasswordHash } from "../../application/interfaces/hasher.interface";
+import { ValidationUtils } from "../../shared/utils/validation.utils";
 
 export class Clinic {
 
   private readonly _id: string;
+  private readonly _password: string;
   private readonly _props: Readonly<ClinicProps>;
   private readonly _patients: Patient[] = [];
   private readonly _doctors: Doctor[] = [];
   private readonly _exams: Exam[] = [];
   private readonly _anamnesis: Anamnesis[] = [];
 
-  constructor(id: string, props: ClinicProps) {
+  constructor(id: string, props: ClinicProps, passwordHash: string) {
     this._id = id;
     this._props = { ...props };
+    this._password = passwordHash;
     this.validate();
   }
-  
-  //Methods for adding elements to collections
-  public addPatient(patient: Patient): void {
-    if (!this._patients.includes(patient)) {
-      this._patients.push(patient);
-    }
-  }
 
-  public addDoctor(doctor: Doctor): void {
-    if (!this._doctors.includes(doctor)) {
-      this._doctors.push(doctor);
-    }
+  async validatePassword(rawPassword: string, passwordHash: PasswordHash): Promise<boolean> {
+    return await passwordHash.compare(rawPassword, this._password);
   }
 
   private validate(): void{
     const errors: string[] = [];
-
-    this.checkField(this._props.name, "Name is required", errors);
-    this.checkField(this._props.email.value, "Email is required", errors);
-    this.checkField(this._props.passwordHash, "Password is required", errors);
+    ValidationUtils.checkField(this._props.name, "Name is required", errors);
+    ValidationUtils.checkField(this._props.email.value, "Email is required", errors);
+    ValidationUtils.checkField(this._password, "Password is required", errors);
 
     if (errors.length > 0 ){
       throw new InvalidClinicException(errors.join("; "));
     }
   }
 
-  private checkField(field: string, errorMessage: string, errors: string[]): void{
-    if(!field || field.trim() === ""){
-      errors.push(errorMessage);
-    }
+  public addAnamnesis(anamnesis: Anamnesis): void {
+    EntityUtils.addToCollection(this._anamnesis, anamnesis, (item) =>
+      EntityUtils.checkDuplicate(item, this._anamnesis, "Anamnesis", InvalidClinicException)
+    );
+  }
+
+  public addExam(exam: Exam): void {
+    EntityUtils.addToCollection(this._exams, exam, (item) =>
+      EntityUtils.checkDuplicate(item, this._exams, "Exam", InvalidClinicException)
+    );
+  }
+
+  public addPatient(patient: Patient): void {
+    EntityUtils.addToCollection(this._patients, patient, (item) =>
+      EntityUtils.checkDuplicate(item, this._patients, "Patient", InvalidClinicException)
+    );
+  }
+
+  public addDoctor(doctor: Doctor): void {
+    EntityUtils.addToCollection(this._doctors, doctor, (item) =>
+      EntityUtils.checkDuplicate(item, this._doctors, "Doctor", InvalidClinicException)
+    );
+  }
+
+  public removeAnamnesis(anamnesis: Anamnesis): void {
+    EntityUtils.removeFromCollection(
+      this._anamnesis,
+      anamnesis,
+      InvalidClinicException,
+      "Anamnesis not found"
+    );
+  }
+
+  public removeExam(exam: Exam): void {
+    EntityUtils.removeFromCollection(
+      this._exams,
+      exam,
+      InvalidClinicException,
+      "Exam not found"
+    );
+  }
+
+  public removePatient(patient: Patient): void {
+    EntityUtils.removeFromCollection(
+      this._patients,
+      patient,
+      InvalidClinicException,
+      "Patient not found"
+    );
+  }
+
+  public removeDoctor(doctor: Doctor): void {
+    EntityUtils.removeFromCollection(
+      this._doctors,
+      doctor,
+      InvalidClinicException,
+      "Doctor not found"
+    );
+  }
+
+  public isAnamnesisAssociated(anamnesis: Anamnesis): boolean {
+    return EntityUtils.isAssociatedWith(this._anamnesis, anamnesis);
+  }
+
+  public isExamAssociated(exam: Exam): boolean {
+    return EntityUtils.isAssociatedWith(this._exams, exam);
+  }
+
+  public isPatientAssociated(patient: Patient): boolean {
+    return EntityUtils.isAssociatedWith(this._patients, patient);
+  }
+
+  public isDoctorAssociated(doctor: Doctor): boolean {
+    return EntityUtils.isAssociatedWith(this._doctors, doctor);
   }
 
 
@@ -75,7 +139,23 @@ export class Clinic {
   }
 
   get password(): string{
-    return this._props.passwordHash;
+    return this._password;
+  }
+
+  get anamnesis(): Anamnesis[] {
+    return [...this._anamnesis];
+  }
+
+  get exams(): Exam[] {
+    return [...this._exams];
+  }
+
+  get doctors(): Doctor[] {
+    return [...this._doctors];
+  }
+
+  get patients(): Patient[] {
+    return [...this._patients];
   }
 
 }

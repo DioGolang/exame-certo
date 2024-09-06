@@ -8,7 +8,6 @@ import { MaritalStatus } from "../enums/marital-status.enum";
 import { Sex } from "../enums/sex.enum";
 import { Email } from "../value-objects/email.vo";
 import { Patient } from "../entities/patient.entity";
-import { PasswordHash } from "../../application/interfaces/hasher.interface";
 import { AddressDto } from "../../application/dtos/address.dto";
 import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
 import { DocumentationDto } from "../../application/dtos/documentation.dto";
@@ -17,25 +16,22 @@ import { Anamnesis } from "../entities/anamnesis.entity";
 import { Exam } from "../entities/exam.entity";
 import { Clinic } from "../entities/clinic.entity";
 import { Doctor } from "../entities/doctor.entity";
+import { PasswordUtils } from "../../shared/utils/password.utils";
 
 
 export class PatientBuilder{
 
-  private _id: string;
-  private _password: string;
+  private readonly _id: string;
+  private readonly _password: string;
   private _props: Partial<PatientProps> = {};
   private anamnesis: Anamnesis[] = [];
   private exams: Exam[] = [];
   private clinics: Clinic[] = [];
   private doctors: Doctor[] = [];
-  private static _passwordHash: PasswordHash;
 
   private constructor(password?: string, private readonly encryptedPassword?: string, id?: string) {
     this._id = id || uuidv4();
     this._password = password || '';
-  }
-  public static setPasswordHash(passwordHash: PasswordHash): void {
-    PatientBuilder._passwordHash = passwordHash;
   }
 
   public static async create(password: string): Promise<PatientBuilder> {
@@ -131,9 +127,12 @@ export class PatientBuilder{
   }
 
   public async build(): Promise<Patient> {
-    const finalPasswordHash = await this.determinePasswordHash();
-    const patient = new Patient(this._id, this._props as PatientProps, finalPasswordHash);
+    const finalPasswordHash = await PasswordUtils.determinePasswordHash(
+      this._password,
+      this.encryptedPassword
+    );
 
+    const patient = new Patient(this._id, this._props as PatientProps, finalPasswordHash);
     this.anamnesis.forEach(a => patient.addAnamnesis(a));
     this.exams.forEach(e => patient.addExam(e));
     this.clinics.forEach(c => patient.addClinic(c));
@@ -142,10 +141,4 @@ export class PatientBuilder{
     return patient;
   }
 
-  private async determinePasswordHash(): Promise<string> {
-    if (this.encryptedPassword) {
-      return this.encryptedPassword
-    }
-      return await PatientBuilder._passwordHash.hash(this._password);
-  }
 }

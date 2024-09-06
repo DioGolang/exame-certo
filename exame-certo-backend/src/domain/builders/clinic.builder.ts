@@ -5,26 +5,48 @@ import { Clinic } from "../entities/clinic.entity";
 import { ClinicProps } from "../interfaces/props/clinic-props.interface";
 import { v4 as uuidv4 } from 'uuid';
 import { Email } from "../value-objects/email.vo";
+import { Anamnesis } from "../entities/anamnesis.entity";
+import { Exam } from "../entities/exam.entity";
+import { Doctor } from "../entities/doctor.entity";
+import { Patient } from "../entities/patient.entity";
+import { PasswordHash } from "../../application/interfaces/hasher.interface";
+import { PasswordUtils } from "../../shared/utils/password.utils";
 
 export class ClinicBuilder{
 
-  private _id: string;
+  private readonly _id: string;
+  private readonly _password: string;
   private _props: Partial<ClinicProps> = {};
+  private _anamnesis: Anamnesis[] = [];
+  private _exams: Exam[] = [];
+  private _patients: Patient[] = [];
+  private _doctors: Doctor[] = [];
+  private static _passwordHash: PasswordHash;
 
-  private constructor() { }
-
-  public static create(): ClinicBuilder {
-    const builder = new ClinicBuilder();
-    builder._id = uuidv4();
-    return builder;
+  private constructor(password?: string, private readonly encryptedPassword?: string, id?: string) {
+    this._id = id || uuidv4();
+    this._password = password || '';
   }
 
-  public static rehydrate(id: string): ClinicBuilder {
-    const builder = new ClinicBuilder();
-    builder._id = id;
-    return builder
+  public static setPasswordHash(passwordHash: PasswordHash): void {
+    ClinicBuilder._passwordHash = passwordHash;
   }
 
+  public static create(password: string): ClinicBuilder {
+    return new ClinicBuilder(password);
+  }
+
+  public static rehydrate(id: string, encryptedPassword: string): ClinicBuilder {
+    return new ClinicBuilder(undefined, encryptedPassword, id);
+  }
+
+  public static async createOrRehydrate(id?: string, password?: string, encryptedPassword?: string): Promise<ClinicBuilder> {
+    if (id) {
+      return this.rehydrate(id, encryptedPassword!);
+    } else {
+      return this.create(password!);
+    }
+  }
 
   withName(name: string): ClinicBuilder {
     this._props.name = name;
@@ -47,9 +69,37 @@ export class ClinicBuilder{
     return this;
   }
 
+
+  addAnamnesis(anamnesis: Anamnesis): ClinicBuilder {
+    this._anamnesis.push(anamnesis);
+    return this;
+  }
+
+  addExam(exam: Exam): ClinicBuilder {
+    this._exams.push(exam);
+    return this;
+  }
+
+  addClinic(patient: Patient): ClinicBuilder {
+    this._patients.push(patient);
+    return this;
+  }
+
+  addDoctor(doctor: Doctor): ClinicBuilder {
+    this._doctors.push(doctor);
+    return this;
+  }
+
   async build(): Promise<Clinic> {
-
-    return new Clinic(this._id, this._props as ClinicProps);
-
+    const finalPasswordHash = await PasswordUtils.determinePasswordHash(
+      this._password,
+      this.encryptedPassword
+    );
+    const clinic = new Clinic(this._id, this._props as ClinicProps, finalPasswordHash);
+    this._anamnesis.forEach(a => clinic.addAnamnesis(a));
+    this._exams.forEach(e => clinic.addExam(e));
+    this._patients.forEach(p => clinic.addPatient(p));
+    this._doctors.forEach(d => clinic.addDoctor(d));
+    return clinic;
   }
 }

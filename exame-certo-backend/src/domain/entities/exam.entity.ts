@@ -9,6 +9,7 @@ import { Report } from "./report.entity";
 import { Clinic } from "./clinic.entity";
 import { InvalidExamException } from "../exceptions/invalid-exam.exception";
 import { ExamProps } from "../interfaces/props/exam-props.interface";
+import { ValidationUtils } from "../../shared/utils/validation.utils";
 
 export class Exam {
 
@@ -24,21 +25,16 @@ export class Exam {
 
   public validate(): void {
     const errors: string[] = [];
-    this.checkField(this._props.type, 'Type is required', errors);
-    this.checkField(this._props.method, 'Method is required', errors);
-    this.checkField(this._props.clinicalHistory, 'Clinical history is required', errors);
-    this.checkField(this._props.mainComplaint, 'Main complaint is required', errors);
+    ValidationUtils.checkField(this._props.type, 'Type is required', errors);
+    ValidationUtils.checkField(this._props.method, 'Method is required', errors);
+    ValidationUtils.checkField(this._props.clinicalHistory, 'Clinical history is required', errors);
+    ValidationUtils.checkField(this._props.mainComplaint, 'Main complaint is required', errors);
 
     if (errors.length > 0 ){
       throw new InvalidExamException(errors.join("; "));
     }
   }
 
-  private checkField(field: string, errorMessage: string, errors: string[]): void {
-    if (!field || field.trim() === '') {
-      errors.push(errorMessage);
-    }
-  }
 
 
   get id(): string{

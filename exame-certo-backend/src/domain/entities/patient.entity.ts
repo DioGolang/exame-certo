@@ -11,11 +11,12 @@ import { Doctor } from "./doctor.entity";
 import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
 import { PatientProps } from "../interfaces/props/patient-props.interface";
 import { PasswordHash } from "../../application/interfaces/hasher.interface";
+import { ValidationUtils } from "../../shared/utils/validation.utils";
 
 export class Patient{
 
   private readonly _id: string;
-  private _password: string;
+  private readonly _password: string;
   private readonly _props: Readonly<PatientProps>;
   private readonly _anamnesis: Anamnesis[] = [];
   private readonly _exams: Exam[] = [];
@@ -33,122 +34,97 @@ export class Patient{
     return await passwordHash.compare(rawPassword, this._password);
   }
 
-  // Methods to add elements to the collections
-  // Generic methods for adding elements to collections
 
   // Add methods for specific collections
   public addAnamnesis(anamnesis: Anamnesis): void {
-    this.addToCollection(this._anamnesis, anamnesis, this.checkAnamnesis.bind(this));
+    EntityUtils.addToCollection(this._anamnesis, anamnesis, (item) =>
+      EntityUtils.checkDuplicate(item, this._anamnesis, "Anamnesis", InvalidPatientException)
+    );
   }
 
   public addExam(exam: Exam): void {
-    this.addToCollection(this._exams, exam, this.checkExam.bind(this));
+    EntityUtils.addToCollection(this._exams, exam, (item) =>
+      EntityUtils.checkDuplicate(item, this._exams, "Exam", InvalidPatientException)
+    );
   }
 
   public addClinic(clinic: Clinic): void {
-    this.addToCollection(this._clinics, clinic, this.checkClinic.bind(this));
+    EntityUtils.addToCollection(this._clinics, clinic, (item) =>
+      EntityUtils.checkDuplicate(item, this._clinics, "Clinic", InvalidPatientException)
+    );
   }
 
   public addDoctor(doctor: Doctor): void {
-    this.addToCollection(this._doctors, doctor, this.checkDoctor.bind(this));
-  }
-
-  private addToCollection<T>(collection: T[], item: T, checkFn: (item: T) => void): void {
-    checkFn(item);
-    collection.push(item);
-  }
-
-  // Generic methods for checking if an item is already in a collection
-  private checkAnamnesis(anamnesis: Anamnesis): void {
-    if (!anamnesis) throw new InvalidPatientException("Anamnesis is required");
-    if (this._anamnesis.some(a => a.id === anamnesis.id)) {
-      throw new InvalidPatientException("Anamnesis already added.");
-    }
-  }
-
-  private checkExam(exam: Exam): void {
-    if (!exam) throw new InvalidPatientException("Exam is required");
-    if (this._exams.some(e => e.id === exam.id)) {
-      throw new InvalidPatientException("Exam already added.");
-    }
-  }
-
-  private checkClinic(clinic: Clinic): void {
-    if (!clinic) throw new InvalidPatientException("Clinic is required");
-    if (this._clinics.some(c => c.id === clinic.id)) {
-      throw new InvalidPatientException("Clinic already added.");
-    }
-  }
-
-  private checkDoctor(doctor: Doctor): void {
-    if (!doctor) throw new InvalidPatientException("Doctor is required");
-    if (this._doctors.some(d => d.id === doctor.id)) {
-      throw new InvalidPatientException("Doctor already added.");
-    }
-  }
-
-  // Generic remove method for collections
-  private removeFromCollection<T>(collection: T[], item: T, notFoundMessage: string): void {
-    const index = collection.indexOf(item);
-    if (index === -1) {
-      throw new Error(notFoundMessage);
-    }
-    collection.splice(index, 1);
+    EntityUtils.addToCollection(this._doctors, doctor, (item) =>
+      EntityUtils.checkDuplicate(item, this._doctors, "Doctor", InvalidPatientException)
+    );
   }
 
   // Remove methods
   public removeAnamnesis(anamnesis: Anamnesis): void {
-    this.removeFromCollection(this._anamnesis, anamnesis, 'Anamnesis not found');
+    EntityUtils.removeFromCollection(
+      this._anamnesis,
+      anamnesis,
+      InvalidPatientException,
+      "Anamnesis not found"
+    );
   }
 
   public removeExam(exam: Exam): void {
-    this.removeFromCollection(this._exams, exam, 'Exam not found');
+    EntityUtils.removeFromCollection(
+      this._exams,
+      exam,
+      InvalidPatientException,
+      "Exam not found"
+    );
   }
 
-  // Similar methods for removeDoctor, removeClinic...
+  public removeClinic(clinic: Clinic): void {
+    EntityUtils.removeFromCollection(
+      this._clinics,
+      clinic,
+      InvalidPatientException,
+      "Clinic not found"
+    );
+  }
+
+  public removeDoctor(doctor: Doctor): void {
+    EntityUtils.removeFromCollection(
+      this._doctors,
+      doctor,
+      InvalidPatientException,
+      "Doctor not found"
+    );
+  }
 
   // Methods to check if an item is associated
-  public isAssociatedWith<T>(collection: T[], item: T): boolean {
-    return collection.includes(item);
+  public isAnamnesisAssociated(anamnesis: Anamnesis): boolean {
+    return EntityUtils.isAssociatedWith(this._anamnesis, anamnesis);
   }
 
-  public isAssociatedWithDoctor(doctor: Doctor): boolean {
-    return this.isAssociatedWith(this._doctors, doctor);
+  public isExamAssociated(exam: Exam): boolean {
+    return EntityUtils.isAssociatedWith(this._exams, exam);
   }
 
-  public isAssociatedWithClinic(clinic: Clinic): boolean {
-    return this.isAssociatedWith(this._clinics, clinic);
+  public isClinicAssociated(clinic: Clinic): boolean {
+    return EntityUtils.isAssociatedWith(this._clinics, clinic);
+  }
+
+  public isDoctorAssociated(doctor: Doctor): boolean {
+    return EntityUtils.isAssociatedWith(this._doctors, doctor);
   }
 
   // Validate method
   private validate(): void {
     const errors: string[] = [];
-    this.checkField(this._props.name, "Name is required", errors);
-    this.checkField(this._props.lastName, "Last name is required", errors);
-    this.checkField(this._props.email.value, "Email is required", errors);
-    this.checkDateField(this._props.dateOfBirth, "Date of birth is required", errors);
+    ValidationUtils.checkField(this._props.name, "ID is required", errors);
+    ValidationUtils.checkField(this._props.lastName, "Last name is required", errors);
+    ValidationUtils.checkField(this._props.email.value, "Email is required", errors);
+    ValidationUtils.checkDateField(this._props.dateOfBirth, "Date of birth is required", errors);
+    ValidationUtils.checkPassword(this._password, errors);
 
     if (errors.length > 0) {
       throw new InvalidPatientException(errors.join("; "));
-    }
-  }
-
-  // Utility validation methods
-  private checkField(field: string, errorMessage: string, errors: string[]): void {
-    if (!field || field.trim() === '') {
-      errors.push(errorMessage);
-    }
-  }
-
-  private checkDateField(field: Date, errorMessage: string, errors: string[]): void {
-    if (!field) {
-      errors.push(errorMessage);
-    }
-  }
-
-  private checkPassword(password: string, errors: string[]): void {
-    if (!password || password.trim() === '') {
-      errors.push("Password is required");
     }
   }
 
@@ -228,6 +204,5 @@ export class Patient{
   get doctors(): Doctor[] {
     return [...this._doctors];
   }
-
 
 }

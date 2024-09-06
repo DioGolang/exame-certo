@@ -7,6 +7,7 @@ import { InfraModule } from './infra/infra.module';
 import { PresentationModule } from './presentation/presentation.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { typeOrmConfig } from "./infra/database/typeorm.config";
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { typeOrmConfig } from "./infra/database/typeorm.config";
     DomainModule,
     ApplicationModule,
     InfraModule,
-    PresentationModule
+    PresentationModule,
+    SharedModule
   ],
   controllers: [AppController],
   providers: [AppService],
