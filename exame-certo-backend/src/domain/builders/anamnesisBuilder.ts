@@ -5,25 +5,24 @@ import { Doctor } from "../entities/doctor.entity";
 import { Identification } from "../value-objects/identification.vo";
 import { PersonalHistory } from "../value-objects/personal-history.vo";
 import { Anamnesis } from "../entities/anamnesis.entity";
+import { Clinic } from "../entities/clinic.entity";
 
 
 export class AnamnesisBuilder {
-  private _id: string;
+  private readonly _id: string;
   private _props: Partial<AnamnesisProps> = {};
 
-  private constructor() { }
+  private constructor(id?: string) {
+    this._id = id || uuidv4();
+  }
 
 
   public static create(): AnamnesisBuilder{
-   const build = new AnamnesisBuilder()
-    build._id = uuidv4();
-    return build;
+   return new AnamnesisBuilder();
   }
 
   public static rehydrate(id:string): AnamnesisBuilder{
-    const build = new AnamnesisBuilder()
-    build._id = id;
-    return build;
+    return new AnamnesisBuilder(id);
   }
 
   public withPatient(patient: Patient): AnamnesisBuilder{
@@ -33,6 +32,11 @@ export class AnamnesisBuilder {
 
   public withDoctor(doctor: Doctor): AnamnesisBuilder{
     this._props.doctor = doctor;
+    return this;
+  }
+
+  public withClinic(clinic: Clinic): AnamnesisBuilder{
+    this._props.clinic = clinic;
     return this;
   }
 

@@ -13,21 +13,19 @@ import { CIEFASCode } from "../value-objects/ciefas-code.vo";
 
 
 export class ExamBuilder {
-  private _id: string;
+  private readonly _id: string;
   private _props: Partial<ExamProps>;
 
- private constructor() { }
+ private constructor(id?: string) {
+  this._id = id || uuidv4();
+ }
 
   public static create(): ExamBuilder{
-   const builder = new ExamBuilder();
-   builder._id = uuidv4();
-   return builder;
+  return new ExamBuilder();
   }
 
   public static rehydrate(id: string): ExamBuilder{
-   const builder = new ExamBuilder();
-   builder._id = id;
-   return builder;
+  return new ExamBuilder(id);
   }
 
   withPatient(patient: Patient): ExamBuilder{

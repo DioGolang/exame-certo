@@ -106,25 +106,26 @@ export class PatientBuilder{
     return this;
   }
 
-  addAnamnesis(anamnesis: Anamnesis): PatientBuilder {
-    this.anamnesis.push(anamnesis);
+  public withAnamnesis(anamnesis: Anamnesis[]): PatientBuilder {
+    this.anamnesis = anamnesis;
     return this;
   }
 
-  addExam(exam: Exam): PatientBuilder {
-    this.exams.push(exam);
+  public withExams(exams: Exam[]): PatientBuilder {
+    this.exams = exams;
     return this;
   }
 
-  addClinic(clinic: Clinic): PatientBuilder {
-    this.clinics.push(clinic);
+  public withClinics(clinics: Clinic[]): PatientBuilder {
+    this.clinics = clinics;
     return this;
   }
 
-  addDoctor(doctor: Doctor): PatientBuilder {
-    this.doctors.push(doctor);
+  public withDoctors(doctors: Doctor[]): PatientBuilder {
+    this.doctors = doctors;
     return this;
   }
+
 
   public async build(): Promise<Patient> {
     const finalPasswordHash = await PasswordUtils.determinePasswordHash(
