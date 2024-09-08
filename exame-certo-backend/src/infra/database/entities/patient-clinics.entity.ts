@@ -7,10 +7,10 @@ export class PatientClinicEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => PatientEntity, patient => patient.clinics)
+  @ManyToOne(() => PatientEntity, (patient) => patient.clinics)
   patient: PatientEntity;
 
-  @ManyToOne(() => ClinicEntity, clinic => clinic.patients)
+  @ManyToOne(() => ClinicEntity, (clinic) => clinic.patients)
   clinic: ClinicEntity;
 
   @Column({ default: true })

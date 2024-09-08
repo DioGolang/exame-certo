@@ -1,15 +1,22 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Address } from "../../../domain/value-objects/address.vo";
-import { ContactInfo } from "../../../domain/value-objects/contact-info.vo";
-import { PatientEntity } from "./patient.entity";
-import { ClinicEntity } from "./clinic.entity";
-import { ExamEntity } from "./exam.entity";
-import { AnamnesisEntity } from "./anamnesis.entity";
-import { ReportEntity } from "./report.entity";
-
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Address } from '../../../domain/value-objects/address.vo';
+import { ContactInfo } from '../../../domain/value-objects/contact-info.vo';
+import { PatientEntity } from './patient.entity';
+import { ClinicEntity } from './clinic.entity';
+import { ExamEntity } from './exam.entity';
+import { AnamnesisEntity } from './anamnesis.entity';
+import { ReportEntity } from './report.entity';
 
 @Entity('doctors')
-export class DoctorEntity{
+export class DoctorEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -17,7 +24,7 @@ export class DoctorEntity{
   name: string;
 
   @Column()
-  email:string;
+  email: string;
 
   @Column()
   passwordHash: string;
@@ -34,16 +41,15 @@ export class DoctorEntity{
   @Column()
   specialization: string;
 
-  @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.doctor)
+  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.doctor)
   anamnesis: AnamnesisEntity[];
 
-  @OneToMany(() => ExamEntity, exam => exam.doctor)
+  @OneToMany(() => ExamEntity, (exam) => exam.doctor)
   exams: ExamEntity[];
 
-  @OneToMany(() => ReportEntity, report => report.doctor)
+  @OneToMany(() => ReportEntity, (report) => report.doctor)
   reports: ReportEntity[];
 
-  @ManyToMany(() => ClinicEntity, clinic => clinic.doctors)
+  @ManyToMany(() => ClinicEntity, (clinic) => clinic.doctors)
   clinics: ClinicEntity[];
-
 }

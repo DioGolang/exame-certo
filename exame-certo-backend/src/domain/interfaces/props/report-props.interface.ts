@@ -1,9 +1,9 @@
-import { Doctor } from "../../entities/doctor.entity";
-import { CID10 } from "../../value-objects/cid.vo";
-import { AdditionalInformation } from "../../value-objects/additional-information.vo";
-import { Signature } from "../../value-objects/signature.vo";
+import { Doctor } from '../../entities/doctor.entity';
+import { CID10 } from '../../value-objects/cid.vo';
+import { AdditionalInformation } from '../../value-objects/additional-information.vo';
+import { Signature } from '../../value-objects/signature.vo';
 
-export class ReportProps{
+export class ReportProps {
   doctor: Doctor;
   date: Date;
   diagnosis: string;

@@ -1,30 +1,29 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Identification } from "../../../domain/value-objects/identification.vo";
-import { PersonalHistory } from "../../../domain/value-objects/personal-history.vo";
-import { PatientEntity } from "./patient.entity";
-import { DoctorEntity } from "./doctor.entity";
-import { ClinicEntity } from "./clinic.entity";
-
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Identification } from '../../../domain/value-objects/identification.vo';
+import { PersonalHistory } from '../../../domain/value-objects/personal-history.vo';
+import { PatientEntity } from './patient.entity';
+import { DoctorEntity } from './doctor.entity';
+import { ClinicEntity } from './clinic.entity';
 
 @Entity('anamnesis')
-export class AnamnesisEntity{
+export class AnamnesisEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => PatientEntity, patient => patient.anamnesis)
+  @ManyToOne(() => PatientEntity, (patient) => patient.anamnesis)
   patient: PatientEntity;
 
-  @ManyToOne(() => DoctorEntity, doctor => doctor.anamnesis)
+  @ManyToOne(() => DoctorEntity, (doctor) => doctor.anamnesis)
   doctor: DoctorEntity;
 
-  @ManyToOne(() => ClinicEntity, clinic => clinic.anamnesis)
+  @ManyToOne(() => ClinicEntity, (clinic) => clinic.anamnesis)
   clinic: ClinicEntity;
 
   @Column()
   date: Date;
 
   @Column('jsonb')
-  identification: Identification
+  identification: Identification;
 
   @Column()
   mainComplaint: string;
@@ -46,7 +45,4 @@ export class AnamnesisEntity{
 
   @Column('jsonb')
   personalHistory: PersonalHistory;
-
 }
-
-

@@ -1,23 +1,28 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Signature } from "../../../domain/value-objects/signature.vo";
-import { AdditionalInformation } from "../../../domain/value-objects/additional-information.vo";
-import { CID10 } from "../../../domain/value-objects/cid.vo";
-import { ExamEntity } from "./exam.entity";
-import { DoctorEntity } from "./doctor.entity";
-
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Signature } from '../../../domain/value-objects/signature.vo';
+import { AdditionalInformation } from '../../../domain/value-objects/additional-information.vo';
+import { CID10 } from '../../../domain/value-objects/cid.vo';
+import { ExamEntity } from './exam.entity';
+import { DoctorEntity } from './doctor.entity';
 
 @Entity('reports')
-export class ReportEntity{
+export class ReportEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   tenant_id: string;
 
-  @ManyToMany(() => ExamEntity, exam => exam.reports)
+  @ManyToMany(() => ExamEntity, (exam) => exam.reports)
   exams: ExamEntity[];
 
-  @ManyToOne(() => DoctorEntity, doctor => doctor.reports)
+  @ManyToOne(() => DoctorEntity, (doctor) => doctor.reports)
   doctor: DoctorEntity;
 
   @Column()
@@ -67,5 +72,4 @@ export class ReportEntity{
 
   @Column()
   illness_history: string;
-
 }

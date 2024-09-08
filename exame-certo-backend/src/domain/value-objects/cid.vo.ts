@@ -4,7 +4,9 @@ export class CID10 {
 
   constructor(cod: string, description: string) {
     if (!/^[A-Z]\d{2}$/.test(cod)) {
-      throw new Error('Código CID10 inválido. Deve seguir o padrão letra e dois dígitos.');
+      throw new Error(
+        'Invalid CID10 code. It must follow the letter and two-digit pattern.',
+      );
     }
     this.cod = cod;
     this.description = description;
@@ -13,7 +15,4 @@ export class CID10 {
   toString() {
     return `${this.cod} - ${this.description}`;
   }
-
-
-
 }

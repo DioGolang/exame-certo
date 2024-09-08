@@ -1,40 +1,33 @@
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  PrimaryColumn,
-} from "typeorm";
-import { Address } from "../../../domain/value-objects/address.vo";
-import { ContactInfo } from "../../../domain/value-objects/contact-info.vo";
-import { SocioEconomicInformation } from "../../../domain/value-objects/socio-economic-information.vo";
-import { Sex } from "../../../domain/enums/sex.enum";
-import { MaritalStatus } from "../../../domain/enums/marital-status.enum";
-import { ExamEntity } from "./exam.entity";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import { Address } from '../../../domain/value-objects/address.vo';
+import { ContactInfo } from '../../../domain/value-objects/contact-info.vo';
+import { SocioEconomicInformation } from '../../../domain/value-objects/socio-economic-information.vo';
+import { Sex } from '../../../domain/enums/sex.enum';
+import { MaritalStatus } from '../../../domain/enums/marital-status.enum';
+import { ExamEntity } from './exam.entity';
 
-import { ClinicEntity } from "./clinic.entity";
-import { AnamnesisEntity } from "./anamnesis.entity";
-import { Documentation } from "../../../domain/value-objects/documentation.vo";
-
+import { ClinicEntity } from './clinic.entity';
+import { AnamnesisEntity } from './anamnesis.entity';
+import { Documentation } from '../../../domain/value-objects/documentation.vo';
 
 @Entity('patients')
-export class PatientEntity{
+export class PatientEntity {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ length: 100 })
   name: string;
 
   @Column()
   lastName: string;
 
   @Column()
-  email:string;
+  email: string;
 
   @Column()
   passwordHash: string;
 
-  @Column()
+  @Column({ type: 'timestamp' })
   dateOfBirth: Date;
 
   @Column('jsonb')
@@ -58,13 +51,13 @@ export class PatientEntity{
   @Column({ nullable: true })
   healthInsurance?: string;
 
-  @OneToMany(() => AnamnesisEntity, anamnesis => anamnesis.patient)
+  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.patient)
   anamnesis: AnamnesisEntity[];
 
-  @OneToMany(() => ExamEntity, exam => exam.patient)
+  @OneToMany(() => ExamEntity, (exam) => exam.patient)
   exams: ExamEntity[];
 
-  @ManyToMany(() => ClinicEntity, clinic => clinic.patients)
+  @ManyToMany(() => ClinicEntity, (clinic) => clinic.patients)
   clinics: ClinicEntity[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -72,5 +65,4 @@ export class PatientEntity{
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
-
 }

@@ -7,10 +7,10 @@ export class DoctorClinicEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => DoctorEntity, doctor => doctor.clinics)
+  @ManyToOne(() => DoctorEntity, (doctor) => doctor.clinics)
   doctor: DoctorEntity;
 
-  @ManyToOne(() => ClinicEntity, clinic => clinic.doctors)
+  @ManyToOne(() => ClinicEntity, (clinic) => clinic.doctors)
   clinic: ClinicEntity;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

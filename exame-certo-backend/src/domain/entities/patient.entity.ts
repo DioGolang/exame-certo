@@ -1,20 +1,19 @@
-import { Address } from "../value-objects/address.vo";
-import { SocioEconomicInformation } from "../value-objects/socio-economic-information.vo";
-import { Sex } from "../enums/sex.enum";
-import { ContactInfo } from "../value-objects/contact-info.vo";
-import { MaritalStatus } from "../enums/marital-status.enum";
-import { Documentation } from "../value-objects/documentation.vo";
-import { Anamnesis } from "./anamnesis.entity";
-import { Exam } from "./exam.entity";
-import { Clinic } from "./clinic.entity";
-import { Doctor } from "./doctor.entity";
-import { InvalidPatientException } from "../exceptions/invalid-patient.exception";
-import { PatientProps } from "../interfaces/props/patient-props.interface";
-import { PasswordHash } from "../../application/interfaces/hasher.interface";
-import { ValidationUtils } from "../../shared/utils/validation.utils";
+import { Address } from '../value-objects/address.vo';
+import { SocioEconomicInformation } from '../value-objects/socio-economic-information.vo';
+import { Sex } from '../enums/sex.enum';
+import { ContactInfo } from '../value-objects/contact-info.vo';
+import { MaritalStatus } from '../enums/marital-status.enum';
+import { Documentation } from '../value-objects/documentation.vo';
+import { Anamnesis } from './anamnesis.entity';
+import { Exam } from './exam.entity';
+import { Clinic } from './clinic.entity';
+import { Doctor } from './doctor.entity';
+import { InvalidPatientException } from '../exceptions/invalid-patient.exception';
+import { PatientProps } from '../interfaces/props/patient-props.interface';
+import { PasswordHash } from '../../application/interfaces/hasher.interface';
+import { ValidationUtils } from '../../shared/utils/validation.utils';
 
-export class Patient{
-
+export class Patient {
   private readonly _id: string;
   private readonly _password: string;
   private readonly _props: Readonly<PatientProps>;
@@ -25,38 +24,60 @@ export class Patient{
 
   constructor(id: string, props: PatientProps, passwordHash: string) {
     this._id = id;
-    this._props = {...props };
+    this._props = { ...props };
     this._password = passwordHash;
-    this.validate()
+    this.validate();
   }
 
-  async validatePassword(rawPassword: string, passwordHash: PasswordHash): Promise<boolean> {
+  async validatePassword(
+    rawPassword: string,
+    passwordHash: PasswordHash,
+  ): Promise<boolean> {
     return await passwordHash.compare(rawPassword, this._password);
   }
-
 
   // Add methods for specific collections
   public addAnamnesis(anamnesis: Anamnesis): void {
     EntityUtils.addToCollection(this._anamnesis, anamnesis, (item) =>
-      EntityUtils.checkDuplicate(item, this._anamnesis, "Anamnesis", InvalidPatientException)
+      EntityUtils.checkDuplicate(
+        item,
+        this._anamnesis,
+        'Anamnesis',
+        InvalidPatientException,
+      ),
     );
   }
 
   public addExam(exam: Exam): void {
     EntityUtils.addToCollection(this._exams, exam, (item) =>
-      EntityUtils.checkDuplicate(item, this._exams, "Exam", InvalidPatientException)
+      EntityUtils.checkDuplicate(
+        item,
+        this._exams,
+        'Exam',
+        InvalidPatientException,
+      ),
     );
   }
 
   public addClinic(clinic: Clinic): void {
     EntityUtils.addToCollection(this._clinics, clinic, (item) =>
-      EntityUtils.checkDuplicate(item, this._clinics, "Clinic", InvalidPatientException)
+      EntityUtils.checkDuplicate(
+        item,
+        this._clinics,
+        'Clinic',
+        InvalidPatientException,
+      ),
     );
   }
 
   public addDoctor(doctor: Doctor): void {
     EntityUtils.addToCollection(this._doctors, doctor, (item) =>
-      EntityUtils.checkDuplicate(item, this._doctors, "Doctor", InvalidPatientException)
+      EntityUtils.checkDuplicate(
+        item,
+        this._doctors,
+        'Doctor',
+        InvalidPatientException,
+      ),
     );
   }
 
@@ -66,7 +87,7 @@ export class Patient{
       this._anamnesis,
       anamnesis,
       InvalidPatientException,
-      "Anamnesis not found"
+      'Anamnesis not found',
     );
   }
 
@@ -75,7 +96,7 @@ export class Patient{
       this._exams,
       exam,
       InvalidPatientException,
-      "Exam not found"
+      'Exam not found',
     );
   }
 
@@ -84,7 +105,7 @@ export class Patient{
       this._clinics,
       clinic,
       InvalidPatientException,
-      "Clinic not found"
+      'Clinic not found',
     );
   }
 
@@ -93,7 +114,7 @@ export class Patient{
       this._doctors,
       doctor,
       InvalidPatientException,
-      "Doctor not found"
+      'Doctor not found',
     );
   }
 
@@ -117,14 +138,26 @@ export class Patient{
   // Validate method
   private validate(): void {
     const errors: string[] = [];
-    ValidationUtils.checkField(this._props.name, "ID is required", errors);
-    ValidationUtils.checkField(this._props.lastName, "Last name is required", errors);
-    ValidationUtils.checkField(this._props.email.value, "Email is required", errors);
-    ValidationUtils.checkDateField(this._props.dateOfBirth, "Date of birth is required", errors);
+    ValidationUtils.checkField(this._props.name, 'ID is required', errors);
+    ValidationUtils.checkField(
+      this._props.lastName,
+      'Last name is required',
+      errors,
+    );
+    ValidationUtils.checkField(
+      this._props.email.value,
+      'Email is required',
+      errors,
+    );
+    ValidationUtils.checkDateField(
+      this._props.dateOfBirth,
+      'Date of birth is required',
+      errors,
+    );
     ValidationUtils.checkPassword(this._password, errors);
 
     if (errors.length > 0) {
-      throw new InvalidPatientException(errors.join("; "));
+      throw new InvalidPatientException(errors.join('; '));
     }
   }
 
@@ -204,5 +237,4 @@ export class Patient{
   get doctors(): Doctor[] {
     return [...this._doctors];
   }
-
 }

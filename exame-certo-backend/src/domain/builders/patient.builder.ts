@@ -1,26 +1,24 @@
-import { PatientProps } from "../interfaces/props/patient-props.interface";
+import { PatientProps } from '../interfaces/props/patient-props.interface';
 import { v4 as uuidv4 } from 'uuid';
-import { SocioEconomicInformation } from "../value-objects/socio-economic-information.vo";
-import { Documentation } from "../value-objects/documentation.vo";
-import { ContactInfo } from "../value-objects/contact-info.vo";
-import { Address } from "../value-objects/address.vo";
-import { MaritalStatus } from "../enums/marital-status.enum";
-import { Sex } from "../enums/sex.enum";
-import { Email } from "../value-objects/email.vo";
-import { Patient } from "../entities/patient.entity";
-import { AddressDto } from "../../application/dtos/address.dto";
-import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
-import { DocumentationDto } from "../../application/dtos/documentation.dto";
-import { SocioEconomicInformationDto } from "../../application/dtos/socio-economic-information.dto";
-import { Anamnesis } from "../entities/anamnesis.entity";
-import { Exam } from "../entities/exam.entity";
-import { Clinic } from "../entities/clinic.entity";
-import { Doctor } from "../entities/doctor.entity";
-import { PasswordUtils } from "../../shared/utils/password.utils";
+import { SocioEconomicInformation } from '../value-objects/socio-economic-information.vo';
+import { Documentation } from '../value-objects/documentation.vo';
+import { ContactInfo } from '../value-objects/contact-info.vo';
+import { Address } from '../value-objects/address.vo';
+import { MaritalStatus } from '../enums/marital-status.enum';
+import { Sex } from '../enums/sex.enum';
+import { Email } from '../value-objects/email.vo';
+import { Patient } from '../entities/patient.entity';
+import { AddressDto } from '../../application/dtos/address.dto';
+import { ContactInfoDto } from '../../application/dtos/contact-info.dto';
+import { DocumentationDto } from '../../application/dtos/documentation.dto';
+import { SocioEconomicInformationDto } from '../../application/dtos/socio-economic-information.dto';
+import { Anamnesis } from '../entities/anamnesis.entity';
+import { Exam } from '../entities/exam.entity';
+import { Clinic } from '../entities/clinic.entity';
+import { Doctor } from '../entities/doctor.entity';
+import { PasswordUtils } from '../../shared/utils/password.utils';
 
-
-export class PatientBuilder{
-
+export class PatientBuilder {
   private readonly _id: string;
   private readonly _password: string;
   private _props: Partial<PatientProps> = {};
@@ -29,7 +27,11 @@ export class PatientBuilder{
   private clinics: Clinic[] = [];
   private doctors: Doctor[] = [];
 
-  private constructor(password?: string, private readonly encryptedPassword?: string, id?: string) {
+  private constructor(
+    password?: string,
+    private readonly encryptedPassword?: string,
+    id?: string,
+  ) {
     this._id = id || uuidv4();
     this._password = password || '';
   }
@@ -38,11 +40,18 @@ export class PatientBuilder{
     return new PatientBuilder(password);
   }
 
-  public static async rehydrate(id: string, encryptedPassword: string): Promise<PatientBuilder> {
+  public static async rehydrate(
+    id: string,
+    encryptedPassword: string,
+  ): Promise<PatientBuilder> {
     return new PatientBuilder(undefined, encryptedPassword, id);
   }
 
-  public static async createOrRehydrate(id?: string, password?: string, encryptedPassword?: string): Promise<PatientBuilder> {
+  public static async createOrRehydrate(
+    id?: string,
+    password?: string,
+    encryptedPassword?: string,
+  ): Promise<PatientBuilder> {
     if (id) {
       return this.rehydrate(id, encryptedPassword!);
     } else {
@@ -54,7 +63,6 @@ export class PatientBuilder{
     this._props.name = name;
     return this;
   }
-
 
   public withLastName(lastName: string): PatientBuilder {
     this._props.lastName = lastName;
@@ -96,8 +104,11 @@ export class PatientBuilder{
     return this;
   }
 
-  public withSocioeconomicInformation(info: SocioEconomicInformationDto): PatientBuilder {
-    this._props.socioeconomicInformation = SocioEconomicInformation.fromDto(info);
+  public withSocioeconomicInformation(
+    info: SocioEconomicInformationDto,
+  ): PatientBuilder {
+    this._props.socioeconomicInformation =
+      SocioEconomicInformation.fromDto(info);
     return this;
   }
 
@@ -126,20 +137,21 @@ export class PatientBuilder{
     return this;
   }
 
-
   public async build(): Promise<Patient> {
     const finalPasswordHash = await PasswordUtils.determinePasswordHash(
       this._password,
-      this.encryptedPassword
+      this.encryptedPassword,
     );
 
-    const patient = new Patient(this._id, this._props as PatientProps, finalPasswordHash);
-    this.anamnesis.forEach(a => patient.addAnamnesis(a));
-    this.exams.forEach(e => patient.addExam(e));
-    this.clinics.forEach(c => patient.addClinic(c));
-    this.doctors.forEach(d => patient.addDoctor(d));
-
+    const patient = new Patient(
+      this._id,
+      this._props as PatientProps,
+      finalPasswordHash,
+    );
+    this.anamnesis.forEach((a) => patient.addAnamnesis(a));
+    this.exams.forEach((e) => patient.addExam(e));
+    this.clinics.forEach((c) => patient.addClinic(c));
+    this.doctors.forEach((d) => patient.addDoctor(d));
     return patient;
   }
-
 }
