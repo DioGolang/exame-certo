@@ -1,43 +1,51 @@
-import { Patient } from "./patient.entity";
-import { Doctor } from "./doctor.entity";
-import { ExamValues } from "../value-objects/exam-values.vo";
-import { ReferenceValues } from "../value-objects/reference-values.vo";
-import { TUSSCode } from "../value-objects/tuss-code.vo";
-import { CBHPMCode } from "../value-objects/cbhpm-code.vo";
-import { CIEFASCode } from "../value-objects/ciefas-code.vo";
-import { Report } from "./report.entity";
-import { Clinic } from "./clinic.entity";
-import { InvalidExamException } from "../exceptions/invalid-exam.exception";
-import { ExamProps } from "../interfaces/props/exam-props.interface";
-import { ValidationUtils } from "../../shared/utils/validation.utils";
+import { Patient } from './patient.entity';
+import { Doctor } from './doctor.entity';
+import { ExamValues } from '../value-objects/exam-values.vo';
+import { ReferenceValues } from '../value-objects/reference-values.vo';
+import { TUSSCode } from '../value-objects/tuss-code.vo';
+import { CBHPMCode } from '../value-objects/cbhpm-code.vo';
+import { CIEFASCode } from '../value-objects/ciefas-code.vo';
+import { Report } from './report.entity';
+import { Clinic } from './clinic.entity';
+import { InvalidExamException } from '../exceptions/invalid-exam.exception';
+import { ExamProps } from '../interfaces/props/exam-props.interface';
+import { ValidationUtils } from '../../shared/utils/validation.utils';
 
 export class Exam {
-
   private readonly _id: string;
   private readonly _props: Readonly<ExamProps>;
 
   constructor(id: string, props: ExamProps) {
     this._id = id;
-    this._props = {...props}
+    this._props = { ...props };
     this.validate();
   }
-
 
   public validate(): void {
     const errors: string[] = [];
     ValidationUtils.checkField(this._props.type, 'Type is required', errors);
-    ValidationUtils.checkField(this._props.method, 'Method is required', errors);
-    ValidationUtils.checkField(this._props.clinicalHistory, 'Clinical history is required', errors);
-    ValidationUtils.checkField(this._props.mainComplaint, 'Main complaint is required', errors);
+    ValidationUtils.checkField(
+      this._props.method,
+      'Method is required',
+      errors,
+    );
+    ValidationUtils.checkField(
+      this._props.clinicalHistory,
+      'Clinical history is required',
+      errors,
+    );
+    ValidationUtils.checkField(
+      this._props.mainComplaint,
+      'Main complaint is required',
+      errors,
+    );
 
-    if (errors.length > 0 ){
-      throw new InvalidExamException(errors.join("; "));
+    if (errors.length > 0) {
+      throw new InvalidExamException(errors.join('; '));
     }
   }
 
-
-
-  get id(): string{
+  get id(): string {
     return this._id;
   }
 
@@ -101,4 +109,11 @@ export class Exam {
     return this._props.report;
   }
 
+  get createdAt(): Date {
+    return this._props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._props.updatedAt;
+  }
 }

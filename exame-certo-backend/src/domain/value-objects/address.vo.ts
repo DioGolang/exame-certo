@@ -1,4 +1,4 @@
-import { AddressDto } from "../../application/dtos/address.dto";
+import { AddressDto } from '../../application/dtos/address.dto';
 
 export class Address {
   readonly street: string;
@@ -18,9 +18,8 @@ export class Address {
     country: string,
     complement?: string,
   ) {
-
     if (!street || !num || !city || !state || !postalCode || !country) {
-      throw new Error("Address fields are required");
+      throw new Error('Address fields are required');
     }
 
     this.street = street;
@@ -43,5 +42,4 @@ export class Address {
       addressDto.complement,
     );
   }
-
 }

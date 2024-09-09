@@ -8,6 +8,7 @@ import { ContactInfo } from '../value-objects/contact-info.vo';
 import { Address } from '../value-objects/address.vo';
 import { PasswordHash } from '../../application/interfaces/hasher.interface';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
+import { EntityUtils } from '../../shared/utils/entity.utils';
 
 export class Doctor {
   private readonly _id: string;
@@ -156,6 +157,14 @@ export class Doctor {
 
   get professionalAddress(): Address {
     return this._props.professionalAddress;
+  }
+
+  get createdAt(): Date {
+    return this._props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._props.updatedAt;
   }
 
   get anamnesis(): Anamnesis[] {

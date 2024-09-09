@@ -33,8 +33,17 @@ export class MapperUtils {
     const { PatientMapper } = await import(
       '../../infra/database/repositories/mappers/patient.mapper'
     );
+    const { DoctorMapper } = await import(
+      '../../infra/database/repositories/mappers/doctor.mapper'
+    );
+    const { ClinicMapper } = await import(
+      '../../infra/database/repositories/mappers/clinic.mapper'
+    );
+
     builder
       .withPatient(await PatientMapper.toDomain(entity.patient))
+      .withClinic(await ClinicMapper.toDomain(entity.clinic))
+      .withDoctor(await DoctorMapper.toDomain(entity.doctor))
       .withIdentification(entity.identification)
       .withMainComplaint(entity.mainComplaint)
       .withHistoryOfPresentIllness(entity.historyOfPresentIllness)
@@ -42,7 +51,10 @@ export class MapperUtils {
       .withPastMedicalHistory(entity.pastMedicalHistory)
       .withFamilyHistory(entity.familyHistory)
       .withSocialHistory(entity.socialHistory)
-      .withPersonalHistory(entity.personalHistory);
+      .withPersonalHistory(entity.personalHistory)
+      .withMedications(entity.medicines);
+    if (entity.createdAt) builder.withCreatedAt(entity.createdAt);
+    if (entity.updatedAt) builder.withUpdatedAt(entity.updatedAt);
 
     return builder.build();
   }
@@ -87,13 +99,14 @@ export class MapperUtils {
       const anamnesisArray = await this.mapAnamnesis(entity.anamnesis);
       builder.withAnamnesis(anamnesisArray);
     }
-    // if (entity.exams) {
-    //   entity.exams.forEach(exam => builder.addExam(ExamMapper.toDomain(exam)));
-    // }
-    // if (entity.clinics) {
-    //   entity.clinics.forEach(clinic => builder.addClinic(ClinicMapper.toDomain(clinic)));
-    // }
-
+    if (entity.exams) {
+      const examArray = await this.mapExams(entity.exams);
+      builder.withExams(examArray);
+    }
+    if (entity.clinics) {
+      const clinicArray = await this.mapClinics(entity.clinics);
+      builder.withClinics(clinicArray);
+    }
     return builder.build();
   }
 
@@ -227,7 +240,7 @@ export class MapperUtils {
       .withDoctor(await DoctorMapper.toDomain(entity.doctor))
       .withDate(entity.date)
       .withDiagnosis(entity.diagnosis)
-      // .withCID10(entity.cid_10)
+      // .withCID10(entity.cid10)
       .withJustification(entity.justification)
       .withConduct(entity.conduct)
       .withHypothesis(entity.hypothesis)
@@ -254,7 +267,7 @@ export class MapperUtils {
     //entity.doctor = domain.doctor;
     entity.date = domain.date;
     entity.diagnosis = domain.diagnosis;
-    // entity.cid_10 = domain.cid_10;
+    // entity.cid10 = domain.cid10;
     entity.justification = domain.justification;
     entity.conduct = domain.conduct;
     entity.hypothesis = domain.hypothesis;

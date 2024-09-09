@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ReferenceValues } from '../../../domain/value-objects/reference-values.vo';
 import { ExamValues } from '../../../domain/value-objects/exam-values.vo';
@@ -17,7 +19,7 @@ import { ReportEntity } from './report.entity';
 
 @Entity('exams')
 export class ExamEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: string;
 
   @ManyToOne(() => PatientEntity, (patient) => patient.exams)
@@ -64,4 +66,14 @@ export class ExamEntity {
 
   @Column()
   mainComplaint: string;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    update: true,
+  })
+  updatedAt: Date;
 }

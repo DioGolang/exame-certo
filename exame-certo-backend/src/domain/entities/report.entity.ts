@@ -48,37 +48,37 @@ export class Report {
       errors,
     );
     ValidationUtils.checkField(
-      this._props.therapeutic_conduct,
+      this._props.therapeuticConduct,
       'Therapeutic conduct is required',
       errors,
     );
     ValidationUtils.checkField(
-      this._props.clinical_evolution,
+      this._props.clinicalEvolution,
       'Clinical evolution is required',
       errors,
     );
     ValidationUtils.checkField(
-      this._props.health_consequences,
+      this._props.healthConsequences,
       'Health consequences is required',
       errors,
     );
     ValidationUtils.checkField(
-      this._props.consultation_reason,
+      this._props.consultationReason,
       'Consultation reason is required',
       errors,
     );
     ValidationUtils.checkField(
-      this._props.illness_history,
+      this._props.illnessHistory,
       'Illness history is required',
       errors,
     );
     ValidationUtils.checkDateField(
-      this._props.rest_start_date,
+      this._props.restStartDate,
       'Rest start date is required',
       errors,
     );
     ValidationUtils.checkDateField(
-      this._props.rest_duration,
+      this._props.restDuration,
       'Rest duration is required',
       errors,
     );
@@ -101,10 +101,10 @@ export class Report {
   }
 
   public addCID10(cid: CID10): void {
-    EntityUtils.addToCollectionCID10(this._props.CID_10, cid, (item) =>
+    EntityUtils.addToCollectionCID10(this._props.CID10, cid, (item) =>
       EntityUtils.checkDuplicateCID10(
         item,
-        this._props.CID_10,
+        this._props.CID10,
         'CID',
         InvalidReportException,
       ),
@@ -132,8 +132,8 @@ export class Report {
     return this._props.diagnosis;
   }
 
-  get cid_10(): CID10[] {
-    return this._props.CID_10;
+  get cid10(): CID10[] {
+    return this._props.CID10;
   }
 
   get justification(): string {
@@ -161,30 +161,38 @@ export class Report {
   }
 
   get rest_start_date(): Date {
-    return this._props.rest_start_date;
+    return this._props.restStartDate;
   }
 
   get rest_duration(): Date {
-    return this._props.rest_duration;
+    return this._props.restDuration;
   }
 
   get therapeutic_conduct(): string {
-    return this._props.therapeutic_conduct;
+    return this._props.therapeuticConduct;
   }
 
   get clinical_evolution(): string {
-    return this._props.clinical_evolution;
+    return this._props.clinicalEvolution;
   }
 
   get health_consequences(): string {
-    return this._props.health_consequences;
+    return this._props.healthConsequences;
   }
 
   get consultation_reason(): string {
-    return this._props.consultation_reason;
+    return this._props.consultationReason;
   }
 
   get illness_history(): string {
-    return this._props.illness_history;
+    return this._props.illnessHistory;
+  }
+
+  get createdAt(): Date {
+    return this._props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._props.updatedAt;
   }
 }

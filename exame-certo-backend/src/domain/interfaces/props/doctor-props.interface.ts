@@ -9,4 +9,6 @@ export interface DoctorProps {
   professionalAddress: Address;
   registrationNumber: string;
   specialization: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

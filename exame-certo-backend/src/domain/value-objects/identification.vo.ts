@@ -1,12 +1,11 @@
-import { Address } from "./address.vo";
-import { MaritalStatus } from "../enums/marital-status.enum";
-import { Ethnicity } from "../enums/ethnicity.enum";
-import { ContactInfo } from "./contact-info.vo";
-import { Sex } from "../enums/sex.enum";
-import { EducationLevel } from "../enums/education-level.enum";
-import { Naturalness } from "../enums/naturalness.enum";
-import { Religion } from "../enums/religion.enum";
-
+import { Address } from './address.vo';
+import { MaritalStatus } from '../enums/marital-status.enum';
+import { Ethnicity } from '../enums/ethnicity.enum';
+import { ContactInfo } from './contact-info.vo';
+import { Sex } from '../enums/sex.enum';
+import { EducationLevel } from '../enums/education-level.enum';
+import { Naturalness } from '../enums/naturalness.enum';
+import { Religion } from '../enums/religion.enum';
 
 // Nome completo, idade, sexo, cor, nacionalidade e naturalidade, estado civil,
 // profissão e endereço atual.
@@ -37,7 +36,6 @@ export class Identification {
     maritalStatus: MaritalStatus,
     address: Address,
     contactInfo: ContactInfo,
-
   ) {
     this.name = name;
     this.dateOfBirth = dateOfBirth;

@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Signature } from '../../../domain/value-objects/signature.vo';
 import { AdditionalInformation } from '../../../domain/value-objects/additional-information.vo';
@@ -13,7 +15,7 @@ import { DoctorEntity } from './doctor.entity';
 
 @Entity('reports')
 export class ReportEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
@@ -72,4 +74,14 @@ export class ReportEntity {
 
   @Column()
   illness_history: string;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    update: true,
+  })
+  updatedAt: Date;
 }

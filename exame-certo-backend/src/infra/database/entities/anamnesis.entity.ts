@@ -1,13 +1,21 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Identification } from '../../../domain/value-objects/identification.vo';
 import { PersonalHistory } from '../../../domain/value-objects/personal-history.vo';
 import { PatientEntity } from './patient.entity';
 import { DoctorEntity } from './doctor.entity';
 import { ClinicEntity } from './clinic.entity';
+import { Medicine } from '../../../domain/value-objects/medicine.vo';
 
 @Entity('anamnesis')
 export class AnamnesisEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: string;
 
   @ManyToOne(() => PatientEntity, (patient) => patient.anamnesis)
@@ -45,4 +53,17 @@ export class AnamnesisEntity {
 
   @Column('jsonb')
   personalHistory: PersonalHistory;
+
+  @Column('jsonb', { array: true })
+  medicines: Medicine[];
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    update: true,
+  })
+  updatedAt: Date;
 }

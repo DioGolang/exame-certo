@@ -12,6 +12,7 @@ import { InvalidPatientException } from '../exceptions/invalid-patient.exception
 import { PatientProps } from '../interfaces/props/patient-props.interface';
 import { PasswordHash } from '../../application/interfaces/hasher.interface';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
+import { EntityUtils } from '../../shared/utils/entity.utils';
 
 export class Patient {
   private readonly _id: string;

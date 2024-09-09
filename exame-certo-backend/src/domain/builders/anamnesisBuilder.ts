@@ -6,6 +6,7 @@ import { Identification } from '../value-objects/identification.vo';
 import { PersonalHistory } from '../value-objects/personal-history.vo';
 import { Anamnesis } from '../entities/anamnesis.entity';
 import { Clinic } from '../entities/clinic.entity';
+import { Medicine } from '../value-objects/medicine.vo';
 
 export class AnamnesisBuilder {
   private readonly _id: string;
@@ -82,7 +83,24 @@ export class AnamnesisBuilder {
     return this;
   }
 
+  public withMedications(medications: Medicine[]): AnamnesisBuilder {
+    this._props.medicines = medications;
+    return this;
+  }
+
+  public withCreatedAt(createdAt: Date): AnamnesisBuilder {
+    this._props.createdAt = createdAt;
+    return this;
+  }
+
+  public withUpdatedAt(updatedAt: Date): AnamnesisBuilder {
+    this._props.updatedAt = updatedAt;
+    return this;
+  }
+
   build(): Anamnesis {
-    return new Anamnesis(this._id, this._props as AnamnesisProps);
+    const anamnesis = new Anamnesis(this._id, this._props as AnamnesisProps);
+    this._props.medicines.forEach((m) => anamnesis.addMedicine(m));
+    return anamnesis;
   }
 }

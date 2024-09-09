@@ -1,6 +1,6 @@
-export class DocumentationDto{
+export class DocumentationDto {
   cpf: string;
   rg: string;
-  cnh?: string
-  cnsNumber?: string
+  cnh?: string;
+  cnsNumber?: string;
 }

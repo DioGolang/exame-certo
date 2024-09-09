@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ContactInfo } from '../../../domain/value-objects/contact-info.vo';
 import { Address } from '../../../domain/value-objects/address.vo';
@@ -14,7 +16,7 @@ import { AnamnesisEntity } from './anamnesis.entity';
 
 @Entity('clinics')
 export class ClinicEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
@@ -43,4 +45,14 @@ export class ClinicEntity {
 
   @ManyToMany(() => PatientEntity, (patient) => patient.clinics)
   patients: PatientEntity[];
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    update: true,
+  })
+  updatedAt: Date;
 }

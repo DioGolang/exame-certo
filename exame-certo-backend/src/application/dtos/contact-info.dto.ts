@@ -1,4 +1,4 @@
-export class ContactInfoDto{
+export class ContactInfoDto {
   phone: string;
   emergencyPhone: string;
   emergencyPhone2: string;

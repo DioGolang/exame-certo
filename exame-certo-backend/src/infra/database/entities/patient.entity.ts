@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Address } from '../../../domain/value-objects/address.vo';
 import { ContactInfo } from '../../../domain/value-objects/contact-info.vo';
 import { SocioEconomicInformation } from '../../../domain/value-objects/socio-economic-information.vo';
@@ -27,7 +35,7 @@ export class PatientEntity {
   @Column()
   passwordHash: string;
 
-  @Column({ type: 'timestamp' })
+  @Column()
   dateOfBirth: Date;
 
   @Column('jsonb')
@@ -60,9 +68,13 @@ export class PatientEntity {
   @ManyToMany(() => ClinicEntity, (clinic) => clinic.patients)
   clinics: ClinicEntity[];
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    update: true,
+  })
   updatedAt: Date;
 }

@@ -137,6 +137,16 @@ export class PatientBuilder {
     return this;
   }
 
+  public withCreatedAt(createdAt: Date): PatientBuilder {
+    this._props.createdAt = createdAt;
+    return this;
+  }
+
+  public withUpdatedAt(updatedAt: Date): PatientBuilder {
+    this._props.updatedAt = updatedAt;
+    return this;
+  }
+
   public async build(): Promise<Patient> {
     const finalPasswordHash = await PasswordUtils.determinePasswordHash(
       this._password,

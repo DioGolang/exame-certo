@@ -6,6 +6,8 @@ import { Patient } from './patient.entity';
 import { Doctor } from './doctor.entity';
 import { Clinic } from './clinic.entity';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
+import { Medicine } from '../value-objects/medicine.vo';
+import { EntityUtils } from '../../shared/utils/entity.utils';
 
 //QUEIXA PRINCIPAL E DURAÇÃO (Q.D.) -
 //HISTÓRIA DA MOLÉSTIA ATUAL (H.M.A.) -
@@ -62,6 +64,20 @@ export class Anamnesis {
     }
   }
 
+  addMedicine(medicine: Medicine): void {
+    EntityUtils.addToCollectionMedicine(
+      this._props.medicines,
+      medicine,
+      (item) =>
+        EntityUtils.checkDuplicateMedicine(
+          item,
+          this._props.medicines,
+          'Medicine',
+          InvalidAnamnesisException,
+        ),
+    );
+  }
+
   get id(): string {
     return this._id;
   }
@@ -112,5 +128,17 @@ export class Anamnesis {
 
   get personalHistory(): PersonalHistory {
     return this._props.personalHistory;
+  }
+
+  get medicine(): Medicine[] {
+    return this._props.medicines;
+  }
+
+  get createdAt(): Date {
+    return this._props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._props.updatedAt;
   }
 }

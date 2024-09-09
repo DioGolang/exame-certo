@@ -1,4 +1,3 @@
-
 export class PersonalHistory {
   pathological: string; // Previous illnesses, surgeries, allergies, medications, etc.
   physiological: string; // Menarche, menopause, eating habits, physical activity, sleep, etc.
@@ -9,7 +8,7 @@ export class PersonalHistory {
     pathological: string,
     physiological: string,
     lifestyle: string,
-    gynecoObstetric?: string
+    gynecoObstetric?: string,
   ) {
     this.pathological = pathological;
     this.physiological = physiological;
