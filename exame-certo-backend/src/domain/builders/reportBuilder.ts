@@ -116,6 +116,16 @@ export class ReportBuilder {
     return this;
   }
 
+  public withCreatedAt(createdAt: Date): ReportBuilder {
+    this._props.createdAt = createdAt;
+    return this;
+  }
+
+  public withUpdatedAt(updatedAt: Date): ReportBuilder {
+    this._props.updatedAt = updatedAt;
+    return this;
+  }
+
   async build(): Promise<Report> {
     const report = new Report(this._id, this._props as ReportProps);
     this._props.CID10.forEach((c) => report.addCID10(c));

@@ -7,7 +7,7 @@ export class ExamMapper {
     return MapperUtils.toExamDomain(entity);
   }
 
-  public static toPersistence(domain: Exam): ExamEntity {
+  public static async toPersistence(domain: Exam): Promise<ExamEntity> {
     return MapperUtils.toExamPersistence(domain);
   }
 }

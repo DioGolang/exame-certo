@@ -1,5 +1,5 @@
-import { DocumentationDto } from "../../../../application/dtos/documentation.dto";
-import { Documentation } from "../../../../domain/value-objects/documentation.vo";
+import { DocumentationDto } from '../../../../application/dtos/documentation.dto';
+import { Documentation } from '../../../../domain/value-objects/documentation.vo';
 
 export class DocumentationMapper {
   static toDto(documentation: Documentation): DocumentationDto {
@@ -10,5 +10,4 @@ export class DocumentationMapper {
       cnsNumber: documentation.cnsNumber?.toString(),
     };
   }
-
 }

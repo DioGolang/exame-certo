@@ -6,6 +6,7 @@ import { InvalidReportException } from '../exceptions/invalid-report.exception';
 import { ReportProps } from '../interfaces/props/report-props.interface';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
 import { EntityUtils } from '../../shared/utils/entity.utils';
+import { Doctor } from './doctor.entity';
 
 export class Report {
   private readonly _id: string;
@@ -124,6 +125,10 @@ export class Report {
     return this._id;
   }
 
+  get doctor(): Doctor {
+    return this._props.doctor;
+  }
+
   get date(): Date {
     return this._props.date;
   }
@@ -132,7 +137,7 @@ export class Report {
     return this._props.diagnosis;
   }
 
-  get cid10(): CID10[] {
+  get CID10(): CID10[] {
     return this._props.CID10;
   }
 
@@ -160,32 +165,36 @@ export class Report {
     return this._props.prognosis;
   }
 
-  get rest_start_date(): Date {
+  get restStartDate(): Date {
     return this._props.restStartDate;
   }
 
-  get rest_duration(): Date {
+  get restDuration(): Date {
     return this._props.restDuration;
   }
 
-  get therapeutic_conduct(): string {
+  get therapeuticConduct(): string {
     return this._props.therapeuticConduct;
   }
 
-  get clinical_evolution(): string {
+  get clinicalEvolution(): string {
     return this._props.clinicalEvolution;
   }
 
-  get health_consequences(): string {
+  get healthConsequences(): string {
     return this._props.healthConsequences;
   }
 
-  get consultation_reason(): string {
+  get consultationReason(): string {
     return this._props.consultationReason;
   }
 
-  get illness_history(): string {
+  get illnessHistory(): string {
     return this._props.illnessHistory;
+  }
+
+  get exams(): Exam[] {
+    return [...this._exams];
   }
 
   get createdAt(): Date {

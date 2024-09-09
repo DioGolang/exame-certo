@@ -1,19 +1,17 @@
-import { Address } from "../value-objects/address.vo";
-import { ContactInfo } from "../value-objects/contact-info.vo";
-import { ContactInfoDto } from "../../application/dtos/contact-info.dto";
-import { Clinic } from "../entities/clinic.entity";
-import { ClinicProps } from "../interfaces/props/clinic-props.interface";
+import { Address } from '../value-objects/address.vo';
+import { ContactInfo } from '../value-objects/contact-info.vo';
+import { ContactInfoDto } from '../../application/dtos/contact-info.dto';
+import { Clinic } from '../entities/clinic.entity';
+import { ClinicProps } from '../interfaces/props/clinic-props.interface';
 import { v4 as uuidv4 } from 'uuid';
-import { Email } from "../value-objects/email.vo";
-import { Anamnesis } from "../entities/anamnesis.entity";
-import { Exam } from "../entities/exam.entity";
-import { Doctor } from "../entities/doctor.entity";
-import { Patient } from "../entities/patient.entity";
-import { PasswordHash } from "../../application/interfaces/hasher.interface";
-import { PasswordUtils } from "../../shared/utils/password.utils";
+import { Email } from '../value-objects/email.vo';
+import { Anamnesis } from '../entities/anamnesis.entity';
+import { Exam } from '../entities/exam.entity';
+import { Doctor } from '../entities/doctor.entity';
+import { Patient } from '../entities/patient.entity';
+import { PasswordUtils } from '../../shared/utils/password.utils';
 
-export class ClinicBuilder{
-
+export class ClinicBuilder {
   private readonly _id: string;
   private readonly _password: string;
   private _props: Partial<ClinicProps> = {};
@@ -21,26 +19,32 @@ export class ClinicBuilder{
   private _exams: Exam[] = [];
   private _patients: Patient[] = [];
   private _doctors: Doctor[] = [];
-  private static _passwordHash: PasswordHash;
 
-  private constructor(password?: string, private readonly encryptedPassword?: string, id?: string) {
+  private constructor(
+    password?: string,
+    private readonly encryptedPassword?: string,
+    id?: string,
+  ) {
     this._id = id || uuidv4();
     this._password = password || '';
-  }
-
-  public static setPasswordHash(passwordHash: PasswordHash): void {
-    ClinicBuilder._passwordHash = passwordHash;
   }
 
   public static create(password: string): ClinicBuilder {
     return new ClinicBuilder(password);
   }
 
-  public static rehydrate(id: string, encryptedPassword: string): ClinicBuilder {
+  public static rehydrate(
+    id: string,
+    encryptedPassword: string,
+  ): ClinicBuilder {
     return new ClinicBuilder(undefined, encryptedPassword, id);
   }
 
-  public static async createOrRehydrate(id?: string, password?: string, encryptedPassword?: string): Promise<ClinicBuilder> {
+  public static async createOrRehydrate(
+    id?: string,
+    password?: string,
+    encryptedPassword?: string,
+  ): Promise<ClinicBuilder> {
     if (id) {
       return this.rehydrate(id, encryptedPassword!);
     } else {
@@ -58,7 +62,6 @@ export class ClinicBuilder{
     return this;
   }
 
-
   withAddress(address: Address): ClinicBuilder {
     this._props.address = address;
     return this;
@@ -69,37 +72,50 @@ export class ClinicBuilder{
     return this;
   }
 
-
-  addAnamnesis(anamnesis: Anamnesis): ClinicBuilder {
-    this._anamnesis.push(anamnesis);
+  withAnamnesis(anamnesis: Anamnesis[]): ClinicBuilder {
+    this._anamnesis = anamnesis;
     return this;
   }
 
-  addExam(exam: Exam): ClinicBuilder {
-    this._exams.push(exam);
+  withExams(exam: Exam[]): ClinicBuilder {
+    this._exams = exam;
     return this;
   }
 
-  addClinic(patient: Patient): ClinicBuilder {
-    this._patients.push(patient);
+  withPatient(patient: Patient[]): ClinicBuilder {
+    this._patients = patient;
     return this;
   }
 
-  addDoctor(doctor: Doctor): ClinicBuilder {
-    this._doctors.push(doctor);
+  withDoctor(doctor: Doctor[]): ClinicBuilder {
+    this._doctors = doctor;
+    return this;
+  }
+
+  public withCreatedAt(createdAt: Date): ClinicBuilder {
+    this._props.createdAt = createdAt;
+    return this;
+  }
+
+  public withUpdatedAt(updatedAt: Date): ClinicBuilder {
+    this._props.updatedAt = updatedAt;
     return this;
   }
 
   async build(): Promise<Clinic> {
     const finalPasswordHash = await PasswordUtils.determinePasswordHash(
       this._password,
-      this.encryptedPassword
+      this.encryptedPassword,
     );
-    const clinic = new Clinic(this._id, this._props as ClinicProps, finalPasswordHash);
-    this._anamnesis.forEach(a => clinic.addAnamnesis(a));
-    this._exams.forEach(e => clinic.addExam(e));
-    this._patients.forEach(p => clinic.addPatient(p));
-    this._doctors.forEach(d => clinic.addDoctor(d));
+    const clinic = new Clinic(
+      this._id,
+      this._props as ClinicProps,
+      finalPasswordHash,
+    );
+    this._anamnesis.forEach((a) => clinic.addAnamnesis(a));
+    this._exams.forEach((e) => clinic.addExam(e));
+    this._patients.forEach((p) => clinic.addPatient(p));
+    this._doctors.forEach((d) => clinic.addDoctor(d));
     return clinic;
   }
 }

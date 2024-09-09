@@ -1,13 +1,19 @@
-
 export class ValidationUtils {
-
-  static checkField(field: string, errorMessage: string, errors: string[]): void {
+  static checkField(
+    field: string,
+    errorMessage: string,
+    errors: string[],
+  ): void {
     if (!field || field.trim() === '') {
       errors.push(errorMessage);
     }
   }
 
-  static checkDateField(field: Date, errorMessage: string, errors: string[]): void {
+  static checkDateField(
+    field: Date,
+    errorMessage: string,
+    errors: string[],
+  ): void {
     if (!field) {
       errors.push(errorMessage);
     }
@@ -18,5 +24,4 @@ export class ValidationUtils {
       errors.push('Password is required');
     }
   }
-
 }

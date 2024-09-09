@@ -130,7 +130,7 @@ export class Anamnesis {
     return this._props.personalHistory;
   }
 
-  get medicine(): Medicine[] {
+  get medicines(): Medicine[] {
     return this._props.medicines;
   }
 

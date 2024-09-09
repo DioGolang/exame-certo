@@ -10,6 +10,7 @@ import { Clinic } from './clinic.entity';
 import { InvalidExamException } from '../exceptions/invalid-exam.exception';
 import { ExamProps } from '../interfaces/props/exam-props.interface';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
+import { EntityUtils } from '../../shared/utils/entity.utils';
 
 export class Exam {
   private readonly _id: string;
@@ -43,6 +44,17 @@ export class Exam {
     if (errors.length > 0) {
       throw new InvalidExamException(errors.join('; '));
     }
+  }
+
+  addReport(report: Report) {
+    EntityUtils.addToCollection(this._props.reports, report, (item) =>
+      EntityUtils.checkDuplicate(
+        item,
+        this._props.reports,
+        'Report',
+        InvalidExamException,
+      ),
+    );
   }
 
   get id(): string {
@@ -105,8 +117,8 @@ export class Exam {
     return this._props.clinic;
   }
 
-  get report(): Report {
-    return this._props.report;
+  get reports(): Report[] {
+    return [...this._props.reports];
   }
 
   get createdAt(): Date {

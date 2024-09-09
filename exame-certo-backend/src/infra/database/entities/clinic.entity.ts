@@ -20,16 +20,16 @@ export class ClinicEntity {
   id: string;
 
   @Column()
-  email: string;
-
-  @Column()
-  passwordHash: string;
-
-  @Column()
   name: string;
+
+  @Column()
+  email: string;
 
   @Column('jsonb')
   address: Address;
+
+  @Column()
+  passwordHash: string;
 
   @Column('jsonb')
   contactInfo: ContactInfo;

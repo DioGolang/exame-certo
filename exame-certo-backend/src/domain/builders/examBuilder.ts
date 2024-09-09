@@ -42,8 +42,8 @@ export class ExamBuilder {
     return this;
   }
 
-  withReport(report: Report): ExamBuilder {
-    this._props.report = report;
+  withReports(report: Report[]): ExamBuilder {
+    this._props.reports = report;
     return this;
   }
 
@@ -102,7 +102,19 @@ export class ExamBuilder {
     return this;
   }
 
+  public withCreatedAt(createdAt: Date): ExamBuilder {
+    this._props.createdAt = createdAt;
+    return this;
+  }
+
+  public withUpdatedAt(updatedAt: Date): ExamBuilder {
+    this._props.updatedAt = updatedAt;
+    return this;
+  }
+
   async build(): Promise<Exam> {
-    return new Exam(this._id, this._props as ExamProps);
+    const exams = new Exam(this._id, this._props as ExamProps);
+    this._props.reports.forEach((r) => exams.addReport(r));
+    return exams;
   }
 }

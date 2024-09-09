@@ -12,7 +12,7 @@ export interface ExamProps {
   patient: Patient;
   doctor: Doctor;
   clinic: Clinic;
-  report: Report;
+  reports: Report[];
   date: Date;
   type: string;
   method: string;

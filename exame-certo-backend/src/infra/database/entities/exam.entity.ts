@@ -53,13 +53,13 @@ export class ExamEntity {
   images: string[];
 
   @Column('jsonb')
-  tussCode: TUSSCode;
+  TUSSCode: TUSSCode;
 
   @Column('jsonb')
-  cbhpmCode: CBHPMCode;
+  CBHPMCode: CBHPMCode;
 
   @Column('jsonb')
-  ciefasCode: CIEFASCode;
+  CIEFASCode: CIEFASCode;
 
   @Column()
   clinicalHistory: string;

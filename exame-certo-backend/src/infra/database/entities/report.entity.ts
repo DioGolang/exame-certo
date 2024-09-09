@@ -33,8 +33,8 @@ export class ReportEntity {
   @Column()
   diagnosis: string;
 
-  @Column('jsonb')
-  cid_10: CID10;
+  @Column('jsonb', { array: true })
+  CID10: CID10[];
 
   @Column()
   justification: string;
@@ -55,25 +55,25 @@ export class ReportEntity {
   prognosis: string;
 
   @Column()
-  rest_start_date: Date;
+  restStartDate: Date;
 
   @Column()
-  rest_duration: Date;
+  restDuration: Date;
 
   @Column()
-  therapeutic_conduct: string;
+  therapeuticConduct: string;
 
   @Column()
-  clinical_evolution: string;
+  clinicalEvolution: string;
 
   @Column()
-  health_consequences: string;
+  healthConsequences: string;
 
   @Column()
-  consultation_reason: string;
+  consultationReason: string;
 
   @Column()
-  illness_history: string;
+  illnessHistory: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

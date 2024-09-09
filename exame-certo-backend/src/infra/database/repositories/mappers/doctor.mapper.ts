@@ -7,7 +7,7 @@ export class DoctorMapper {
     return MapperUtils.toDoctorDomain(entity);
   }
 
-  public static toPersistence(domain: Doctor): DoctorEntity {
+  public static async toPersistence(domain: Doctor): Promise<DoctorEntity> {
     return MapperUtils.toDoctorPersistence(domain);
   }
 }

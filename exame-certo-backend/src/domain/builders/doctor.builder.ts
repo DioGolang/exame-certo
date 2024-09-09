@@ -87,18 +87,28 @@ export class DoctorBuilder {
     return this;
   }
 
-  withExam(exams: Exam[]): DoctorBuilder {
+  withExams(exams: Exam[]): DoctorBuilder {
     this._exams = exams;
     return this;
   }
 
-  withClinic(clinic: Clinic[]): DoctorBuilder {
+  withClinics(clinic: Clinic[]): DoctorBuilder {
     this._clinics = clinic;
     return this;
   }
 
-  withdReport(report: Report[]): DoctorBuilder {
+  withReport(report: Report[]): DoctorBuilder {
     this._reports = report;
+    return this;
+  }
+
+  public withCreatedAt(createdAt: Date): DoctorBuilder {
+    this._props.createdAt = createdAt;
+    return this;
+  }
+
+  public withUpdatedAt(updatedAt: Date): DoctorBuilder {
+    this._props.updatedAt = updatedAt;
     return this;
   }
 

@@ -6,7 +6,7 @@ export class ClinicMapper {
   public static async toDomain(entity: ClinicEntity): Promise<Clinic> {
     return MapperUtils.toClinicDomain(entity);
   }
-  public static toPersistence(domain: Clinic): ClinicEntity {
+  public static async toPersistence(domain: Clinic): Promise<ClinicEntity> {
     return MapperUtils.toClinicPersistence(domain);
   }
 }

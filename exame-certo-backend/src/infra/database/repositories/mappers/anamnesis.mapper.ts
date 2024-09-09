@@ -7,7 +7,9 @@ export class AnamnesisMapper {
     return MapperUtils.toAnamnesisDomain(entity);
   }
 
-  public static toPersistence(domain: Anamnesis): AnamnesisEntity {
+  public static async toPersistence(
+    domain: Anamnesis,
+  ): Promise<AnamnesisEntity> {
     return MapperUtils.toAnamnesisPersistence(domain);
   }
 }
