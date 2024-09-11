@@ -40,13 +40,15 @@ export class DoctorEntity {
   @Column()
   specialization: string;
 
-  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.doctor)
+  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.doctor, {
+    lazy: true,
+  })
   anamnesis: AnamnesisEntity[];
 
-  @OneToMany(() => ExamEntity, (exam) => exam.doctor)
+  @OneToMany(() => ExamEntity, (exam) => exam.doctor, { lazy: true })
   exams: ExamEntity[];
 
-  @OneToMany(() => ReportEntity, (report) => report.doctor)
+  @OneToMany(() => ReportEntity, (report) => report.doctor, { lazy: true })
   reports: ReportEntity[];
 
   @ManyToMany(() => ClinicEntity, (clinic) => clinic.doctors)

@@ -37,13 +37,15 @@ export class ClinicEntity {
   @OneToMany(() => ExamEntity, (exam) => exam.clinic)
   exams: ExamEntity[];
 
-  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.clinic)
+  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.clinic, {
+    lazy: true,
+  })
   anamnesis: AnamnesisEntity[];
 
-  @ManyToMany(() => DoctorEntity, (doctor) => doctor.clinics)
+  @ManyToMany(() => DoctorEntity, (doctor) => doctor.clinics, { lazy: true })
   doctors: DoctorEntity[];
 
-  @ManyToMany(() => PatientEntity, (patient) => patient.clinics)
+  @ManyToMany(() => PatientEntity, (patient) => patient.clinics, { lazy: true })
   patients: PatientEntity[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

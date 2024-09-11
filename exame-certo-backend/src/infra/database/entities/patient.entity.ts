@@ -59,10 +59,12 @@ export class PatientEntity {
   @Column({ nullable: true })
   healthInsurance?: string;
 
-  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.patient)
+  @OneToMany(() => AnamnesisEntity, (anamnesis) => anamnesis.patient, {
+    lazy: true,
+  })
   anamnesis: AnamnesisEntity[];
 
-  @OneToMany(() => ExamEntity, (exam) => exam.patient)
+  @OneToMany(() => ExamEntity, (exam) => exam.patient, { lazy: true })
   exams: ExamEntity[];
 
   @ManyToMany(() => ClinicEntity, (clinic) => clinic.patients)
