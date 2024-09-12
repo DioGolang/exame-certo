@@ -3,5 +3,4 @@ export interface Repository<T> {
   update(entity: T): Promise<void>;
   delete(id: string): Promise<void>;
   findById(id: string): Promise<T | null>;
-  findAll(): Promise<T[]>;
 }

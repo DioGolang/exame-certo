@@ -10,6 +10,7 @@ import { Exam } from '../entities/exam.entity';
 import { Doctor } from '../entities/doctor.entity';
 import { Patient } from '../entities/patient.entity';
 import { PasswordUtils } from '../../shared/utils/password.utils';
+import { AddressDto } from '../../application/dtos/address.dto';
 
 export class ClinicBuilder {
   private readonly _id: string;
@@ -62,8 +63,8 @@ export class ClinicBuilder {
     return this;
   }
 
-  withAddress(address: Address): ClinicBuilder {
-    this._props.address = address;
+  withAddress(address: AddressDto): ClinicBuilder {
+    this._props.address = Address.fromDto(address);
     return this;
   }
 

@@ -6,5 +6,4 @@ export interface ClinicRepository extends Repository<Clinic> {
   update(clinic: Clinic): Promise<void>;
   delete(id: string): Promise<void>;
   findById(id: string): Promise<Clinic | null>;
-  findAll(): Promise<Clinic[]>;
 }

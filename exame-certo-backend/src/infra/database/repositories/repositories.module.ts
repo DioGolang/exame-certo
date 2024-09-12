@@ -10,6 +10,7 @@ import { ReportEntity } from '../entities/report.entity';
 import { DoctorClinicEntity } from '../entities/doctor-clinics.entity';
 import { ExamReportEntity } from '../entities/exam-report.entity';
 import { PatientClinicEntity } from '../entities/patient-clinics.entity';
+import { ClinicRepositoryImpl } from './clinic.repository.impl';
 
 @Module({
   imports: [
@@ -26,7 +27,12 @@ import { PatientClinicEntity } from '../entities/patient-clinics.entity';
       PatientClinicEntity,
     ]),
   ],
-  providers: [],
-  exports: [TypeOrmModule],
+  providers: [
+    {
+      provide: 'ClinicRepository',
+      useClass: ClinicRepositoryImpl,
+    },
+  ],
+  exports: [TypeOrmModule, 'ClinicRepository'],
 })
 export class RepositoriesModule {}
