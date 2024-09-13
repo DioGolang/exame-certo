@@ -25,7 +25,7 @@ export class CreateClinicHandler
       .withAddress(command.createClinicDto.address)
       .withContactInfo(command.createClinicDto.contactInfo)
       .build();
-    console.log(clinic);
+    // console.log(MapperUtils.toClinicPersistence(clinic));
     await this.clinicRepository.save(clinic);
   }
 }

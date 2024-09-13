@@ -86,12 +86,12 @@ export class ClinicBuilder {
     return this;
   }
 
-  withPatient(patient: Patient[]): ClinicBuilder {
+  withPatients(patient: Patient[]): ClinicBuilder {
     this._patients = patient;
     return this;
   }
 
-  withDoctor(doctor: Doctor[]): ClinicBuilder {
+  withDoctors(doctor: Doctor[]): ClinicBuilder {
     this._doctors = doctor;
     return this;
   }

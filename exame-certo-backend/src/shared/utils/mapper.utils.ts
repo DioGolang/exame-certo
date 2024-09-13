@@ -190,11 +190,11 @@ export class MapperUtils {
     }
     if (entity.patients) {
       const patientsArray = await this.mapPatients(entity.patients);
-      builder.withPatient(patientsArray);
+      builder.withPatients(patientsArray);
     }
     if (entity.doctors) {
       const DoctorsArray = await this.mapDoctors(entity.doctors);
-      builder.withDoctor(DoctorsArray);
+      builder.withDoctors(DoctorsArray);
     }
     return builder.build();
   }
