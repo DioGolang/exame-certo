@@ -1,18 +1,15 @@
-import { PasswordHash } from "../../application/interfaces/hasher.interface";
+import { BcryptPasswordHashImpl } from '../../infra/services/bcrypt-password-hash-impl';
 
-export class PasswordUtils{
+export class PasswordUtils {
+  private static passwordHasher = new BcryptPasswordHashImpl();
 
-  private static _passwordHash: PasswordHash;
-
-  public static configure(passwordHash: PasswordHash): void {
-    this._passwordHash = passwordHash;
-  }
-
-  static async determinePasswordHash(password: string, encryptedPassword?: string): Promise<string> {
-    if (encryptedPassword) {
-      return encryptedPassword;
+  static async determinePasswordHash(
+    password?: string,
+    encryptedPassword?: string,
+  ): Promise<string> {
+    if (password) {
+      return this.passwordHasher.hash(password);
     }
-    return await this._passwordHash.hash(password);
+    return encryptedPassword!;
   }
-
 }

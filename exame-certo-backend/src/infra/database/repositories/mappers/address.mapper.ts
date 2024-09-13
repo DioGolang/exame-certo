@@ -1,18 +1,16 @@
-import { Address } from "../../../../domain/value-objects/address.vo";
-import { AddressDto } from "../../../../application/dtos/address.dto";
+import { Address } from '../../../../domain/value-objects/address.vo';
+import { AddressDto } from '../../../../application/dtos/address.dto';
 
-export class AddressMapper{
-
+export class AddressMapper {
   static toDto(address: Address): AddressDto {
     return {
       street: address.street,
-      num: address.num,
+      number: address.number,
       city: address.city,
       state: address.state,
-      postalCode: address.postalCode,
+      zipCode: address.zipCode,
       country: address.country,
-      complement: address.complement
+      complement: address.complement,
     };
   }
-
 }

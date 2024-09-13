@@ -31,7 +31,10 @@ export class ClinicBuilder {
   }
 
   public static create(password: string): ClinicBuilder {
-    return new ClinicBuilder(password);
+    const createdAt = new Date();
+    return new ClinicBuilder(password)
+      .withCreatedAt(createdAt)
+      .withUpdatedAt(createdAt);
   }
 
   public static rehydrate(

@@ -25,11 +25,11 @@ export class ClinicEntity {
   @Column()
   email: string;
 
+  @Column()
+  password: string;
+
   @Column('jsonb')
   address: Address;
-
-  @Column()
-  passwordHash: string;
 
   @Column('jsonb')
   contactInfo: ContactInfo;
@@ -48,13 +48,9 @@ export class ClinicEntity {
   @ManyToMany(() => PatientEntity, (patient) => patient.clinics, { lazy: true })
   patients: PatientEntity[];
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    update: true,
-  })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 }

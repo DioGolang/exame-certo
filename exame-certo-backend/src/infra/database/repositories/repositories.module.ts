@@ -11,6 +11,7 @@ import { DoctorClinicEntity } from '../entities/doctor-clinics.entity';
 import { ExamReportEntity } from '../entities/exam-report.entity';
 import { PatientClinicEntity } from '../entities/patient-clinics.entity';
 import { ClinicRepositoryImpl } from './clinic.repository.impl';
+import { ClinicMapper } from './mappers/clinic.mapper';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ClinicRepositoryImpl } from './clinic.repository.impl';
     ]),
   ],
   providers: [
+    ClinicMapper,
     {
       provide: 'ClinicRepository',
       useClass: ClinicRepositoryImpl,

@@ -14,12 +14,18 @@ export class CreateClinicHandler
   ) {}
 
   async execute(command: CreateClinicCommand): Promise<void> {
-    const clinic = await ClinicBuilder.create(command.createClinicDto.password)
+    const clinicBuilder = await ClinicBuilder.createOrRehydrate(
+      null,
+      command.createClinicDto.password,
+    );
+
+    const clinic = await clinicBuilder
       .withName(command.createClinicDto.name)
       .withEmail(command.createClinicDto.email)
       .withAddress(command.createClinicDto.address)
       .withContactInfo(command.createClinicDto.contactInfo)
       .build();
+    console.log(clinic);
     await this.clinicRepository.save(clinic);
   }
 }

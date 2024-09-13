@@ -1,5 +1,5 @@
-import { PasswordHash } from "../../application/interfaces/hasher.interface";
-import bcrypt from "bcrypt";
+import { PasswordHash } from '../../application/interfaces/hasher.interface';
+import * as bcrypt from 'bcrypt';
 
 export class BcryptPasswordHashImpl implements PasswordHash {
   private readonly saltRounds = 10;

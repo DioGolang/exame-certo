@@ -13,6 +13,7 @@ import { ReportEntity } from '../../infra/database/entities/report.entity';
 import { Doctor } from '../../domain/entities/doctor.entity';
 import { DoctorEntity } from '../../infra/database/entities/doctor.entity';
 import { Report } from '../../domain/entities/report.entity';
+import { AddressMapper } from '../../infra/database/repositories/mappers/address.mapper';
 
 type Mapper<T> = {
   toPersistence(domain: T): any;
@@ -170,11 +171,12 @@ export class MapperUtils {
 
   public static async toClinicDomain(entity: ClinicEntity): Promise<Clinic> {
     const builder = await this.builderFactory.createClinicBuilder(entity.id);
+    const addressDto = AddressMapper.toDto(entity.address);
 
     builder
       .withName(entity.name)
       .withEmail(entity.email)
-      .withAddress(entity.address)
+      .withAddress(addressDto)
       .withContactInfo(entity.contactInfo);
     if (entity.createdAt) builder.withCreatedAt(entity.createdAt);
     if (entity.updatedAt) builder.withUpdatedAt(entity.updatedAt);

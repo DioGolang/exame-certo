@@ -2,10 +2,10 @@ import { AddressDto } from '../../application/dtos/address.dto';
 
 export class Address {
   readonly street: string;
-  readonly num: string;
+  readonly number: string;
   readonly city: string;
   readonly state: string;
-  readonly postalCode: string;
+  readonly zipCode: string;
   readonly country: string;
   readonly complement?: string;
 
@@ -14,19 +14,19 @@ export class Address {
     num: string,
     city: string,
     state: string,
-    postalCode: string,
+    zipCode: string,
     country: string,
     complement?: string,
   ) {
-    if (!street || !num || !city || !state || !postalCode || !country) {
+    if (!street || !num || !city || !state || !zipCode || !country) {
       throw new Error('Address fields are required');
     }
 
     this.street = street;
-    this.num = num;
+    this.number = num;
     this.city = city;
     this.state = state;
-    this.postalCode = postalCode;
+    this.zipCode = zipCode;
     this.country = country;
     this.complement = complement;
   }
@@ -34,10 +34,10 @@ export class Address {
   static fromDto(addressDto: AddressDto): Address {
     return new Address(
       addressDto.street,
-      addressDto.num,
+      addressDto.number,
       addressDto.city,
       addressDto.state,
-      addressDto.postalCode,
+      addressDto.zipCode,
       addressDto.country,
       addressDto.complement,
     );

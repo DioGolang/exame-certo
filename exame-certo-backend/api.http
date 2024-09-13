@@ -1,0 +1,31 @@
+### POST CREATE CLINIC
+POST http://localhost:3000/clinic
+Content-Type: application/json
+
+{
+  "id": null,
+  "password": "123456",
+  "name": "Clinica de Exames",
+  "email": "clinica1@clinica.com.br" ,
+  "address": {
+    "street": "Rua dos exames",
+    "number": "123",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "12345-678",
+    "country": "Brasil",
+    "complement": "Sala 1"
+  },
+  "contactInfo": {
+    "phone": "11 1234-5678",
+    "emergencyPhone": "11 98765-4321",
+    "emergencyPhone2": "11 98765-4321",
+    "emergencyPhone3": "11 98765-4321",
+    "email": "contato@clinica1.com.br",
+    "extension": "123",
+    "extension2": "123",
+    "extension3": "123"
+  }
+}
+
+###

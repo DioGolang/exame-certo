@@ -1,16 +1,23 @@
 import { Module } from '@nestjs/common';
 import { ClinicRepositoryImpl } from '../../infra/database/repositories/clinic.repository.impl';
-import { ClinicController } from '../../presentation/controllers/clinic/clinic.controller';
+import { CqrsModule } from '@nestjs/cqrs';
+import { ClinicService } from '../../application/services/clinic.service';
+import { CreateClinicHandler } from '../../application/handlers/create-clinic.handler';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClinicEntity } from '../../infra/database/entities/clinic.entity';
+import { ClinicMapper } from '../../infra/database/repositories/mappers/clinic.mapper';
 
 @Module({
-  imports: [],
-  controllers: [ClinicController],
+  imports: [CqrsModule, TypeOrmModule.forFeature([ClinicEntity])],
   providers: [
+    ClinicService,
+    CreateClinicHandler,
+    ClinicMapper,
     {
       provide: 'ClinicRepository',
       useClass: ClinicRepositoryImpl,
     },
   ],
-  exports: [],
+  exports: [ClinicService],
 })
 export class ClinicModule {}

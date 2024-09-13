@@ -1,9 +1,9 @@
 export class AddressDto {
   street: string;
-  num: string;
+  number: string;
   city: string;
   state: string;
-  postalCode: string;
+  zipCode: string;
   country: string;
   complement?: string;
 }

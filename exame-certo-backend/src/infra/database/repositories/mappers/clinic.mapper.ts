@@ -11,4 +11,11 @@ export class ClinicMapper {
   public async toPersistence(domain: Clinic): Promise<ClinicEntity> {
     return MapperUtils.toClinicPersistence(domain);
   }
+
+  public static async toDomain(entity: ClinicEntity): Promise<Clinic> {
+    return MapperUtils.toClinicDomain(entity);
+  }
+  public static async toPersistence(domain: Clinic): Promise<ClinicEntity> {
+    return MapperUtils.toClinicPersistence(domain);
+  }
 }
