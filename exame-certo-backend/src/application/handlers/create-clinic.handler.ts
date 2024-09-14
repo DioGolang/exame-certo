@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateClinicCommand } from '../commands/create-clinic.command';
 import { ClinicRepository } from '../../domain/repositories/clinic.repository';
 import { Inject } from '@nestjs/common';
-import { ClinicBuilder } from '../../domain/builders/clinic.builder';
+import { BuilderFactory } from '../../domain/builders/builder.factory';
 
 @CommandHandler(CreateClinicCommand)
 export class CreateClinicHandler
@@ -11,11 +11,13 @@ export class CreateClinicHandler
   constructor(
     @Inject('ClinicRepository')
     private readonly clinicRepository: ClinicRepository,
+    @Inject('BuilderFactory')
+    private readonly clinicBuilder: BuilderFactory,
   ) {}
 
   async execute(command: CreateClinicCommand): Promise<void> {
-    const clinicBuilder = await ClinicBuilder.createOrRehydrate(
-      null,
+    const clinicBuilder = await this.clinicBuilder.createClinicBuilder(
+      undefined,
       command.createClinicDto.password,
     );
 
@@ -25,7 +27,8 @@ export class CreateClinicHandler
       .withAddress(command.createClinicDto.address)
       .withContactInfo(command.createClinicDto.contactInfo)
       .build();
-    // console.log(MapperUtils.toClinicPersistence(clinic));
+    //console.log(await clinicMapper.toPersistence(clinic));
+    //console.log(clinic);
     await this.clinicRepository.save(clinic);
   }
 }

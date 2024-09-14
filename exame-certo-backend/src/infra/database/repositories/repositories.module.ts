@@ -12,6 +12,9 @@ import { ExamReportEntity } from '../entities/exam-report.entity';
 import { PatientClinicEntity } from '../entities/patient-clinics.entity';
 import { ClinicRepositoryImpl } from './clinic.repository.impl';
 import { ClinicMapper } from './mappers/clinic.mapper';
+import { MappersModule } from './mappers/mappers.module';
+import { DefaultBuilderFactory } from '../../../domain/builders/default-builder.factory';
+import { AddressMapper } from './mappers/address.mapper';
 
 @Module({
   imports: [
@@ -27,14 +30,21 @@ import { ClinicMapper } from './mappers/clinic.mapper';
       ExamReportEntity,
       PatientClinicEntity,
     ]),
+    MappersModule,
   ],
   providers: [
     ClinicMapper,
+    AddressMapper,
+
     {
       provide: 'ClinicRepository',
       useClass: ClinicRepositoryImpl,
     },
+    {
+      provide: 'BuilderFactory',
+      useClass: DefaultBuilderFactory,
+    },
   ],
-  exports: [TypeOrmModule, 'ClinicRepository'],
+  exports: [TypeOrmModule, 'ClinicRepository', 'BuilderFactory'],
 })
 export class RepositoriesModule {}

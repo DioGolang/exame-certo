@@ -7,9 +7,10 @@ export class PasswordUtils {
     password?: string,
     encryptedPassword?: string,
   ): Promise<string> {
-    if (password) {
-      return this.passwordHasher.hash(password);
+    if (!password && !encryptedPassword) {
+      throw new Error('Either password or encryptedPassword must be provided.');
     }
-    return encryptedPassword!;
+
+    return password ? this.passwordHasher.hash(password) : encryptedPassword!;
   }
 }

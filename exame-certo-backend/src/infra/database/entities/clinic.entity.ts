@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
 import { ContactInfo } from '../../../domain/value-objects/contact-info.vo';
 import { Address } from '../../../domain/value-objects/address.vo';
 import { PatientEntity } from './patient.entity';

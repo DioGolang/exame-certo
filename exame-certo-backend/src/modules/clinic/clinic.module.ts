@@ -6,6 +6,8 @@ import { CreateClinicHandler } from '../../application/handlers/create-clinic.ha
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClinicEntity } from '../../infra/database/entities/clinic.entity';
 import { ClinicMapper } from '../../infra/database/repositories/mappers/clinic.mapper';
+import { DefaultBuilderFactory } from '../../domain/builders/default-builder.factory';
+import { AddressMapper } from '../../infra/database/repositories/mappers/address.mapper';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([ClinicEntity])],
@@ -13,9 +15,14 @@ import { ClinicMapper } from '../../infra/database/repositories/mappers/clinic.m
     ClinicService,
     CreateClinicHandler,
     ClinicMapper,
+    AddressMapper,
     {
       provide: 'ClinicRepository',
       useClass: ClinicRepositoryImpl,
+    },
+    {
+      provide: 'BuilderFactory',
+      useClass: DefaultBuilderFactory,
     },
   ],
   exports: [ClinicService],

@@ -13,4 +13,15 @@ export class AddressMapper {
       complement: address.complement,
     };
   }
+  toDto(address: Address): AddressDto {
+    return {
+      street: address.street,
+      number: address.number,
+      city: address.city,
+      state: address.state,
+      zipCode: address.zipCode,
+      country: address.country,
+      complement: address.complement,
+    };
+  }
 }

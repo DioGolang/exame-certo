@@ -12,71 +12,67 @@ export class DefaultBuilderFactory extends BuilderFactory {
     password?: string,
     encryptedPassword?: string,
   ): Promise<PatientBuilder> {
-    return Promise.resolve(
-      this.buildWithLogin(PatientBuilder, {
-        id,
-        password,
-        encryptedPassword,
-      }),
-    );
+    return this.buildWithLogin(PatientBuilder, {
+      id,
+      password,
+      encryptedPassword,
+    });
   }
+
   async createDoctorBuilder(
     id?: string,
     password?: string,
     encryptedPassword?: string,
   ): Promise<DoctorBuilder> {
-    return Promise.resolve(
-      this.buildWithLogin(DoctorBuilder, {
-        id,
-        password,
-        encryptedPassword,
-      }),
-    );
+    return this.buildWithLogin(DoctorBuilder, {
+      id,
+      password,
+      encryptedPassword,
+    });
   }
+
   async createClinicBuilder(
     id?: string,
     password?: string,
     encryptedPassword?: string,
   ): Promise<ClinicBuilder> {
-    return Promise.resolve(
-      this.buildWithLogin(ClinicBuilder, {
-        id,
-        password,
-        encryptedPassword,
-      }),
-    );
+    return this.buildWithLogin(ClinicBuilder, {
+      id,
+      password,
+      encryptedPassword,
+    });
   }
 
   async createAnamnesisBuilder(id?: string): Promise<AnamnesisBuilder> {
-    return Promise.resolve(this.buildWithoutLogin(AnamnesisBuilder, { id }));
-  }
-  async createExamBuilder(id?: string): Promise<ExamBuilder> {
-    return Promise.resolve(this.buildWithoutLogin(ExamBuilder, { id }));
-  }
-  async createReportBuilder(id?: string): Promise<ReportBuilder> {
-    return Promise.resolve(this.buildWithoutLogin(ReportBuilder, { id }));
+    return this.buildWithoutLogin(AnamnesisBuilder, { id });
   }
 
-  private buildWithoutLogin<T>(
+  async createExamBuilder(id?: string): Promise<ExamBuilder> {
+    return this.buildWithoutLogin(ExamBuilder, { id });
+  }
+
+  async createReportBuilder(id?: string): Promise<ReportBuilder> {
+    return this.buildWithoutLogin(ReportBuilder, { id });
+  }
+
+  private async buildWithoutLogin<T>(
     BuilderClass: { create: () => T; rehydrate: (id: string) => T },
     entity: { id?: string },
-  ): T {
-    if (entity.id) {
-      return BuilderClass.rehydrate(entity.id);
-    }
-    return BuilderClass.create();
+  ): Promise<T> {
+    return entity.id
+      ? BuilderClass.rehydrate(entity.id)
+      : BuilderClass.create();
   }
 
-  private buildWithLogin<T>(
+  private async buildWithLogin<T>(
     BuilderClass: {
       create: (password?: string) => T;
       rehydrate: (id: string, encryptedPassword?: string) => T;
     },
     entity: { id?: string; password?: string; encryptedPassword?: string },
-  ): T {
-    if (entity.id) {
-      return BuilderClass.rehydrate(entity.id, entity.encryptedPassword!);
-    }
-    return BuilderClass.create(entity.password!);
+  ): Promise<T> {
+    return entity.id
+      ? BuilderClass.rehydrate(entity.id, entity.encryptedPassword!)
+      : BuilderClass.create(entity.password!);
   }
 }
