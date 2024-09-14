@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ClinicMapper } from './clinic.mapper';
+import { ClinicMapper } from '../../../../application/mappers/clinic.mapper';
 import { DefaultBuilderFactory } from '../../../../domain/builders/default-builder.factory';
 import { AddressMapper } from './address.mapper';
 

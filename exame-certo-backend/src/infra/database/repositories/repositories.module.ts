@@ -11,7 +11,7 @@ import { DoctorClinicEntity } from '../entities/doctor-clinics.entity';
 import { ExamReportEntity } from '../entities/exam-report.entity';
 import { PatientClinicEntity } from '../entities/patient-clinics.entity';
 import { ClinicRepositoryImpl } from './clinic.repository.impl';
-import { ClinicMapper } from './mappers/clinic.mapper';
+import { ClinicMapper } from '../../../application/mappers/clinic.mapper';
 import { MappersModule } from './mappers/mappers.module';
 import { DefaultBuilderFactory } from '../../../domain/builders/default-builder.factory';
 import { AddressMapper } from './mappers/address.mapper';

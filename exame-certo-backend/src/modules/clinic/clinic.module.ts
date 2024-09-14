@@ -5,7 +5,7 @@ import { ClinicService } from '../../application/services/clinic.service';
 import { CreateClinicHandler } from '../../application/handlers/create-clinic.handler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClinicEntity } from '../../infra/database/entities/clinic.entity';
-import { ClinicMapper } from '../../infra/database/repositories/mappers/clinic.mapper';
+import { ClinicMapper } from '../../application/mappers/clinic.mapper';
 import { DefaultBuilderFactory } from '../../domain/builders/default-builder.factory';
 import { AddressMapper } from '../../infra/database/repositories/mappers/address.mapper';
 

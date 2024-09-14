@@ -10,4 +10,12 @@ export class DocumentationMapper {
       cnsNumber: documentation.cnsNumber?.toString(),
     };
   }
+  toDto(documentation: Documentation): DocumentationDto {
+    return {
+      cpf: documentation.cpf.toString(),
+      rg: documentation.rg.toString(),
+      cnh: documentation.cnh?.toString(),
+      cnsNumber: documentation.cnsNumber?.toString(),
+    };
+  }
 }

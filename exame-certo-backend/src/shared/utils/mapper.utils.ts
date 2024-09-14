@@ -31,9 +31,9 @@ export class MapperUtils {
   ): Promise<Anamnesis> {
     const builder = await this.builderFactory.createAnamnesisBuilder(entity.id);
 
-    const { PatientMapper } = await import(
-      '../../infra/database/repositories/mappers/patient.mapper'
-    );
+    // const { PatientMapper } = await import(
+    //   '../../application/mappers/patient.mapper'
+    // );
     const { DoctorMapper } = await import(
       '../../infra/database/repositories/mappers/doctor.mapper'
     );
@@ -42,7 +42,7 @@ export class MapperUtils {
     // );
 
     builder
-      .withPatient(await PatientMapper.toDomain(entity.patient))
+      // .withPatient(await PatientMapper.toDomain(entity.patient))
       // .withClinic(await ClinicMapper.toDomain(entity.clinic))
       .withDoctor(await DoctorMapper.toDomain(entity.doctor))
       .withIdentification(entity.identification)
@@ -64,9 +64,9 @@ export class MapperUtils {
     domain: Anamnesis,
   ): Promise<AnamnesisEntity> {
     const entity = new AnamnesisEntity();
-    const { PatientMapper } = await import(
-      '../../infra/database/repositories/mappers/patient.mapper'
-    );
+    // const { PatientMapper } = await import(
+    //   '../../application/mappers/patient.mapper'
+    // );
     const { DoctorMapper } = await import(
       '../../infra/database/repositories/mappers/doctor.mapper'
     );
@@ -74,7 +74,7 @@ export class MapperUtils {
     //   '../../infra/database/repositories/mappers/clinic.mapper'
     // );
     entity.id = domain.id;
-    entity.patient = await PatientMapper.toPersistence(domain.patient);
+    // entity.patient = await PatientMapper.toPersistence(domain.patient);
     entity.doctor = await DoctorMapper.toPersistence(domain.doctor);
     // entity.clinic = await ClinicMapper.toPersistence(domain.clinic);
     entity.identification = domain.identification;
@@ -203,9 +203,9 @@ export class MapperUtils {
     domain: Clinic,
   ): Promise<ClinicEntity> {
     const entity = new ClinicEntity();
-    const { PatientMapper } = await import(
-      '../../infra/database/repositories/mappers/patient.mapper'
-    );
+    // const { PatientMapper } = await import(
+    //   '../../application/mappers/patient.mapper'
+    // );
     const { DoctorMapper } = await import(
       '../../infra/database/repositories/mappers/doctor.mapper'
     );
@@ -229,9 +229,9 @@ export class MapperUtils {
     entity.doctors = await Promise.all(
       domain.doctors.map(DoctorMapper.toPersistence),
     );
-    entity.patients = await Promise.all(
-      domain.patients.map(PatientMapper.toPersistence),
-    );
+    // entity.patients = await Promise.all(
+    //   domain.patients.map(PatientMapper.toPersistence),
+    // );
     if (domain.createdAt) entity.createdAt = domain.createdAt;
     if (domain.updatedAt) entity.updatedAt = domain.updatedAt;
     return entity;
@@ -312,9 +312,9 @@ export class MapperUtils {
 
   public static async toExamDomain(entity: ExamEntity): Promise<Exam> {
     const builder = await this.builderFactory.createExamBuilder(entity.id);
-    const { PatientMapper } = await import(
-      '../../infra/database/repositories/mappers/patient.mapper'
-    );
+    // const { PatientMapper } = await import(
+    //   '../../application/mappers/patient.mapper'
+    // );
     const { DoctorMapper } = await import(
       '../../infra/database/repositories/mappers/doctor.mapper'
     );
@@ -323,7 +323,7 @@ export class MapperUtils {
     // );
 
     builder
-      .withPatient(await PatientMapper.toDomain(entity.patient))
+      // .withPatient(await PatientMapper.toDomain(entity.patient))
       // .withClinic(await ClinicMapper.toDomain(entity.clinic))
       .withDoctor(await DoctorMapper.toDomain(entity.doctor))
       .withDate(entity.date)
@@ -350,9 +350,9 @@ export class MapperUtils {
   public static async toExamPersistence(domain: Exam): Promise<ExamEntity> {
     const entity = new ExamEntity();
 
-    const { PatientMapper } = await import(
-      '../../infra/database/repositories/mappers/patient.mapper'
-    );
+    // const { PatientMapper } = await import(
+    //   '../../application/mappers/patient.mapper'
+    // );
     const { DoctorMapper } = await import(
       '../../infra/database/repositories/mappers/doctor.mapper'
     );
@@ -364,7 +364,7 @@ export class MapperUtils {
     );
 
     entity.id = domain.id;
-    entity.patient = await PatientMapper.toPersistence(domain.patient);
+    // entity.patient = await PatientMapper.toPersistence(domain.patient);
     entity.doctor = await DoctorMapper.toPersistence(domain.doctor);
     // entity.clinic = await ClinicMapper.toPersistence(domain.clinic);
     entity.reports = await Promise.all(
