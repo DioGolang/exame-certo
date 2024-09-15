@@ -137,12 +137,12 @@ export class MapperUtils {
     // const { ClinicMapper } = await import(
     //   '../../infra/database/repositories/mappers/clinic.mapper'
     // );
-    const { ExamMapper } = await import(
-      '../../infra/database/repositories/mappers/exam.mapper'
-    );
-    const { AnamnesisMapper } = await import(
-      '../../infra/database/repositories/mappers/anamnesis.mapper'
-    );
+    // const { ExamMapper } = await import(
+    //   '../../infra/database/repositories/mappers/exam.mapper'
+    // );
+    // const { AnamnesisMapper } = await import(
+    //   '../../infra/database/repositories/mappers/anamnesis.mapper'
+    // );
     entity.id = domain.id;
     entity.name = domain.name;
     entity.lastName = domain.lastName;
@@ -155,12 +155,12 @@ export class MapperUtils {
     entity.socioeconomicInformation = domain.socioeconomicInformation;
     entity.documentation = domain.documentation;
     entity.healthInsurance = domain.healthInsurance;
-    entity.anamnesis = await Promise.all(
-      domain.anamnesis.map(AnamnesisMapper.toPersistence),
-    );
-    entity.exams = await Promise.all(
-      domain.exams.map(ExamMapper.toPersistence),
-    );
+    // entity.anamnesis = await Promise.all(
+    //   domain.anamnesis.map(AnamnesisMapper.toPersistence),
+    // );
+    // entity.exams = await Promise.all(
+    //   domain.exams.map(ExamMapper.toPersistence),
+    // );
     // entity.clinics = await Promise.all(
     //   domain.clinics.map(ClinicMapper.toPersistence),
     // );
@@ -209,23 +209,23 @@ export class MapperUtils {
     // const { DoctorMapper } = await import(
     //   '../../infra/database/repositories/mappers/doctor.mapper'
     // );
-    const { ExamMapper } = await import(
-      '../../infra/database/repositories/mappers/exam.mapper'
-    );
-    const { AnamnesisMapper } = await import(
-      '../../infra/database/repositories/mappers/anamnesis.mapper'
-    );
+    // const { ExamMapper } = await import(
+    //   '../../infra/database/repositories/mappers/exam.mapper'
+    // );
+    // const { AnamnesisMapper } = await import(
+    //   '../../infra/database/repositories/mappers/anamnesis.mapper'
+    // );
     entity.id = domain.id;
     entity.name = domain.name;
     entity.email = domain.email;
     entity.address = domain.address;
     entity.contactInfo = domain.contactInfo;
-    entity.anamnesis = await Promise.all(
-      domain.anamnesis.map(AnamnesisMapper.toPersistence),
-    );
-    entity.exams = await Promise.all(
-      domain.exams.map(ExamMapper.toPersistence),
-    );
+    // entity.anamnesis = await Promise.all(
+    //   domain.anamnesis.map(AnamnesisMapper.toPersistence),
+    // );
+    // entity.exams = await Promise.all(
+    //   domain.exams.map(ExamMapper.toPersistence),
+    // );
     // entity.doctors = await Promise.all(
     //   domain.doctors.map(DoctorMapper.toPersistence),
     // );
@@ -277,15 +277,15 @@ export class MapperUtils {
     // const { ClinicMapper } = await import(
     //   '../../infra/database/repositories/mappers/clinic.mapper'
     // );
-    const { ReportMapper } = await import(
-      '../../infra/database/repositories/mappers/report.mapper'
-    );
-    const { ExamMapper } = await import(
-      '../../infra/database/repositories/mappers/exam.mapper'
-    );
-    const { AnamnesisMapper } = await import(
-      '../../infra/database/repositories/mappers/anamnesis.mapper'
-    );
+    // const { ReportMapper } = await import(
+    //   '../../infra/database/repositories/mappers/report.mapper'
+    // );
+    // const { ExamMapper } = await import(
+    //   '../../infra/database/repositories/mappers/exam.mapper'
+    // );
+    // const { AnamnesisMapper } = await import(
+    //   '../../infra/database/repositories/mappers/anamnesis.mapper'
+    // );
     entity.id = domain.id;
     entity.name = domain.name;
     entity.email = domain.email;
@@ -293,18 +293,18 @@ export class MapperUtils {
     entity.professionalAddress = domain.professionalAddress;
     entity.registrationNumber = domain.registrationNumber;
     entity.specialization = domain.specialization;
-    entity.anamnesis = await Promise.all(
-      domain.anamnesis.map(AnamnesisMapper.toPersistence),
-    );
-    entity.reports = await Promise.all(
-      domain.reports.map(ReportMapper.toPersistence),
-    );
+    // entity.anamnesis = await Promise.all(
+    //   domain.anamnesis.map(AnamnesisMapper.toPersistence),
+    // );
+    // entity.reports = await Promise.all(
+    //   domain.reports.map(ReportMapper.toPersistence),
+    // );
     // entity.clinics = await Promise.all(
     //   domain.clinics.map(ClinicMapper.toPersistence),
     // );
-    entity.exams = await Promise.all(
-      domain.exams.map(ExamMapper.toPersistence),
-    );
+    // entity.exams = await Promise.all(
+    //   domain.exams.map(ExamMapper.toPersistence),
+    // );
     if (domain.createdAt) entity.createdAt = domain.createdAt;
     if (domain.updatedAt) entity.updatedAt = domain.updatedAt;
     return entity;
@@ -359,17 +359,17 @@ export class MapperUtils {
     // const { ClinicMapper } = await import(
     //   '../../infra/database/repositories/mappers/clinic.mapper'
     // );
-    const { ReportMapper } = await import(
-      '../../infra/database/repositories/mappers/report.mapper'
-    );
+    // const { ReportMapper } = await import(
+    //   '../../infra/database/repositories/mappers/report.mapper'
+    // );
 
     entity.id = domain.id;
     // entity.patient = await PatientMapper.toPersistence(domain.patient);
     // entity.doctor = await DoctorMapper.toPersistence(domain.doctor);
     // entity.clinic = await ClinicMapper.toPersistence(domain.clinic);
-    entity.reports = await Promise.all(
-      domain.reports.map(ReportMapper.toPersistence),
-    );
+    // entity.reports = await Promise.all(
+    //   domain.reports.map(ReportMapper.toPersistence),
+    // );
     entity.date = domain.date;
     entity.type = domain.type;
     entity.method = domain.method;
@@ -427,9 +427,9 @@ export class MapperUtils {
     // const { DoctorMapper } = await import(
     //   '../../infra/database/repositories/mappers/doctor.mapper'
     // );
-    const { ExamMapper } = await import(
-      '../../infra/database/repositories/mappers/exam.mapper'
-    );
+    // const { ExamMapper } = await import(
+    //   '../../infra/database/repositories/mappers/exam.mapper'
+    // );
     entity.id = domain.id;
     // entity.doctor = await DoctorMapper.toPersistence(domain.doctor);
     entity.date = domain.date;
@@ -448,9 +448,9 @@ export class MapperUtils {
     entity.healthConsequences = domain.healthConsequences;
     entity.consultationReason = domain.consultationReason;
     entity.illnessHistory = domain.illnessHistory;
-    entity.exams = await Promise.all(
-      domain.exams.map(ExamMapper.toPersistence),
-    );
+    // entity.exams = await Promise.all(
+    //   domain.exams.map(ExamMapper.toPersistence),
+    // );
     if (entity.createdAt) entity.createdAt = domain.createdAt;
     if (entity.updatedAt) entity.updatedAt = domain.updatedAt;
     return entity;

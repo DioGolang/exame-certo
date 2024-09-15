@@ -72,8 +72,8 @@ export class ClinicMapper extends BaseMapper<Clinic, ClinicEntity> {
     const entity = new ClinicEntity();
     // const { PatientMapper } = await import('./patient.mapper');
     // const { DoctorMapper } = await import('./doctor.mapper');
-    const { ExamMapper } = await import('./exam.mapper');
-    const { AnamnesisMapper } = await import('./anamnesis.mapper');
+    // const { ExamMapper } = await import('./exam.mapper');
+    // const { AnamnesisMapper } = await import('./anamnesis.mapper');
     BaseMapper.setCommonFieldsToPersistence(entity, domain);
     BaseMapper.setFieldsToPersistence(entity, domain, [
       'name',
@@ -81,12 +81,12 @@ export class ClinicMapper extends BaseMapper<Clinic, ClinicEntity> {
       'address',
       'contactInfo',
     ]);
-    entity.anamnesis = await Promise.all(
-      domain.anamnesis.map(AnamnesisMapper.toPersistence),
-    );
-    entity.exams = await Promise.all(
-      domain.exams.map(ExamMapper.toPersistence),
-    );
+    // entity.anamnesis = await Promise.all(
+    //   domain.anamnesis.map(AnamnesisMapper.toPersistence),
+    // );
+    // entity.exams = await Promise.all(
+    //   domain.exams.map(ExamMapper.toPersistence),
+    // );
     // entity.doctors = await Promise.all(
     //   domain.doctors.map(DoctorMapper.toPersistence),
     // );

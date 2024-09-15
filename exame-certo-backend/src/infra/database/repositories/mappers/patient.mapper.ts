@@ -85,12 +85,12 @@ export class PatientMapper extends BaseMapper<Patient, PatientEntity> {
     entity.documentation = domain.documentation;
     entity.healthInsurance = domain.healthInsurance;
 
-    entity.anamnesis = await Promise.all(
-      domain.anamnesis.map(AnamnesisMapper.toPersistence),
-    );
-    entity.exams = await Promise.all(
-      domain.exams.map(ExamMapper.toPersistence),
-    );
+    // entity.anamnesis = await Promise.all(
+    //   domain.anamnesis.map(AnamnesisMapper.toPersistence),
+    // );
+    // entity.exams = await Promise.all(
+    //   domain.exams.map(ExamMapper.toPersistence),
+    // );
     // entity.clinics = await Promise.all(
     //   domain.clinics.map(ClinicMapper.toPersistence),
     // );
