@@ -14,8 +14,6 @@ import { ClinicEntity } from '../../entities/clinic.entity';
 import { Clinic } from '../../../../domain/entities/clinic.entity';
 import { AnamnesisEntity } from '../../entities/anamnesis.entity';
 import { Anamnesis } from '../../../../domain/entities/anamnesis.entity';
-import { AnamnesisMapper } from './anamnesis.mapper';
-import { ExamMapper } from './exam.mapper';
 
 @Injectable()
 export class PatientMapper extends BaseMapper<Patient, PatientEntity> {
@@ -73,18 +71,19 @@ export class PatientMapper extends BaseMapper<Patient, PatientEntity> {
   public async toPersistence(domain: Patient): Promise<PatientEntity> {
     const entity = new PatientEntity();
     BaseMapper.setCommonFieldsToPersistence(entity, domain);
-    entity.name = domain.name;
-    entity.lastName = domain.lastName;
-    entity.email = domain.email;
-    entity.dateOfBirth = domain.dateOfBirth;
-    entity.sex = domain.sex;
-    entity.maritalStatus = domain.maritalStatus;
-    entity.address = domain.address;
-    entity.contactInfo = domain.contactInfo;
-    entity.socioeconomicInformation = domain.socioeconomicInformation;
-    entity.documentation = domain.documentation;
-    entity.healthInsurance = domain.healthInsurance;
-
+    BaseMapper.setFieldsToPersistence(entity, domain, [
+      'name',
+      'lastName',
+      'email',
+      'dateOfBirth',
+      'sex',
+      'maritalStatus',
+      'address',
+      'contactInfo',
+      'socioeconomicInformation',
+      'documentation',
+      'healthInsurance',
+    ]);
     // entity.anamnesis = await Promise.all(
     //   domain.anamnesis.map(AnamnesisMapper.toPersistence),
     // );

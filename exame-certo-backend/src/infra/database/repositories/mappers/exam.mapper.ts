@@ -4,7 +4,9 @@ import { MapperUtils } from '../../../../shared/utils/mapper.utils';
 import { BaseMapper } from './base.mapper';
 import { ReportEntity } from '../../entities/report.entity';
 import { Report } from '../../../../domain/entities/report.entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ExamMapper extends BaseMapper<Exam, ExamEntity> {
   public async toDomain(entity: ExamEntity): Promise<Exam> {
     const builder = await this.builder.createExamBuilder(entity.id);
