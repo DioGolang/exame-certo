@@ -10,10 +10,19 @@ export abstract class BaseMapper<DomainEntity, PersistenceEntity> {
   abstract toDomain(entity: PersistenceEntity): Promise<DomainEntity>;
   abstract toPersistence(domain: DomainEntity): Promise<PersistenceEntity>;
 
-  protected static setCommonFields(
+  protected static setCommonFieldsToPersistence(
     entity: any,
     domain: any,
     properties: string[] = ['id', 'createdAt', 'updatedAt'],
+  ) {
+    properties.forEach((prop) => {
+      if (domain[prop]) entity[prop] = domain[prop];
+    });
+  }
+  protected static setFieldsToPersistence(
+    entity: any,
+    domain: any,
+    properties: string[],
   ) {
     properties.forEach((prop) => {
       if (domain[prop]) entity[prop] = domain[prop];

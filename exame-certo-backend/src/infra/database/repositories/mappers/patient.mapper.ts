@@ -1,21 +1,21 @@
-import { PatientEntity } from '../../infra/database/entities/patient.entity';
-import { Patient } from '../../domain/entities/patient.entity';
-import { MapperUtils } from '../../shared/utils/mapper.utils';
-import { BaseMapper } from '../../infra/database/repositories/mappers/base.mapper';
-import { AddressMapper } from '../../infra/database/repositories/mappers/address.mapper';
-import { BuilderFactory } from '../../domain/builders/builder.factory';
+import { PatientEntity } from '../../entities/patient.entity';
+import { Patient } from '../../../../domain/entities/patient.entity';
+import { MapperUtils } from '../../../../shared/utils/mapper.utils';
+import { BaseMapper } from './base.mapper';
+import { AddressMapper } from './address.mapper';
+import { BuilderFactory } from '../../../../domain/builders/builder.factory';
 import { Inject, Injectable } from '@nestjs/common';
-import { DocumentationMapper } from '../../infra/database/repositories/mappers/document.mapper';
-import { Sex } from '../../domain/enums/sex.enum';
-import { MaritalStatus } from '../../domain/enums/marital-status.enum';
-import { ExamEntity } from '../../infra/database/entities/exam.entity';
-import { Exam } from '../../domain/entities/exam.entity';
-import { ClinicEntity } from '../../infra/database/entities/clinic.entity';
-import { Clinic } from '../../domain/entities/clinic.entity';
-import { AnamnesisEntity } from '../../infra/database/entities/anamnesis.entity';
-import { Anamnesis } from '../../domain/entities/anamnesis.entity';
-import { AnamnesisMapper } from '../../infra/database/repositories/mappers/anamnesis.mapper';
-import { ExamMapper } from '../../infra/database/repositories/mappers/exam.mapper';
+import { DocumentationMapper } from './document.mapper';
+import { Sex } from '../../../../domain/enums/sex.enum';
+import { MaritalStatus } from '../../../../domain/enums/marital-status.enum';
+import { ExamEntity } from '../../entities/exam.entity';
+import { Exam } from '../../../../domain/entities/exam.entity';
+import { ClinicEntity } from '../../entities/clinic.entity';
+import { Clinic } from '../../../../domain/entities/clinic.entity';
+import { AnamnesisEntity } from '../../entities/anamnesis.entity';
+import { Anamnesis } from '../../../../domain/entities/anamnesis.entity';
+import { AnamnesisMapper } from './anamnesis.mapper';
+import { ExamMapper } from './exam.mapper';
 
 @Injectable()
 export class PatientMapper extends BaseMapper<Patient, PatientEntity> {
@@ -72,7 +72,7 @@ export class PatientMapper extends BaseMapper<Patient, PatientEntity> {
 
   public async toPersistence(domain: Patient): Promise<PatientEntity> {
     const entity = new PatientEntity();
-    BaseMapper.setCommonFields(entity, domain);
+    BaseMapper.setCommonFieldsToPersistence(entity, domain);
     entity.name = domain.name;
     entity.lastName = domain.lastName;
     entity.email = domain.email;
