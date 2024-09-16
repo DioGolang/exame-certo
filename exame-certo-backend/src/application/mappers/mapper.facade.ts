@@ -29,42 +29,71 @@ export class MapperFacade {
     private readonly doctorMapper: DoctorMapper,
   ) {}
 
+  private async mapEntityToDomain<T, U>(
+    entities: T[],
+    mapper: { toDomain(entity: T): U | Promise<U> },
+  ): Promise<U[]> {
+    return Promise.all(entities.map((entity) => mapper.toDomain(entity)));
+  }
+
+  private async mapSingleEntityToDomain<T, U>(
+    entity: T,
+    mapper: { toDomain(entity: T): Promise<U> },
+  ): Promise<U> {
+    return mapper.toDomain(entity);
+  }
+
   async mapAnamnesisToDomain(
     anamnesisEntities: AnamnesisEntity[],
   ): Promise<Anamnesis[]> {
-    return Promise.all(
-      anamnesisEntities.map((entity) => this.anamnesisMapper.toDomain(entity)),
-    );
+    return this.mapEntityToDomain(anamnesisEntities, this.anamnesisMapper);
+  }
+
+  async mapSingleAnamnesisToDomain(
+    anamnesisEntity: AnamnesisEntity,
+  ): Promise<Anamnesis> {
+    return this.mapSingleEntityToDomain(anamnesisEntity, this.anamnesisMapper);
   }
 
   async mapClinicsToDomain(clinicEntities: ClinicEntity[]): Promise<Clinic[]> {
-    return Promise.all(
-      clinicEntities.map((entity) => this.clinicMapper.toDomain(entity)),
-    );
+    return this.mapEntityToDomain(clinicEntities, this.clinicMapper);
+  }
+
+  async mapClinicToDomain(clinicEntity: ClinicEntity): Promise<Clinic> {
+    return this.mapSingleEntityToDomain(clinicEntity, this.clinicMapper);
   }
 
   async mapPatientsToDomain(
     patientEntities: PatientEntity[],
   ): Promise<Patient[]> {
-    return Promise.all(
-      patientEntities.map((entity) => this.patientMapper.toDomain(entity)),
-    );
+    return this.mapEntityToDomain(patientEntities, this.patientMapper);
+  }
+
+  async mapPatientToDomain(patientEntity: PatientEntity): Promise<Patient> {
+    return this.mapSingleEntityToDomain(patientEntity, this.patientMapper);
   }
 
   async mapDoctorsToDomain(doctorEntities: DoctorEntity[]): Promise<Doctor[]> {
-    return Promise.all(
-      doctorEntities.map((entity) => this.doctorMapper.toDomain(entity)),
-    );
+    return this.mapEntityToDomain(doctorEntities, this.doctorMapper);
+  }
+
+  async mapDoctorToDomain(doctorEntity: DoctorEntity): Promise<Doctor> {
+    return this.mapSingleEntityToDomain(doctorEntity, this.doctorMapper);
   }
 
   async mapExamsToDomain(examEntities: ExamEntity[]): Promise<Exam[]> {
-    return Promise.all(
-      examEntities.map((entity) => this.examMapper.toDomain(entity)),
-    );
+    return this.mapEntityToDomain(examEntities, this.examMapper);
   }
+
+  async mapExamToDomain(examEntity: ExamEntity): Promise<Exam> {
+    return this.mapSingleEntityToDomain(examEntity, this.examMapper);
+  }
+
   async mapReportsToDomain(reportEntities: ReportEntity[]): Promise<Report[]> {
-    return Promise.all(
-      reportEntities.map((entity) => this.reportMapper.toDomain(entity)),
-    );
+    return this.mapEntityToDomain(reportEntities, this.reportMapper);
+  }
+
+  async mapReportToDomain(reportEntity: ReportEntity): Promise<Report> {
+    return this.mapSingleEntityToDomain(reportEntity, this.reportMapper);
   }
 }
