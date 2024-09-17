@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { AnamnesisMapper } from '../../infra/database/repositories/mappers/anamnesis.mapper';
 import { PatientMapper } from '../../infra/database/repositories/mappers/patient.mapper';
-import { AnamnesisEntity } from '../../infra/database/entities/anamnesis.entity';
+import { AnamnesisEntity } from '../../infra/database/postgres/entities/anamnesis.entity';
 import { Anamnesis } from '../../domain/entities/anamnesis.entity';
-import { ClinicEntity } from '../../infra/database/entities/clinic.entity';
+import { ClinicEntity } from '../../infra/database/postgres/entities/clinic.entity';
 import { Clinic } from '../../domain/entities/clinic.entity';
-import { PatientEntity } from '../../infra/database/entities/patient.entity';
+import { PatientEntity } from '../../infra/database/postgres/entities/patient.entity';
 import { Patient } from '../../domain/entities/patient.entity';
-import { DoctorEntity } from '../../infra/database/entities/doctor.entity';
-import { ExamEntity } from '../../infra/database/entities/exam.entity';
+import { DoctorEntity } from '../../infra/database/postgres/entities/doctor.entity';
+import { ExamEntity } from '../../infra/database/postgres/entities/exam.entity';
 import { Exam } from '../../domain/entities/exam.entity';
 import { Doctor } from '../../domain/entities/doctor.entity';
 import { ExamMapper } from '../../infra/database/repositories/mappers/exam.mapper';
@@ -16,7 +16,7 @@ import { DoctorMapper } from '../../infra/database/repositories/mappers/doctor.m
 import { ClinicMapper } from '../../infra/database/repositories/mappers/clinic.mapper';
 import { ReportMapper } from '../../infra/database/repositories/mappers/report.mapper';
 import { Report } from '../../domain/entities/report.entity';
-import { ReportEntity } from '../../infra/database/entities/report.entity';
+import { ReportEntity } from '../../infra/database/postgres/entities/report.entity';
 
 @Injectable()
 export class MapperFacade {

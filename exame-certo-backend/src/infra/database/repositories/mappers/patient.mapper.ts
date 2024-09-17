@@ -1,4 +1,4 @@
-import { PatientEntity } from '../../entities/patient.entity';
+import { PatientEntity } from '../../postgres/entities/patient.entity';
 import { Patient } from '../../../../domain/entities/patient.entity';
 import { BaseMapper } from './base.mapper';
 import { BuilderFactory } from '../../../../domain/builders/builder.factory';

@@ -1,6 +1,6 @@
 import { MapperFacade } from '../../../../../application/mappers/mapper.facade';
 import { Injectable } from '@nestjs/common';
-import { PatientEntity } from '../../../entities/patient.entity';
+import { PatientEntity } from '../../../postgres/entities/patient.entity';
 import { Patient } from '../../../../../domain/entities/patient.entity';
 import { MapperFactory } from './mapper.factory';
 

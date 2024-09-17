@@ -10,5 +10,16 @@ services:
     volumes:
       - ./.docker/postgres_data:/var/lib/postgresql/data
 
+  mongodb:
+    image: bitnami/mongodb:latest
+    environment:
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+        - ./.docker/mongodb_data:/bitnami/mongodb/data
 volumes:
   postgres_data:
+  mongodb_data:

@@ -1,7 +1,7 @@
 import { Clinic } from 'src/domain/entities/clinic.entity';
 import { ClinicRepository } from '../../../domain/repositories/clinic.repository';
 import { Injectable } from '@nestjs/common';
-import { ClinicEntity } from '../entities/clinic.entity';
+import { ClinicEntity } from '../postgres/entities/clinic.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClinicMapper } from './mappers/clinic.mapper';

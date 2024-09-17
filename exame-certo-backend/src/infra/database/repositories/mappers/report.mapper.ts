@@ -1,4 +1,4 @@
-import { ReportEntity } from '../../entities/report.entity';
+import { ReportEntity } from '../../postgres/entities/report.entity';
 import { Report } from '../../../../domain/entities/report.entity';
 import { BaseMapper } from './base.mapper';
 import { Injectable } from '@nestjs/common';

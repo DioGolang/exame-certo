@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateClinicCommand } from '../commands/create-clinic.command';
-import { ClinicRepository } from '../../domain/repositories/clinic.repository';
+import { CreateClinicCommand } from '../create-clinic.command';
+import { ClinicRepository } from '../../../domain/repositories/clinic.repository';
 import { Inject } from '@nestjs/common';
-import { BuilderFactory } from '../../domain/builders/builder.factory';
+import { BuilderFactory } from '../../../domain/builders/builder.factory';
 
 @CommandHandler(CreateClinicCommand)
 export class CreateClinicHandler

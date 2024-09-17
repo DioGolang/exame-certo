@@ -1,17 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { ReferenceValues } from '../../../domain/value-objects/reference-values.vo';
-import { ExamValues } from '../../../domain/value-objects/exam-values.vo';
-import { TUSSCode } from '../../../domain/value-objects/tuss-code.vo';
-import { CBHPMCode } from '../../../domain/value-objects/cbhpm-code.vo';
-import { CIEFASCode } from '../../../domain/value-objects/ciefas-code.vo';
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm';
+import { ReferenceValues } from '../../../../domain/value-objects/reference-values.vo';
+import { ExamValues } from '../../../../domain/value-objects/exam-values.vo';
+import { TUSSCode } from '../../../../domain/value-objects/tuss-code.vo';
+import { CBHPMCode } from '../../../../domain/value-objects/cbhpm-code.vo';
+import { CIEFASCode } from '../../../../domain/value-objects/ciefas-code.vo';
 import { PatientEntity } from './patient.entity';
 import { ClinicEntity } from './clinic.entity';
 import { DoctorEntity } from './doctor.entity';
@@ -67,13 +59,9 @@ export class ExamEntity {
   @Column()
   mainComplaint: string;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    update: true,
-  })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 }

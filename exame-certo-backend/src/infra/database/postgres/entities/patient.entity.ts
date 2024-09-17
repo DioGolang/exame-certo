@@ -1,22 +1,14 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { Address } from '../../../domain/value-objects/address.vo';
-import { ContactInfo } from '../../../domain/value-objects/contact-info.vo';
-import { SocioEconomicInformation } from '../../../domain/value-objects/socio-economic-information.vo';
-import { Sex } from '../../../domain/enums/sex.enum';
-import { MaritalStatus } from '../../../domain/enums/marital-status.enum';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import { Address } from '../../../../domain/value-objects/address.vo';
+import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
+import { SocioEconomicInformation } from '../../../../domain/value-objects/socio-economic-information.vo';
+import { Sex } from '../../../../domain/enums/sex.enum';
+import { MaritalStatus } from '../../../../domain/enums/marital-status.enum';
 import { ExamEntity } from './exam.entity';
 
 import { ClinicEntity } from './clinic.entity';
 import { AnamnesisEntity } from './anamnesis.entity';
-import { Documentation } from '../../../domain/value-objects/documentation.vo';
+import { Documentation } from '../../../../domain/value-objects/documentation.vo';
 
 @Entity('patients')
 export class PatientEntity {
@@ -70,13 +62,9 @@ export class PatientEntity {
   @ManyToMany(() => ClinicEntity, (clinic) => clinic.patients)
   clinics: ClinicEntity[];
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    update: true,
-  })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 }

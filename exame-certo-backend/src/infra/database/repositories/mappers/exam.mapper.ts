@@ -1,8 +1,8 @@
-import { ExamEntity } from '../../entities/exam.entity';
+import { ExamEntity } from '../../postgres/entities/exam.entity';
 import { Exam } from '../../../../domain/entities/exam.entity';
 import { MapperUtils } from '../../../../shared/utils/mapper.utils';
 import { BaseMapper } from './base.mapper';
-import { ReportEntity } from '../../entities/report.entity';
+import { ReportEntity } from '../../postgres/entities/report.entity';
 import { Report } from '../../../../domain/entities/report.entity';
 import { Injectable } from '@nestjs/common';
 

@@ -3,14 +3,14 @@ config();
 
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as process from 'node:process';
-import { ReportEntity } from './entities/report.entity';
-import { ExamEntity } from './entities/exam.entity';
-import { AnamnesisEntity } from './entities/anamnesis.entity';
-import { ClinicEntity } from './entities/clinic.entity';
-import { DoctorEntity } from './entities/doctor.entity';
-import { PatientEntity } from './entities/patient.entity';
-import { DoctorClinicEntity } from './entities/doctor-clinics.entity';
-import { PatientClinicEntity } from './entities/patient-clinics.entity';
+import { ReportEntity } from './postgres/entities/report.entity';
+import { ExamEntity } from './postgres/entities/exam.entity';
+import { AnamnesisEntity } from './postgres/entities/anamnesis.entity';
+import { ClinicEntity } from './postgres/entities/clinic.entity';
+import { DoctorEntity } from './postgres/entities/doctor.entity';
+import { PatientEntity } from './postgres/entities/patient.entity';
+import { DoctorClinicEntity } from './postgres/entities/doctor-clinics.entity';
+import { PatientClinicEntity } from './postgres/entities/patient-clinics.entity';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',

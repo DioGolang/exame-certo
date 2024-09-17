@@ -1,14 +1,6 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { Address } from '../../../domain/value-objects/address.vo';
-import { ContactInfo } from '../../../domain/value-objects/contact-info.vo';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import { Address } from '../../../../domain/value-objects/address.vo';
+import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
 import { ClinicEntity } from './clinic.entity';
 import { ExamEntity } from './exam.entity';
 import { AnamnesisEntity } from './anamnesis.entity';
@@ -54,13 +46,9 @@ export class DoctorEntity {
   @ManyToMany(() => ClinicEntity, (clinic) => clinic.doctors)
   clinics: ClinicEntity[];
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    update: true,
-  })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 }

@@ -1,10 +1,4 @@
-import {
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ExamEntity } from './exam.entity';
 import { ReportEntity } from './report.entity';
 
@@ -19,13 +13,9 @@ export class ExamReportEntity {
   @ManyToOne(() => ReportEntity, (report) => report.exams)
   report: ReportEntity;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    update: true,
-  })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 }

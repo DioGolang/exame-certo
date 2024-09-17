@@ -1,4 +1,4 @@
-import { AnamnesisEntity } from '../../entities/anamnesis.entity';
+import { AnamnesisEntity } from '../../postgres/entities/anamnesis.entity';
 import { Anamnesis } from '../../../../domain/entities/anamnesis.entity';
 import { Injectable } from '@nestjs/common';
 import { BaseMapper } from './base.mapper';

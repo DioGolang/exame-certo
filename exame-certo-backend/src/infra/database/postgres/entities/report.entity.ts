@@ -1,15 +1,7 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { Signature } from '../../../domain/value-objects/signature.vo';
-import { AdditionalInformation } from '../../../domain/value-objects/additional-information.vo';
-import { CID10 } from '../../../domain/value-objects/cid.vo';
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Signature } from '../../../../domain/value-objects/signature.vo';
+import { AdditionalInformation } from '../../../../domain/value-objects/additional-information.vo';
+import { CID10 } from '../../../../domain/value-objects/cid.vo';
 import { ExamEntity } from './exam.entity';
 import { DoctorEntity } from './doctor.entity';
 
@@ -17,9 +9,6 @@ import { DoctorEntity } from './doctor.entity';
 export class ReportEntity {
   @PrimaryColumn('uuid')
   id: string;
-
-  @Column()
-  tenant_id: string;
 
   @ManyToMany(() => ExamEntity, (exam) => exam.reports)
   exams: ExamEntity[];
@@ -75,13 +64,9 @@ export class ReportEntity {
   @Column()
   illnessHistory: string;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    update: true,
-  })
+  @Column({ type: 'timestamp' })
   updatedAt: Date;
 }

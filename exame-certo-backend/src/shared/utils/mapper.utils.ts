@@ -1,17 +1,17 @@
 import { Anamnesis } from '../../domain/entities/anamnesis.entity';
-import { AnamnesisEntity } from '../../infra/database/entities/anamnesis.entity';
+import { AnamnesisEntity } from '../../infra/database/postgres/entities/anamnesis.entity';
 import { Sex } from '../../domain/enums/sex.enum';
 import { MaritalStatus } from '../../domain/enums/marital-status.enum';
 import { DefaultBuilderFactory } from '../../domain/builders/default-builder.factory';
 import { Patient } from '../../domain/entities/patient.entity';
-import { PatientEntity } from '../../infra/database/entities/patient.entity';
+import { PatientEntity } from '../../infra/database/postgres/entities/patient.entity';
 import { Clinic } from '../../domain/entities/clinic.entity';
-import { ClinicEntity } from '../../infra/database/entities/clinic.entity';
-import { ExamEntity } from '../../infra/database/entities/exam.entity';
+import { ClinicEntity } from '../../infra/database/postgres/entities/clinic.entity';
+import { ExamEntity } from '../../infra/database/postgres/entities/exam.entity';
 import { Exam } from '../../domain/entities/exam.entity';
-import { ReportEntity } from '../../infra/database/entities/report.entity';
+import { ReportEntity } from '../../infra/database/postgres/entities/report.entity';
 import { Doctor } from '../../domain/entities/doctor.entity';
-import { DoctorEntity } from '../../infra/database/entities/doctor.entity';
+import { DoctorEntity } from '../../infra/database/postgres/entities/doctor.entity';
 import { Report } from '../../domain/entities/report.entity';
 import { AddressMapper } from '../../infra/database/repositories/mappers/address.mapper';
 
@@ -544,17 +544,5 @@ export class MapperUtils {
     entity[domain.constructor.name.toLowerCase()] =
       Mapper.toPersistence(domain);
     return entity;
-  }
-
-  private static getMapperPath(entityName: string): string | undefined {
-    const mapperPathMap: { [key: string]: string } = {
-      anamnesis: '../../infra/database/repositories/mappers/anamnesis.mapper',
-      clinic: '../../infra/database/repositories/mappers/clinic.mapper',
-      exam: '../../infra/database/repositories/mappers/exam.mapper',
-      doctor: '../../infra/database/repositories/mappers/doctor.mapper',
-      report: '../../infra/database/repositories/mappers/reports.mapper',
-      patient: '../../infra/database/repositories/mappers/patient.mapper',
-    };
-    return mapperPathMap[entityName.toLowerCase()];
   }
 }

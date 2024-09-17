@@ -1,17 +1,17 @@
-import { ClinicEntity } from '../../entities/clinic.entity';
+import { ClinicEntity } from '../../postgres/entities/clinic.entity';
 import { Clinic } from '../../../../domain/entities/clinic.entity';
 import { Inject, Injectable } from '@nestjs/common';
 import { BaseMapper } from './base.mapper';
 import { BuilderFactory } from '../../../../domain/builders/builder.factory';
 import { AddressMapper } from './address.mapper';
 import { MapperUtils } from '../../../../shared/utils/mapper.utils';
-import { AnamnesisEntity } from '../../entities/anamnesis.entity';
+import { AnamnesisEntity } from '../../postgres/entities/anamnesis.entity';
 import { Anamnesis } from '../../../../domain/entities/anamnesis.entity';
-import { PatientEntity } from '../../entities/patient.entity';
+import { PatientEntity } from '../../postgres/entities/patient.entity';
 import { Patient } from '../../../../domain/entities/patient.entity';
-import { DoctorEntity } from '../../entities/doctor.entity';
+import { DoctorEntity } from '../../postgres/entities/doctor.entity';
 import { Doctor } from '../../../../domain/entities/doctor.entity';
-import { ExamEntity } from '../../entities/exam.entity';
+import { ExamEntity } from '../../postgres/entities/exam.entity';
 import { Exam } from '../../../../domain/entities/exam.entity';
 
 @Injectable()
