@@ -32,6 +32,10 @@ JWT_EXPIRES_IN=
 
 ## Installation
 
+Necessário ter Node e o docker instalado.
+
+caso não tenha docker, é preciso ter localmente : PostgreSQL e MongoDB 
+
 ---
 
 ```bash
