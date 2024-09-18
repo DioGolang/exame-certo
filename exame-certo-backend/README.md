@@ -1,38 +1,64 @@
 ## Description
 
 
+## Requirements
+
+Settings
+
+1. crie uma arquivo .env: 
+
+```dotenv
+
+DATABASE_URL=
+POSTGRES_DB=fatos_saude
+POSTGRES_USER=root
+POSTGRES_PASSWORD=root
+MONGODB_DATABASE=fatos_saude
+MONGODB_USER=root
+MONGODB_PASSWORD=root
+RABBITMQ_DEFAULT_USER=
+RABBITMQ_DEFAULT_PASS=
+RABBITMQ_QUEUE=
+NOTIFICATION_EMAIL_URL=
+AUTHORIZATION_URL=
+JWT_SECRET=
+JWT_EXPIRES_IN=
+
+```
+2. crie as pastas na raiz:
+- docker/postgres_data
+- docker/mongodb_data
+
+
 ## Installation
 
+---
+
 ```bash
-$ npm install
+
+docker compose up
+
 ```
 
-## Running the app
-
 ```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+npm install
 
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+Running the app
+---
 
 ```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+npm run start:dev
 
-# test coverage
-$ npm run test:cov
 ```
 
 ## License
 
 [MIT licensed](LICENSE).
+
+
+
+
