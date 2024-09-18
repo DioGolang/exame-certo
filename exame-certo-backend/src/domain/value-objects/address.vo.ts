@@ -3,6 +3,7 @@ import { AddressDto } from '../../application/dtos/address.dto';
 export class Address {
   readonly street: string;
   readonly number: string;
+  readonly neighborhood: string;
   readonly city: string;
   readonly state: string;
   readonly zipCode: string;
@@ -12,6 +13,7 @@ export class Address {
   constructor(
     street: string,
     num: string,
+    neighborhood: string,
     city: string,
     state: string,
     zipCode: string,
@@ -24,6 +26,7 @@ export class Address {
 
     this.street = street;
     this.number = num;
+    this.neighborhood = neighborhood;
     this.city = city;
     this.state = state;
     this.zipCode = zipCode;
@@ -35,6 +38,7 @@ export class Address {
     return new Address(
       addressDto.street,
       addressDto.number,
+      addressDto.neighborhood,
       addressDto.city,
       addressDto.state,
       addressDto.zipCode,

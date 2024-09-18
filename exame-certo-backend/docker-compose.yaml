@@ -8,7 +8,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./.docker/postgres_data:/var/lib/postgresql/data
+      - ./.docker/postgres_data:/var/lib/postgres/data
 
   mongodb:
     image: bitnami/mongodb:latest

@@ -1,24 +1,35 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { Identification } from '../../../../domain/value-objects/identification.vo';
 import { PersonalHistory } from '../../../../domain/value-objects/personal-history.vo';
 import { Medicine } from '../../../../domain/value-objects/medicine.vo';
 import { IdentificationSchema } from './identification.schema';
 import { PersonalHistorySchema } from './personal-history.schema';
+import * as mongoose from 'mongoose';
+import { Doctor } from './doctor.schema';
+import { Clinic } from './clinic.schema';
+import { Patient } from './patient.schema';
+import { MedicineSchema } from './medicine.schema';
 
-@Schema({ timestamps: true })
-export class Anamnesis extends Document {
+export type AnamnesisDocument = HydratedDocument<Anamnesis>;
+
+@Schema()
+export class Anamnesis {
   @Prop({ required: true, unique: true })
   id: string; // UUID
 
-  @Prop({ type: Types.ObjectId, ref: 'Patient', required: true })
-  patient: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Patient',
+    required: true,
+  })
+  patient: Patient;
 
-  @Prop({ type: Types.ObjectId, ref: 'Doctor', required: true })
-  doctor: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true })
+  doctor: Doctor;
 
-  @Prop({ type: Types.ObjectId, ref: 'Clinic', required: true })
-  clinic: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Clinic', required: true })
+  clinic: Clinic;
 
   @Prop({ required: true })
   date: Date;
@@ -47,8 +58,14 @@ export class Anamnesis extends Document {
   @Prop({ type: PersonalHistorySchema })
   personalHistory: PersonalHistory;
 
-  @Prop()
+  @Prop({ type: MedicineSchema })
   medicines: Medicine[];
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export const AnamnesisSchema = SchemaFactory.createForClass(Anamnesis);

@@ -44,6 +44,14 @@ Os princípios SOLID são seguidos rigorosamente para garantir que o código sej
 
 4. **Event-Driven Architecture:**
    - Para processar eventos de webhooks e sincronização de dados de forma desacoplada e assíncrona.
+
+---
+
+## Padrões arquiteturiais 
+
+1. **CQRS:**
+   - Para separar as operações de leitura (queries) das operações de escrita (commands) do sistema.
+
 ---
 
 ### Desafios Identificados
@@ -143,64 +151,76 @@ O sistema será desenvolvido usando os princípios do **Domain-Driven Design (DD
 - ExamEntity
 - ReportEntity
 
-Cada entidade relevante terá um campo tenant_id para garantir o isolamento dos dados por clínica.
+o ID da Clínica será utilizada como tenant_id para garantir o isolamento dos dados por clínica.
 
-1. PatientEntity
-- Um paciente pode estar associado a várias clínicas. O campo *tenant_id* é usado para garantir que as associações de um paciente sejam isoladas por clínica.
+1. *Patient*:
+- *One-to-Many com Anamnesis:* Um `Patient` pode ter várias `Anamnesis`.
+- *One-to-Many com Exam:* Um `Patient` pode ter vários `Exam`.
+- *Many-to-Many com Clinic:* Um `Patient` pode estar associado a várias `Clinic`.
 
-2. DoctorEntity
-- Um médico pode estar associado a várias clínicas e atender vários pacientes. O tenant_id garante que os dados sejam filtrados por clínica.
 
-3. ClinicEntity
-- A clínica é o tenant no sistema, com muitos médicos e pacientes associados. As operações de leitura e gravação são isoladas por tenant_id.
+2. *Doctor:*
+- *One-to-Many com Anamnesis:* Um `Doctor` pode realizar várias `Anamnesis`.
+- *One-to-Many com Exam:* Um `Doctor` pode solicitar ou realizar vários `Exam`.
+- *One-to-Many com Report:* Um `Doctor` pode emitir vários `Report` (relatórios) de exames.
+- *Many-to-Many com Clinic:* Um `Doctor` pode atender a uma `Clinic`.
 
-4. AnamnesisEntity
-- A anamnese pertence a um paciente e a um médico, ambos associados ao mesmo tenant (clínica). Isso garante que a anamnese seja isolada por clínica. 
 
-5. ExamEntity
-- Um exame pertence a um paciente, a um médico e a uma clínica, todos associados ao mesmo tenant (clínica).
+3. *Clinic:*
+- *Many-to-Many com Patient:* Uma `Clinic` estar associada a vários `Patient`.
+- *Many-to-Many com Doctor:* Uma `Clinic` pode ter vários `Doctor` associados.
+- *One-to-Many com Exam:* Uma `Clinic` pode realizar vários `Exam`.
+- *One-to-Many com Anamnesis:* Uma `Clinic` pode ter vários `Anamnesis`.
+- *One-to-Many com Report:* Uma `Clinic` pode ter vários `Report`.
 
-6. ReportEntity
-- Um laudo (report) é associado a um exame e a um médico, garantindo que o tenant_id seja consistente com a clínica em questão.
+
+
+4. *Anamnesis:*
+- *Many-to-One com Patient:* Uma `Anamnesis` estar associada a um `Patient`.
+- *Many-to-One com Doctor:* Uma `Anamnesis` estar associada a um `Doctor`.
+- *Many-to-One com Clinic:* Uma `Anamnesis` estar associada a uma `Clinic`.
+
+
+5. *Exam:*
+- *Many-to-One com Patient:* Um `Exam` estar associada a um `Patient`.
+- *Many-to-One com Clinic:* Um `Exam` estar associado a um `Doctor`.
+- *Many-to-One com Doctor:* Um `Exam` estar associado a um `Clinic`.
+- *Many-to-Many com Report:* Um `Exam` estar associado a vários `Report`. (opiniões de múltiplos especialistas)
+
+
+6. *Report:*
+- *Many-to-One com Patient:* Um `Report` estar associada a um `Patient`.
+- *Many-to-One com Doctor:* Um `Report` estar associada a `Doctor`.
+- *Many-to-Many com Exam:* Um `Report` estar associada vários `Exam`.
+
+`Patient` ↔ `Doctor`: Relacionamento indireto, mediado por `Clinic`.
+`Patient` ↔ `Report`: Relacionamento indireto através de `Exam`.
+
 
 
 ### Explicação dos Relacionamentos e Isolamento por Tenant
 
 1. Tenant Context: 
-- Cada clínica (tenant) tem seu próprio tenant_id. Todas as operações de leitura e gravação são filtradas por esse tenant_id, garantindo que os dados sejam isolados por clínica.
+- Cada clínica é um (tenant). Todas as operações de leitura e gravação são filtradas por esse tenant, garantindo que os dados sejam isolados por clínica.
 
 2. Shared Database: 
-- Todas as clínicas compartilham o mesmo banco de dados físico, mas os dados são logicamente separados pelo tenant_id, o que simplifica o gerenciamento e a escalabilidade.
+- Todas as clínicas compartilham o mesmo banco de dados físico, mas os dados são logicamente separados pelo tenant, o que simplifica o gerenciamento e a escalabilidade.
 
 3. Bounded Contexts:
 
 - Gestão de Pacientes: O PatientEntity é o Aggregate Root no contexto de "Gestão de Pacientes".
 - Gestão de Médicos: O DoctorEntity é o Aggregate Root no contexto de "Gestão de Médicos".
 
-Esses contextos são isolados e interagem de forma controlada, utilizando o tenant_id para garantir que as interações entre pacientes e médicos sejam filtradas corretamente.
+Esses contextos são isolados e interagem de forma controlada, utilizando o tenant(id_clinic) para garantir que as interações entre pacientes e médicos sejam filtradas corretamente.
 
 4. Service Layer e Tenant Filtering:
 
-- Todas as operações realizadas pela camada de serviço devem sempre passar o tenant_id para garantir que apenas os dados da clínica atual sejam acessados ou manipulados.
+- Todas as operações realizadas pela camada de serviço devem sempre passar o tenant(id_clinic) para garantir que apenas os dados da clínica atual sejam acessados ou manipulados.
 
 5. Tabelas de Junção e Chaves Estrangeiras:
 
 - Tabela de Junção: Relacionamentos muitos-para-muitos, como entre médicos e clínicas, são modelados com tabelas de junção (doctor_clinics, patient_clinics).
-- Chaves Estrangeiras: As chaves estrangeiras garantem a integridade referencial e asseguram que os dados estejam corretamente associados ao tenant_id.
-
-
-### Relacionamentos entre as entidades por tenant_id
-
-- PatientEntity: Um paciente pode estar associado a várias clínicas (ManyToMany), e cada associação tem um tenant_id específico. Isso garante que o paciente possa existir em diferentes clínicas com registros distintos para cada uma.
-
-- DoctorEntity: Um médico pode estar associado a várias clínicas (ManyToMany), e o tenant_id identifica a clínica específica para cada associação.
-
-- ClinicEntity: A clínica possui muitos médicos e pacientes associados (ManyToMany), e o tenant_id é usado para garantir que as operações de leitura e gravação sejam isoladas por clínica.
-
-- AnamnesisEntity: Uma anamnese pertence a um paciente e a um médico, ambos com o mesmo tenant_id, garantindo que a anamnese seja isolada para uma clínica específica.
-
-- ExamEntity: Um exame pertence a um paciente, a um médico, e a uma clínica. O tenant_id assegura que o exame seja associado corretamente à clínica correspondente.
-
+- Chaves Estrangeiras: As chaves estrangeiras garantem a integridade referencial e asseguram que os dados estejam corretamente associados ao tenant.
 
 ---
 
@@ -217,6 +237,7 @@ Esses contextos são isolados e interagem de forma controlada, utilizando o tena
 
 3. **Banco de Dados:**
    - Banco de dados relacional como PostgreSQL para armazenar dados estruturados.
+   - Banco de dados NoSQL como MongoDB para leitura dos dados.
    - Implementação de criptografia em repouso para dados sensíveis.
 
 4. **OCR:**
@@ -231,3 +252,58 @@ Esses contextos são isolados e interagem de forma controlada, utilizando o tena
 7. **Chart.js/D3.js:**
    - Utilizadas para a geração de gráficos de evolução dos exames na interface de usuário.
 
+
+---
+
+## Requirements
+
+Settings
+
+1. crie uma arquivo .env: 
+
+```dotenv
+
+DATABASE_URL=
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+MONGODB_DATABASE=
+MONGODB_USER=
+MONGODB_PASSWORD=
+RABBITMQ_DEFAULT_USER=
+RABBITMQ_DEFAULT_PASS=
+RABBITMQ_QUEUE=
+NOTIFICATION_EMAIL_URL=
+AUTHORIZATION_URL=
+JWT_SECRET=
+JWT_EXPIRES_IN=
+
+```
+2. crie as pastas na raiz:
+- docker/postgres_data
+- docker/mongodb_data
+
+
+Installation
+---
+
+```bash
+
+docker compose up
+
+```
+
+```bash
+
+npm install
+
+```
+
+Running the app
+---
+
+```bash
+
+npm run start:dev
+
+``

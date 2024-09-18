@@ -1,21 +1,27 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { CID10 } from '../../../../domain/value-objects/cid.vo';
 import { Signature } from '../../../../domain/value-objects/signature.vo';
 import { AdditionalInformation } from '../../../../domain/value-objects/additional-information.vo';
+import * as mongoose from 'mongoose';
+import { Exam } from './exam.schema';
+import { CID10Schema } from './cid.schema';
+import { AdditionalInformationSchema } from './additional-information.schema';
 
-@Schema({ timestamps: true })
-export class Report extends Document {
+export type ReportDocument = HydratedDocument<Report>;
+
+@Schema()
+export class Report {
   @Prop({ required: true, unique: true })
   id: string; // UUID
 
   @Prop({ required: true })
   tenant_id: string;
 
-  @Prop({ type: [{ type: String, ref: 'Exam' }] })
-  exams: string[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }] })
+  exams: Exam[];
 
-  @Prop({ type: String, ref: 'Doctor', required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true })
   doctor: string;
 
   @Prop({ required: true })
@@ -24,7 +30,7 @@ export class Report extends Document {
   @Prop({ required: true })
   diagnosis: string;
 
-  @Prop()
+  @Prop({ type: CID10Schema })
   CID10: CID10[];
 
   @Prop()
@@ -36,7 +42,7 @@ export class Report extends Document {
   @Prop()
   hypothesis: string;
 
-  @Prop()
+  @Prop({ type: AdditionalInformationSchema })
   additionalInformation: AdditionalInformation;
 
   @Prop()
@@ -65,6 +71,12 @@ export class Report extends Document {
 
   @Prop()
   illnessHistory: string;
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export const ReportSchema = SchemaFactory.createForClass(Report);

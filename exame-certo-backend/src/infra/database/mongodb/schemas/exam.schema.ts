@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { ExamValues } from '../../../../domain/value-objects/exam-values.vo';
 import { ReferenceValues } from '../../../../domain/value-objects/reference-values.vo';
 import { TUSSCode } from '../../../../domain/value-objects/tuss-code.vo';
@@ -10,23 +10,30 @@ import { CIEFASCodeSchema } from './ciefas-code.schema';
 import { TUSSCodeSchema } from './tuss-code.schema';
 import { ExamValuesSchema } from './exam-values.schema';
 import { ReferenceValuesSchema } from './reference-values.schema';
+import mongoose from 'mongoose';
+import { Doctor } from './doctor.schema';
+import { Clinic } from './clinic.schema';
+import { Patient } from './patient.schema';
+import { Report } from './report.schema';
 
-@Schema({ timestamps: true })
-export class Exam extends Document {
+export type ExamDocument = HydratedDocument<Exam>;
+
+@Schema()
+export class Exam {
   @Prop({ required: true, unique: true })
   id: string; // UUID
 
-  @Prop({ type: Types.ObjectId, ref: 'Patient' })
-  patient: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' })
+  patient: Patient;
 
-  @Prop({ type: Types.ObjectId, ref: 'Clinic' })
-  clinic: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Clinic' })
+  clinic: Clinic;
 
-  @Prop({ type: Types.ObjectId, ref: 'Doctor' })
-  doctor: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' })
+  doctor: Doctor;
 
-  @Prop([{ type: Types.ObjectId, ref: 'Report' }])
-  reports: string[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Report' }] })
+  reports: Report[];
 
   @Prop({ required: true })
   date: Date;
@@ -60,6 +67,12 @@ export class Exam extends Document {
 
   @Prop()
   mainComplaint: string;
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export const ExamSchema = SchemaFactory.createForClass(Exam);

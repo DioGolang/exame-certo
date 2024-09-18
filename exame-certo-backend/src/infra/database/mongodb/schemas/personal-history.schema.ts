@@ -1,12 +1,21 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type PersonalHistoryDocument = HydratedDocument<PersonalHistory>;
 
 @Schema()
 export class PersonalHistory {
   @Prop({ required: true })
-  history: string;
+  pathological: string;
+
+  @Prop({ required: true })
+  physiological: string;
+
+  @Prop({ required: true })
+  lifestyle: string;
 
   @Prop()
-  notes: string;
+  gynecoObstetric: string;
 }
 
 export const PersonalHistorySchema =

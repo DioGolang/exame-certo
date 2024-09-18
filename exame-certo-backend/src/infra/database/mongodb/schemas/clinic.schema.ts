@@ -1,10 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Address } from '../../../../domain/value-objects/address.vo';
 import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
+import { HydratedDocument } from 'mongoose';
+import { AddressSchema } from './address.schema';
+import { ContactInfoSchema } from './contact-info.schema';
+import * as mongoose from 'mongoose';
+import { Anamnesis } from './anamnesis.schema';
+import { Exam } from './exam.schema';
+import { Patient } from './patient.schema';
+import { Doctor } from './doctor.schema';
+
+export type ClinicDocument = HydratedDocument<Clinic>;
 
 @Schema()
-export class Clinic extends Document {
-  @Prop({ required: true })
+export class Clinic {
+  @Prop({ required: true, unique: true })
   id: string;
 
   @Prop({ required: true })
@@ -13,23 +23,23 @@ export class Clinic extends Document {
   @Prop({ required: true })
   email: string;
 
-  @Prop()
+  @Prop({ type: AddressSchema })
   address: Address;
 
-  @Prop()
+  @Prop({ type: ContactInfoSchema })
   contactInfo: ContactInfo;
 
-  @Prop({ type: [{ type: String, ref: 'Doctor' }] })
-  doctors: string[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }] })
+  doctors: Doctor[];
 
-  @Prop({ type: [{ type: String, ref: 'Patient' }] })
-  patients: string[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }] })
+  patients: Patient[];
 
-  @Prop({ type: [{ type: String, ref: 'Exam' }] })
-  exams: string[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }] })
+  exams: Exam[];
 
-  @Prop({ type: [{ type: String, ref: 'Anamnesis' }] })
-  anamnesis: string[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Anamnesis' }] })
+  anamnesis: Anamnesis[];
 
   @Prop()
   createdAt: Date;

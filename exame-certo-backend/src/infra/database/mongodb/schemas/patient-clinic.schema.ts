@@ -20,3 +20,4 @@ export class PatientClinic extends Document {
 }
 
 export const PatientClinicSchema = SchemaFactory.createForClass(PatientClinic);
+PatientClinicSchema.index({ patient: 1, clinic: 1 }, { unique: true });

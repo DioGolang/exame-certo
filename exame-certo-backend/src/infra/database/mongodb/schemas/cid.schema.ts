@@ -1,15 +1,15 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type CIEFASCodeDocument = HydratedDocument<CIEFASCode>;
+export type CID10Document = HydratedDocument<CID10>;
 
 @Schema()
-export class CIEFASCode {
+export class CID10 {
   @Prop({ required: true })
   code: string;
 
-  @Prop()
+  @Prop({ required: true })
   description: string;
 }
 
-export const CIEFASCodeSchema = SchemaFactory.createForClass(CIEFASCode);
+export const CID10Schema = SchemaFactory.createForClass(CID10);

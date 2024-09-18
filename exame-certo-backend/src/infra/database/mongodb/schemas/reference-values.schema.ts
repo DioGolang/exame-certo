@@ -1,16 +1,21 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type ReferenceValuesDocument = HydratedDocument<ReferenceValues>;
 
 @Schema()
-export class ReferenceValues extends Document {
+export class ReferenceValues {
   @Prop({ required: true })
-  minValue: number;
+  parameter: string;
 
   @Prop({ required: true })
-  maxValue: number;
+  lowerLimit: number;
 
   @Prop({ required: true })
-  unit: string;
+  upperLimit: number;
+
+  @Prop()
+  unit: number;
 }
 
 export const ReferenceValuesSchema =
