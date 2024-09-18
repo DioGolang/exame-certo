@@ -15,7 +15,7 @@ export class PatientClinic extends Document {
   @Prop({ default: true })
   authorized: boolean;
 
-  @Prop({ default: Date.now })
+  @Prop({ required: true })
   authorizedAt: Date;
 }
 

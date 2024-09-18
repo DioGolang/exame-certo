@@ -7,6 +7,7 @@ import * as mongoose from 'mongoose';
 import { Exam } from './exam.schema';
 import { CID10Schema } from './cid.schema';
 import { AdditionalInformationSchema } from './additional-information.schema';
+import { SignatureSchema } from './signature.schema';
 
 export type ReportDocument = HydratedDocument<Report>;
 
@@ -45,7 +46,7 @@ export class Report {
   @Prop({ type: AdditionalInformationSchema })
   additionalInformation: AdditionalInformation;
 
-  @Prop()
+  @Prop({ type: SignatureSchema })
   signature: Signature;
 
   @Prop()

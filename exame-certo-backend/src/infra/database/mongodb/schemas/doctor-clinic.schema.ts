@@ -1,9 +1,11 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, HydratedDocument, Types } from 'mongoose';
 import { Doctor } from './doctor.schema';
 import { Clinic } from './clinic.schema';
 
-@Schema({ timestamps: true })
+export type DoctorClinicDocument = HydratedDocument<DoctorClinic>;
+
+@Schema()
 export class DoctorClinic extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Doctor', required: true })
   doctor: Doctor;
@@ -11,13 +13,13 @@ export class DoctorClinic extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Clinic', required: true })
   clinic: Clinic;
 
-  @Prop({ type: Date, default: Date.now })
+  @Prop({ required: true })
   associatedAt: Date;
 
-  @Prop({ type: Date, default: Date.now })
+  @Prop({})
   createdAt: Date;
 
-  @Prop({ type: Date, default: Date.now })
+  @Prop()
   updatedAt: Date;
 }
 

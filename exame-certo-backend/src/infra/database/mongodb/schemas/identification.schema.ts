@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { Sex } from '../../../../domain/enums/sex.enum';
 import { Ethnicity } from '../../../../domain/enums/ethnicity.enum';
 import { MaritalStatus } from '../../../../domain/enums/marital-status.enum';
@@ -12,7 +12,7 @@ import { ContactInfo, ContactInfoSchema } from './contact-info.schema';
 export type IdentificationDocument = HydratedDocument<Identification>;
 
 @Schema()
-export class Identification extends Document {
+export class Identification {
   @Prop({ required: true })
   name: string;
 

@@ -1,8 +1,11 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type SocioEconomicInformationDocument =
+  HydratedDocument<SocioEconomicInformation>;
 
 @Schema()
-export class SocioEconomicInformation extends Document {
+export class SocioEconomicInformation {
   @Prop({ required: true })
   income: number;
 

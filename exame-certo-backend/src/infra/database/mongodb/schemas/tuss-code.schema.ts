@@ -1,8 +1,10 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type TUSSCodeDocument = HydratedDocument<TUSSCode>;
 
 @Schema()
-export class TUSSCode extends Document {
+export class TUSSCode {
   @Prop({ required: true })
   code: string;
 
