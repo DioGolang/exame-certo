@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { ClinicEntity } from '../postgres/entities/clinic.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ClinicMapper } from './mappers/clinic.mapper';
+import { ClinicMapper } from './mappers/clinic-mapper/clinic.mapper';
 
 @Injectable()
 export class ClinicRepositoryImpl implements ClinicRepository {

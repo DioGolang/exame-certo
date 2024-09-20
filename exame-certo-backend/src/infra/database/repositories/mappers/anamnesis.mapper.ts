@@ -1,10 +1,14 @@
 import { AnamnesisEntity } from '../../postgres/entities/anamnesis.entity';
 import { Anamnesis } from '../../../../domain/entities/anamnesis.entity';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { BaseMapper } from './base.mapper';
+import { BuilderFactory } from '../../../../domain/builders/builder.factory';
 
 @Injectable()
 export class AnamnesisMapper extends BaseMapper<Anamnesis, AnamnesisEntity> {
+  constructor(@Inject('BuilderFactory') builder: BuilderFactory) {
+    super(builder);
+  }
   public async toDomain(entity: AnamnesisEntity): Promise<Anamnesis> {
     const builder = await this.builder.createAnamnesisBuilder(entity.id);
 

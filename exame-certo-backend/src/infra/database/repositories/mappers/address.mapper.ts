@@ -6,6 +6,7 @@ export class AddressMapper {
     return {
       street: address.street,
       number: address.number,
+      neighborhood: address.neighborhood,
       city: address.city,
       state: address.state,
       zipCode: address.zipCode,
@@ -17,6 +18,7 @@ export class AddressMapper {
     return {
       street: address.street,
       number: address.number,
+      neighborhood: address.neighborhood,
       city: address.city,
       state: address.state,
       zipCode: address.zipCode,

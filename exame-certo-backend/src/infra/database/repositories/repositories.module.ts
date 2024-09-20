@@ -11,10 +11,11 @@ import { DoctorClinicEntity } from '../postgres/entities/doctor-clinics.entity';
 import { ExamReportEntity } from '../postgres/entities/exam-report.entity';
 import { PatientClinicEntity } from '../postgres/entities/patient-clinics.entity';
 import { ClinicRepositoryImpl } from './clinic.repository.impl';
-import { ClinicMapper } from './mappers/clinic.mapper';
+import { ClinicMapper } from './mappers/clinic-mapper/clinic.mapper';
 import { MappersModule } from './mappers/mappers.module';
 import { DefaultBuilderFactory } from '../../../domain/builders/default-builder.factory';
 import { AddressMapper } from './mappers/address.mapper';
+import { ClinicReadRepositoryModule } from './mongodb/clinic-read-repository/clinic-read-repository.module';
 
 @Module({
   imports: [
@@ -31,11 +32,11 @@ import { AddressMapper } from './mappers/address.mapper';
       PatientClinicEntity,
     ]),
     MappersModule,
+    ClinicReadRepositoryModule,
   ],
   providers: [
     ClinicMapper,
     AddressMapper,
-
     {
       provide: 'ClinicRepository',
       useClass: ClinicRepositoryImpl,
@@ -45,6 +46,11 @@ import { AddressMapper } from './mappers/address.mapper';
       useClass: DefaultBuilderFactory,
     },
   ],
-  exports: [TypeOrmModule, 'ClinicRepository', 'BuilderFactory'],
+  exports: [
+    TypeOrmModule,
+    'ClinicRepository',
+    'BuilderFactory',
+    'ClinicReadRepository', // Ensure this is included
+  ],
 })
 export class RepositoriesModule {}

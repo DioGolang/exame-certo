@@ -4,10 +4,14 @@ import { MapperUtils } from '../../../../shared/utils/mapper.utils';
 import { BaseMapper } from './base.mapper';
 import { ReportEntity } from '../../postgres/entities/report.entity';
 import { Report } from '../../../../domain/entities/report.entity';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { BuilderFactory } from '../../../../domain/builders/builder.factory';
 
 @Injectable()
 export class ExamMapper extends BaseMapper<Exam, ExamEntity> {
+  constructor(@Inject('BuilderFactory') builder: BuilderFactory) {
+    super(builder);
+  }
   public async toDomain(entity: ExamEntity): Promise<Exam> {
     const builder = await this.builder.createExamBuilder(entity.id);
     builder

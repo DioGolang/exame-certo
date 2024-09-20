@@ -1,8 +1,9 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { CreateClinicCommand } from '../create-clinic.command';
 import { ClinicRepository } from '../../../domain/repositories/clinic.repository';
 import { Inject } from '@nestjs/common';
 import { BuilderFactory } from '../../../domain/builders/builder.factory';
+import { ClinicCreatedEvent } from '../../events/clinic-created.event';
 
 @CommandHandler(CreateClinicCommand)
 export class CreateClinicHandler
@@ -13,6 +14,7 @@ export class CreateClinicHandler
     private readonly clinicRepository: ClinicRepository,
     @Inject('BuilderFactory')
     private readonly clinicBuilder: BuilderFactory,
+    private readonly eventBus: EventBus,
   ) {}
 
   async execute(command: CreateClinicCommand): Promise<void> {
@@ -29,6 +31,20 @@ export class CreateClinicHandler
       .build();
     //console.log(await clinicMapper.toPersistence(clinic));
     //console.log(clinic);
+
     await this.clinicRepository.save(clinic);
+
+    const createClinicEventDto = {
+      id: clinic.id,
+      password: clinic.password,
+      name: clinic.name,
+      email: clinic.email,
+      address: { ...clinic.address },
+      contactInfo: { ...clinic.contactInfo },
+      createdAt: clinic.createdAt,
+      updatedAt: clinic.updatedAt,
+    };
+
+    this.eventBus.publish(new ClinicCreatedEvent(createClinicEventDto));
   }
 }

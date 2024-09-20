@@ -20,6 +20,20 @@ services:
       - "27017:27017"
     volumes:
         - ./.docker/mongodb_data:/bitnami/mongodb/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - ./.docker/rabbitmq_data:/var/lib/rabbitmq
+
 volumes:
   postgres_data:
   mongodb_data:
+  rabbitmq_data:

@@ -1,15 +1,17 @@
-import { MapperFacade } from '../../../../../application/mappers/mapper.facade';
-import { Injectable } from '@nestjs/common';
-import { PatientEntity } from '../../../postgres/entities/patient.entity';
-import { Patient } from '../../../../../domain/entities/patient.entity';
-import { MapperFactory } from './mapper.factory';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { PatientEntity } from '../../../infra/database/postgres/entities/patient.entity';
+import { Patient } from '../../../domain/entities/patient.entity';
+import { MapperFacade } from '../mapper-facade/mapper-facade';
+import { MapperFactory } from '../mapper-factory.interface';
 
 @Injectable()
 export class PatientMappingFactoryImpl
   implements MapperFactory<PatientEntity, Patient>
 {
-  constructor(private readonly mapperFacade: MapperFacade) {}
-
+  constructor(
+    @Inject(forwardRef(() => MapperFacade))
+    private readonly mapperFacade: MapperFacade,
+  ) {}
   async mapRelationshipsToDomain(entity: PatientEntity): Promise<any> {
     const [anamnesisArray, examArray, clinicArray] = await Promise.all([
       this.mapperFacade.mapAnamnesisToDomain(entity.anamnesis ?? []),

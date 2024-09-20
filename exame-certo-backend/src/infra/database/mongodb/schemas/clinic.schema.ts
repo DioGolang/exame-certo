@@ -23,6 +23,9 @@ export class Clinic {
   @Prop({ required: true })
   email: string;
 
+  @Prop({ required: true })
+  password: string;
+
   @Prop({ type: AddressSchema })
   address: Address;
 

@@ -1,18 +1,19 @@
-import { PatientEntity } from '../../postgres/entities/patient.entity';
-import { Patient } from '../../../../domain/entities/patient.entity';
-import { BaseMapper } from './base.mapper';
-import { BuilderFactory } from '../../../../domain/builders/builder.factory';
-import { Inject, Injectable } from '@nestjs/common';
-import { DocumentationMapper } from './document.mapper';
-import { Sex } from '../../../../domain/enums/sex.enum';
-import { MaritalStatus } from '../../../../domain/enums/marital-status.enum';
-import { PatientMappingFactoryImpl } from './factory/patient-mapping.factory';
+import { PatientEntity } from '../../../postgres/entities/patient.entity';
+import { Patient } from '../../../../../domain/entities/patient.entity';
+import { BaseMapper } from '../base.mapper';
+import { BuilderFactory } from '../../../../../domain/builders/builder.factory';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { DocumentationMapper } from '../document.mapper';
+import { Sex } from '../../../../../domain/enums/sex.enum';
+import { MaritalStatus } from '../../../../../domain/enums/marital-status.enum';
+import { PatientMappingFactoryImpl } from '../../../../../application/mappers/patient-mapper-factory/patient-mapping.factory';
 
 @Injectable()
 export class PatientMapper extends BaseMapper<Patient, PatientEntity> {
   constructor(
     @Inject('BuilderFactory') builder: BuilderFactory,
     private readonly documentationMapper: DocumentationMapper,
+    @Inject(forwardRef(() => PatientMappingFactoryImpl))
     private readonly patientMappingFactory: PatientMappingFactoryImpl,
   ) {
     super(builder);

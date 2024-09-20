@@ -1,5 +1,5 @@
-import { ContactInfoDto } from "../../../../application/dtos/contact-info.dto";
-import { ContactInfo } from "../../../../domain/value-objects/contact-info.vo";
+import { ContactInfoDto } from '../../../../application/dtos/contact-info.dto';
+import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
 
 export class ContactInfoMapper {
   static toDto(contactInfo: ContactInfo): ContactInfoDto {
@@ -14,5 +14,4 @@ export class ContactInfoMapper {
       extension3: contactInfo.extension3,
     };
   }
-
 }
