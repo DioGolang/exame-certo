@@ -5,15 +5,13 @@ import { Clinic, ClinicSchema } from '../../../mongodb/schemas/clinic.schema';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/exame-certo', {
-      connectionName: 'exame_certo',
-    }),
     MongooseModule.forFeature(
       [{ name: Clinic.name, schema: ClinicSchema }],
       'exame_certo',
     ),
   ],
   providers: [
+    ClinicReadRepositoryImpl,
     {
       provide: 'ClinicReadRepository',
       useClass: ClinicReadRepositoryImpl,

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from '../typeorm.config';
 import { PatientEntity } from '../postgres/entities/patient.entity';
@@ -32,7 +32,7 @@ import { ClinicReadRepositoryModule } from './mongodb/clinic-read-repository/cli
       PatientClinicEntity,
     ]),
     MappersModule,
-    ClinicReadRepositoryModule,
+    forwardRef(() => ClinicReadRepositoryModule),
   ],
   providers: [
     ClinicMapper,
@@ -50,7 +50,7 @@ import { ClinicReadRepositoryModule } from './mongodb/clinic-read-repository/cli
     TypeOrmModule,
     'ClinicRepository',
     'BuilderFactory',
-    'ClinicReadRepository', // Ensure this is included
+    'ClinicReadRepository',
   ],
 })
 export class RepositoriesModule {}

@@ -42,6 +42,11 @@ import { ClinicReadRepositoryImpl } from '../../infra/database/repositories/mong
       useClass: DefaultBuilderFactory,
     },
   ],
-  exports: [ClinicService, 'ClinicRepository', 'ClinicReadRepository'],
+  exports: [
+    ClinicService,
+    'ClinicRepository',
+    'BuilderFactory',
+    'ClinicReadRepository',
+  ],
 })
 export class ClinicModule {}

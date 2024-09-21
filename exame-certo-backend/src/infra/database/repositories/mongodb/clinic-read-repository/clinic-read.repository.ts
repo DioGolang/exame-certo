@@ -1,14 +1,16 @@
 import { ClinicReadRepository } from '../../../../../domain/repositories/clinic-read.repository';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Clinic as ClinicModel } from '../../../mongodb/schemas/clinic.schema';
-import { Clinic } from '../../../../../domain/entities/clinic.entity';
+import { Clinic } from '../../../mongodb/schemas/clinic.schema';
+import { Clinic as ClinicEntity } from '../../../../../domain/entities/clinic.entity';
 import { CreateClinicDto } from '../../../../../application/dtos/create-clinic.dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ClinicReadRepositoryImpl implements ClinicReadRepository {
   constructor(
-    @InjectModel(ClinicModel.name)
-    private readonly clinicModel: Model<ClinicModel>,
+    @InjectModel(Clinic.name)
+    private readonly clinicModel: Model<Clinic>,
     // private readonly clinicMapper: ClinicMapper,
   ) {}
 
@@ -18,7 +20,7 @@ export class ClinicReadRepositoryImpl implements ClinicReadRepository {
   //   return this.clinicMapper.toDomain(clinic);
   // }
 
-  async save(entity: Clinic): Promise<void> {
+  async save(entity: ClinicEntity): Promise<void> {
     // const createdCat = new this.clinicModel(entity).save();
     await this.clinicModel.create(entity);
   }
