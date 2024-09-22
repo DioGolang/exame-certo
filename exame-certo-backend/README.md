@@ -9,32 +9,43 @@ Settings
 
 ```dotenv
 
-DATABASE_URL=
-POSTGRES_DB=fatos_saude
-POSTGRES_USER=root
-POSTGRES_PASSWORD=root
-MONGODB_DATABASE=fatos_saude
-MONGODB_USER=root
-MONGODB_PASSWORD=root
-RABBITMQ_DEFAULT_USER=
-RABBITMQ_DEFAULT_PASS=
-RABBITMQ_QUEUE=
-NOTIFICATION_EMAIL_URL=
-AUTHORIZATION_URL=
-JWT_SECRET=
-JWT_EXPIRES_IN=
+# Banco de dados PostgreSQL
+POSTGRES_DB=your_database
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
+
+# MongoDB
+MONGODB_URI=your_mongodb_uri
+MONGODB_DATABASE=your_database
+MONGODB_USER=your_user
+MONGODB_PASSWORD=your_password
+MONGODB_ROOT_PASSWORD=your_secret
+
+# RabbitMQ
+RABBITMQ_HOST=localhost
+RABBITMQ_URI=amqp://your_user:your_password@localhost:5672
+RABBITMQ_DEFAULT_USER=your_user
+RABBITMQ_DEFAULT_PASS=your_password
+RABBITMQ_PORT=5672
+RABBITMQ_QUEUE=notifications_queue
+
+# JWT
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=3600
+
 
 ```
 2. crie as pastas na raiz:
 - docker/postgres_data
+- docker/rabbitmq_data
 - docker/mongodb_data
 
 
 ## Installation
 
-Necessário ter Node e o docker instalado.
+Necessário ter Node.js e o docker instalado.
 
-caso não tenha docker, é preciso ter localmente : PostgreSQL e MongoDB 
+caso não tenha docker, é preciso ter localmente : PostgreSQL, MongoDB  e RabbitMQ.
 
 ---
 
