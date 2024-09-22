@@ -36,9 +36,9 @@ JWT_EXPIRES_IN=3600
 
 ```
 2. crie as pastas na raiz:
-- docker/postgres_data
-- docker/rabbitmq_data
-- docker/mongodb_data
+- .docker/postgres_data
+- .docker/rabbitmq_data
+- .docker/mongodb_data
 
 
 ## Installation
