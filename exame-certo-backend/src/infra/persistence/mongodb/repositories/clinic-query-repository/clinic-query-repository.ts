@@ -15,4 +15,8 @@ export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
     // const createdCat = new this.clinicModel(entity).save();
     await new this.clinicModel(createClinicDto).save();
   }
+
+  async findById(id: string): Promise<ClinicModel> {
+    return await this.clinicModel.findById(id).exec();
+  }
 }
