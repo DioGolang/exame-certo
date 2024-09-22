@@ -2,7 +2,7 @@ import { CPF } from './cpf.vo';
 import { RG } from './rg.vo';
 import { CNH } from './cnh.vo';
 import { CNS } from './cns.vo';
-import { DocumentationDto } from '../../application/dtos/documentation.dto';
+import { DocumentationDto } from '../../application/shared/dtos/documentation.dto';
 
 export class Documentation {
   public readonly cpf: CPF;

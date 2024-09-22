@@ -1,10 +1,12 @@
-import { Report } from '../entities/report.entity';
-import { Repository } from '../interfaces/repository.interface';
+import { CommandRepository } from './repository.interface';
+import { CreateReportDto } from '../../application/dtos/create-report.dto';
+import { ReportEntity } from '../../infra/persistence/postgres/entities/report.entity';
 
-export interface ReportRepository extends Repository<Report> {
-  save(report: Report): Promise<void>;
-  update(report: Report): Promise<void>;
+export interface ReportRepository
+  extends CommandRepository<CreateReportDto, ReportEntity> {
+  save(report: CreateReportDto): Promise<void>;
+  update(report: CreateReportDto): Promise<void>;
   delete(id: string): Promise<void>;
-  findById(id: string): Promise<Report | null>;
-  findAll(): Promise<Report[]>;
+  findById(id: string): Promise<ReportEntity | null>;
+  findAll(): Promise<ReportEntity[]>;
 }

@@ -1,4 +1,4 @@
-import { AddressDto } from '../../application/dtos/address.dto';
+import { AddressDto } from '../../application/shared/dtos/address.dto';
 
 export class Address {
   readonly street: string;

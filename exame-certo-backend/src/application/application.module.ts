@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { CommandsModule } from './commands/commands.module';
-import { ApplicationMappersModule } from './mappers/application-mappers.module';
+import { PasswordModule } from './shared/services/password/password.module';
 
 @Module({
-  imports: [CommandsModule, ApplicationMappersModule],
+  imports: [PasswordModule],
 })
 export class ApplicationModule {}

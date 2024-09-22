@@ -1,4 +1,4 @@
-import { ContactInfoDto } from '../../application/dtos/contact-info.dto';
+import { ContactInfoDto } from '../../application/shared/dtos/contact-info.dto';
 
 export class ContactInfo {
   public readonly phone: string;

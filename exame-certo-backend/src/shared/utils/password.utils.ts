@@ -1,4 +1,4 @@
-import { BcryptPasswordHashImpl } from '../../infra/services/bcrypt-password-hash-impl';
+import { BcryptPasswordHashImpl } from '../../infra/security/encryption/bcrypt-password-hash-impl';
 
 export class PasswordUtils {
   private static passwordHasher = new BcryptPasswordHashImpl();

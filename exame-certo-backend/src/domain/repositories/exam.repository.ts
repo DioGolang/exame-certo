@@ -1,10 +1,12 @@
-import { Exam } from '../entities/exam.entity';
-import { Repository } from '../interfaces/repository.interface';
+import { CommandRepository } from './repository.interface';
+import { CreateExameDto } from '../../application/dtos/create-exam.dto';
+import { ExamEntity } from '../../infra/persistence/postgres/entities/exam.entity';
 
-export interface ExamRepository extends Repository<Exam> {
-  save(exam: Exam): Promise<void>;
-  update(exam: Exam): Promise<void>;
+export interface ExamRepository
+  extends CommandRepository<CreateExameDto, ExamEntity> {
+  save(exam: CreateExameDto): Promise<void>;
+  update(exam: CreateExameDto): Promise<void>;
   delete(id: string): Promise<void>;
-  findById(id: string): Promise<Exam | null>;
-  findAll(): Promise<Exam[]>;
+  findById(id: string): Promise<ExamEntity | null>;
+  findAll(): Promise<ExamEntity[]>;
 }

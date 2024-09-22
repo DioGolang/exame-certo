@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ClinicController } from './controllers/clinic/clinic.controller';
-import { ClinicModule } from '../modules/clinic/clinic.module';
+import { ClinicControllersModule } from './clinic/http/controllers/clinic-controllers.module';
 
 @Module({
-  imports: [ClinicModule],
-  controllers: [ClinicController],
+  imports: [ClinicControllersModule]
 })
 export class PresentationModule {}

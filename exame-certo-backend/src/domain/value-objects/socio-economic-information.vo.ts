@@ -1,6 +1,6 @@
 import { EducationLevel } from '../enums/education-level.enum';
 import { IncomeLevel } from '../enums/income-level.enum';
-import { SocioEconomicInformationDto } from '../../application/dtos/socio-economic-information.dto';
+import { SocioEconomicInformationDto } from '../../application/shared/dtos/socio-economic-information.dto';
 
 export class SocioEconomicInformation {
   public readonly profession: string;

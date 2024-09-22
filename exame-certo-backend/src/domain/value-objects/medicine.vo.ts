@@ -1,4 +1,4 @@
-import { MedicineDto } from '../../application/dtos/medicine.dto';
+import { MedicineDto } from '../../application/shared/dtos/medicine.dto';
 import { ViaAdministration } from '../enums/via-administration';
 
 export class Medicine {
