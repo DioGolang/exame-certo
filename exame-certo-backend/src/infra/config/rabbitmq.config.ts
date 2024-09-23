@@ -3,7 +3,7 @@ import { RabbitMQConfig } from '@golevelup/nestjs-rabbitmq';
 export const rabbitMQConfig: RabbitMQConfig = {
   exchanges: [
     {
-      name: 'exchange_name',
+      name: 'new_clinic_exchange', // Nome do exchange
       type: 'direct', // Tipo do exchange (direct, fanout, topic, etc.)
     },
   ],

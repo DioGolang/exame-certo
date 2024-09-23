@@ -10,6 +10,7 @@ Content-Type: application/json
   "address": {
     "street": "Rua dos exames",
     "number": "123",
+    "neighborhood": "jaçana",
     "city": "São Paulo",
     "state": "SP",
     "zipCode": "12345-678",

@@ -12,8 +12,8 @@ export class ClinicCommandRepositoryImpl implements ClinicCommandRepository {
     private readonly clinicRepository: Repository<ClinicEntity>,
   ) {}
 
-  save(entity: CreateClinicDto): Promise<void> {
-    throw new Error('Method not implemented.');
+  async save(entity: CreateClinicDto): Promise<void> {
+    await this.clinicRepository.save(entity);
   }
   update(entity: CreateClinicDto): Promise<void> {
     throw new Error('Method not implemented.');
