@@ -30,3 +30,6 @@ Content-Type: application/json
 }
 
 ###
+
+### GET CLINIC
+GET http://localhost:3000/clinic/42f014c8-4b60-42d9-bb82-29663aef8a51

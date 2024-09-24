@@ -12,11 +12,10 @@ export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
   ) {}
 
   async save(createClinicDto: CreateClinicEventDto): Promise<void> {
-    // const createdCat = new this.clinicModel(entity).save();
     await new this.clinicModel(createClinicDto).save();
   }
 
   async findById(id: string): Promise<ClinicModel> {
-    return await this.clinicModel.findById(id).exec();
+    return await this.clinicModel.findOne({ id }).exec();
   }
 }
