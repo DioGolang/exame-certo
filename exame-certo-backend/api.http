@@ -5,8 +5,8 @@ Content-Type: application/json
 {
   "id": null,
   "password": "123456",
-  "name": "Clinica de Exames 4",
-  "email": "clinica4@clinica.com.br" ,
+  "name": "Clinica de Exames 5",
+  "email": "clinica5@clinica.com.br" ,
   "address": {
     "street": "Rua dos exames",
     "number": "123",
