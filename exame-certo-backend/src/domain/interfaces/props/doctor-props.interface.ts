@@ -6,7 +6,7 @@ export interface DoctorProps {
   name: string;
   email: Email;
   contactInfo: ContactInfo;
-  professionalAddress: Address;
+  address: Address;
   registrationNumber: string;
   specialization: string;
   createdAt?: Date;

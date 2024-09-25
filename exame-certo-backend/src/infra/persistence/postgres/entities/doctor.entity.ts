@@ -24,7 +24,7 @@ export class DoctorEntity {
   contactInfo: ContactInfo;
 
   @Column('jsonb')
-  professionalAddress: Address;
+  address: Address;
 
   @Column()
   registrationNumber: string;

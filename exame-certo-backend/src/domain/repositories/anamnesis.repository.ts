@@ -1,4 +1,4 @@
-import { CommandRepository } from './repository.interface';
+import { CommandRepository } from './command-repository.interface';
 import { CreateAnamnesisDto } from '../../application/dtos/create-anamnesis.dto';
 import { AnamnesisEntity } from '../../infra/persistence/postgres/entities/anamnesis.entity';
 

@@ -156,7 +156,7 @@ export class Doctor {
   }
 
   get professionalAddress(): Address {
-    return this._props.professionalAddress;
+    return this._props.address;
   }
 
   get createdAt(): Date {

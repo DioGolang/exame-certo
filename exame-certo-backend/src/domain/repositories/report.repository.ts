@@ -1,4 +1,4 @@
-import { CommandRepository } from './repository.interface';
+import { CommandRepository } from './command-repository.interface';
 import { CreateReportDto } from '../../application/dtos/create-report.dto';
 import { ReportEntity } from '../../infra/persistence/postgres/entities/report.entity';
 

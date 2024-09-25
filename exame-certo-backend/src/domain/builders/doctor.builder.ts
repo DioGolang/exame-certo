@@ -68,7 +68,7 @@ export class DoctorBuilder {
   }
 
   withProfessionalAddress(professionalAddress: Address): DoctorBuilder {
-    this._props.professionalAddress = Address.fromDto(professionalAddress);
+    this._props.address = Address.fromDto(professionalAddress);
     return this;
   }
 

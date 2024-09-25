@@ -12,16 +12,19 @@ export class ClinicCommandRepositoryImpl implements ClinicCommandRepository {
     private readonly clinicRepository: Repository<ClinicEntity>,
   ) {}
 
-  async save(entity: CreateClinicDto): Promise<void> {
-    await this.clinicRepository.save(entity);
+  async save(clinic: CreateClinicDto): Promise<void> {
+    await this.clinicRepository.save(clinic);
   }
+
   update(entity: CreateClinicDto): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(id: string): Promise<void> {
+    await this.clinicRepository.delete(id);
   }
-  findById(id: string): Promise<ClinicEntity> {
-    throw new Error('Method not implemented.');
+
+  async findById(id: string): Promise<ClinicEntity> {
+    return await this.clinicRepository.findOne({ where: { id } });
   }
 }

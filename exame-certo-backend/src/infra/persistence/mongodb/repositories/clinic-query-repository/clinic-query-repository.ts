@@ -18,4 +18,8 @@ export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
   async findById(id: string): Promise<ClinicModel> {
     return await this.clinicModel.findOne({ id }).exec();
   }
+
+  findAll(): Promise<ClinicModel[]> {
+    throw new Error('Method not implemented.');
+  }
 }
