@@ -15,7 +15,7 @@ export class DoctorBuilder {
   private readonly _id: string;
   private readonly _password: string;
   private readonly encryptedPassword?: string;
-  private _props: Partial<DoctorProps>;
+  private _props: Partial<DoctorProps> = {};
   private _anamnesis: Anamnesis[] = [];
   private _exams: Exam[] = [];
   private _clinics: Clinic[] = [];

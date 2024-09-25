@@ -18,7 +18,7 @@ export class DoctorEntity {
   email: string;
 
   @Column()
-  passwordHash: string;
+  password: string;
 
   @Column('jsonb')
   contactInfo: ContactInfo;
