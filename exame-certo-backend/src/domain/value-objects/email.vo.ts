@@ -1,8 +1,7 @@
-
-export class Email{
+export class Email {
   constructor(private readonly email: string) {
     if (!this.validateEmail(email)) {
-      throw new Error("Invalid Email");
+      throw new Error('Invalid Email');
     }
   }
 
@@ -10,13 +9,12 @@ export class Email{
     return new Email(email);
   }
 
-  get value(): string{
-    return this.email
+  get value(): string {
+    return this.email;
   }
 
   private validateEmail(email: string): boolean {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
-
 }
