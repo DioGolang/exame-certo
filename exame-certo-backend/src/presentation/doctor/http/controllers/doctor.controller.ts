@@ -8,6 +8,6 @@ export class DoctorController {
 
   @Post()
   async createClinic(@Body() createDoctorDto: CreateDoctorDto): Promise<void> {
-    // await this.doctorService.createClinic(createDoctorDto);
+    await this.doctorService.createDoctor(createDoctorDto);
   }
 }

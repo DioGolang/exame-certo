@@ -33,3 +33,37 @@ Content-Type: application/json
 
 ### GET CLINIC
 GET http://localhost:3000/clinic/42f014c8-4b60-42d9-bb82-29663aef8a51
+
+
+### POST CREATE DOCTOR
+POST http://localhost:3000/doctor
+content-type: application/json
+
+{
+  "id": null,
+  "password": "123456",
+  "name": "Dr. Examinador 1",
+  "email": "examinador1@gmail.com",
+  "registrationNumber": "123456",
+  "specialization": "Cardiologista",
+  "address": {
+    "street": "Rua São Shibituba",
+    "number": "123",
+    "neighborhood": "jaçana",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "12345-678",
+    "country": "Brasil",
+    "complement": "Sala 1"
+  },
+  "contactInfo": {
+    "phone": "11 1234-5678",
+    "emergencyPhone": "11 98765-4321",
+    "emergencyPhone2": "11 98765-4321",
+    "emergencyPhone3": "11 98765-4321",
+    "email": "contato@clinica1.com.br",
+    "extension": "123",
+    "extension2": "123",
+    "extension3": "123"
+  }
+}

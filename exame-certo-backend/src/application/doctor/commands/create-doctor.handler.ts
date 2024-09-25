@@ -3,6 +3,7 @@ import { CreateDoctorCommand } from './create-doctor.command';
 import { Inject } from '@nestjs/common';
 import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { DoctorCommandRepository } from '../../../domain/repositories/doctor-command.repository';
+import { CreateDoctorEvent } from '../events/create-doctor.event';
 
 @CommandHandler(CreateDoctorCommand)
 export class CreateDoctorHandler
@@ -30,21 +31,21 @@ export class CreateDoctorHandler
       .withContactInfo(command.createDoctorDto.contactInfo)
       .build();
 
-    // await this.doctorRepository.save(doctor);
+    await this.doctorRepository.save(doctor);
 
     const createDoctorEventDto = {
       id: doctor.id,
       password: doctor.password,
       name: doctor.name,
       email: doctor.email,
-      professionalAddress: { ...doctor.professionalAddress },
+      address: { ...doctor.address },
       registrationNumber: doctor.registrationNumber,
       specialization: doctor.specialization,
       contactInfo: { ...doctor.contactInfo },
       createdAt: doctor.createdAt,
       updatedAt: doctor.updatedAt,
     };
-    // const event = new CreateDoctorEvent(createDoctorEventDto);
-    // this.eventBus.publish(event);
+    const event = new CreateDoctorEvent(createDoctorEventDto);
+    this.eventBus.publish(event);
   }
 }

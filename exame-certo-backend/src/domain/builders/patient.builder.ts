@@ -21,6 +21,7 @@ import { SocioEconomicInformationDto } from '../../application/shared/dtos/socio
 export class PatientBuilder {
   private readonly _id: string;
   private readonly _password: string;
+  private readonly encryptedPassword?: string;
   private _props: Partial<PatientProps> = {};
   private anamnesis: Anamnesis[] = [];
   private exams: Exam[] = [];
@@ -28,35 +29,27 @@ export class PatientBuilder {
   private doctors: Doctor[] = [];
 
   private constructor(
+    id: string,
+    encryptedPassword?: string,
     password?: string,
-    private readonly encryptedPassword?: string,
-    id?: string,
   ) {
-    this._id = id || uuidv4();
-    this._password = password || '';
+    this._id = id;
+    this.encryptedPassword = encryptedPassword;
+    this._password = password;
   }
 
   public static async create(password: string): Promise<PatientBuilder> {
-    return new PatientBuilder(password);
+    const createdAt = new Date();
+    const id = uuidv4();
+    const builder = new PatientBuilder(id, undefined, password);
+    return builder.withCreatedAt(createdAt).withUpdatedAt(createdAt);
   }
 
   public static async rehydrate(
     id: string,
     encryptedPassword: string,
   ): Promise<PatientBuilder> {
-    return new PatientBuilder(undefined, encryptedPassword, id);
-  }
-
-  public static async createOrRehydrate(
-    id?: string,
-    password?: string,
-    encryptedPassword?: string,
-  ): Promise<PatientBuilder> {
-    if (id) {
-      return this.rehydrate(id, encryptedPassword!);
-    } else {
-      return this.create(password!);
-    }
+    return new PatientBuilder(id, encryptedPassword);
   }
 
   public withName(name: string): PatientBuilder {
@@ -148,20 +141,40 @@ export class PatientBuilder {
   }
 
   public async build(): Promise<Patient> {
-    const finalPasswordHash = await PasswordUtils.determinePasswordHash(
-      this._password,
-      this.encryptedPassword,
-    );
+    this.validateRequiredProperties();
+    const finalPasswordHash = await this.getFinalPasswordHash();
 
     const patient = new Patient(
       this._id,
       this._props as PatientProps,
       finalPasswordHash,
     );
+    this.addRelationshipsToPatient(patient);
+    return patient;
+  }
+
+  private validateRequiredProperties(): void {
+    if (
+      !this._props.name ||
+      !this._props.email ||
+      !this._props.address ||
+      !this._props.contactInfo
+    ) {
+      throw new Error('Missing required properties to build Patient.');
+    }
+  }
+
+  private async getFinalPasswordHash(): Promise<string> {
+    return PasswordUtils.determinePasswordHash(
+      this._password,
+      this.encryptedPassword,
+    );
+  }
+
+  private addRelationshipsToPatient(patient: Patient): void {
     this.anamnesis.forEach((a) => patient.addAnamnesis(a));
     this.exams.forEach((e) => patient.addExam(e));
     this.clinics.forEach((c) => patient.addClinic(c));
     this.doctors.forEach((d) => patient.addDoctor(d));
-    return patient;
   }
 }

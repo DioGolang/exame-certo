@@ -14,6 +14,7 @@ import { ContactInfoDto } from '../../application/shared/dtos/contact-info.dto';
 export class DoctorBuilder {
   private readonly _id: string;
   private readonly _password: string;
+  private readonly encryptedPassword?: string;
   private _props: Partial<DoctorProps>;
   private _anamnesis: Anamnesis[] = [];
   private _exams: Exam[] = [];
@@ -21,35 +22,27 @@ export class DoctorBuilder {
   private _reports: Report[] = [];
 
   private constructor(
+    id: string,
+    encryptedPassword?: string,
     password?: string,
-    private readonly encryptedPassword?: string,
-    id?: string,
   ) {
-    this._id = id || uuidv4();
-    this._password = password || '';
+    this._id = id;
+    this.encryptedPassword = encryptedPassword;
+    this._password = password;
   }
 
   public static create(password: string): DoctorBuilder {
-    return new DoctorBuilder(password);
+    const createdAt = new Date();
+    const id = uuidv4();
+    const builder = new DoctorBuilder(id, undefined, password);
+    return builder.withCreatedAt(createdAt).withUpdatedAt(createdAt);
   }
 
   public static rehydrate(
     id: string,
     encryptedPassword: string,
   ): DoctorBuilder {
-    return new DoctorBuilder(undefined, encryptedPassword, id);
-  }
-
-  public static createOrRehydrate(
-    id?: string,
-    password?: string,
-    encryptedPassword?: string,
-  ): DoctorBuilder {
-    if (id) {
-      return this.rehydrate(id, encryptedPassword!);
-    } else {
-      return this.create(password!);
-    }
+    return new DoctorBuilder(id, encryptedPassword);
   }
 
   withName(name: string): DoctorBuilder {
@@ -113,19 +106,41 @@ export class DoctorBuilder {
   }
 
   async build(): Promise<Doctor> {
-    const finalPasswordHash = await PasswordUtils.determinePasswordHash(
-      this._password,
-      this.encryptedPassword,
-    );
+    this.validateRequiredProperties();
+    const finalPasswordHash = await this.getFinalPasswordHash();
+
     const doctor = new Doctor(
       this._id,
       this._props as DoctorProps,
       finalPasswordHash,
     );
-    this._anamnesis.forEach((a) => doctor.addAnamnesis(a));
-    this._exams.forEach((e) => doctor.addExam(e));
-    this._clinics.forEach((c) => doctor.addClinic(c));
-    this._reports.forEach((r) => doctor.addReport(r));
+
+    this.addRelationshipsToDoctor(doctor);
     return doctor;
+  }
+
+  private validateRequiredProperties(): void {
+    if (
+      !this._props.name ||
+      !this._props.email ||
+      !this._props.address ||
+      !this._props.contactInfo
+    ) {
+      throw new Error('Missing required properties to build Clinic.');
+    }
+  }
+
+  private async getFinalPasswordHash(): Promise<string> {
+    return PasswordUtils.determinePasswordHash(
+      this._password,
+      this.encryptedPassword,
+    );
+  }
+
+  private addRelationshipsToDoctor(clinic: Doctor): void {
+    this._anamnesis.forEach((a) => clinic.addAnamnesis(a));
+    this._exams.forEach((e) => clinic.addExam(e));
+    this._clinics.forEach((c) => clinic.addClinic(c));
+    this._reports.forEach((r) => clinic.addReport(r));
   }
 }

@@ -155,7 +155,7 @@ export class Doctor {
     return this._props.contactInfo;
   }
 
-  get professionalAddress(): Address {
+  get address(): Address {
     return this._props.address;
   }
 

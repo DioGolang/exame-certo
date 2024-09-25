@@ -24,13 +24,13 @@ export class Doctor {
   email: string;
 
   @Prop({ required: true })
-  passwordHash: string;
+  password: string;
 
   @Prop({ type: ContactInfoSchema })
   contactInfo: ContactInfo;
 
   @Prop({ type: AddressSchema })
-  professionalAddress: Address;
+  address: Address;
 
   @Prop()
   registrationNumber: string;
