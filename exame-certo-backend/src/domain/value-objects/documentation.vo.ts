@@ -8,23 +8,21 @@ export class Documentation {
   public readonly cpf: CPF;
   public readonly rg: RG;
   public readonly cnh?: CNH;
-  public readonly cnsNumber?: CNS;
+  public readonly cns?: CNS;
 
-  constructor(cpf: CPF, rg: RG, cnh?: CNH, cnsNumber?: CNS) {
+  constructor(cpf: CPF, rg: RG, cnh?: CNH, cns?: CNS) {
     this.cpf = cpf;
     this.rg = rg;
     this.cnh = cnh;
-    this.cnsNumber = cnsNumber;
+    this.cns = cns;
   }
 
   static fromDto(documentationDto: DocumentationDto): Documentation {
     return new Documentation(
-      new CPF(documentationDto.cpf),
-      new RG(documentationDto.rg),
-      documentationDto.cnh ? new CNH(documentationDto.cnh) : undefined,
-      documentationDto.cnsNumber
-        ? new CNS(documentationDto.cnsNumber)
-        : undefined,
+      CPF.fromDto(documentationDto.cpf),
+      RG.fromDto(documentationDto.rg),
+      documentationDto.cnh ? CNH.fromDto(documentationDto.cnh) : undefined,
+      documentationDto.cns ? CNS.fromDto(documentationDto.cns) : undefined,
     );
   }
 }

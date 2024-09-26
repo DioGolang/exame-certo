@@ -6,7 +6,10 @@ import { AddressDto } from '../../application/shared/dtos/address.dto';
 import { Email } from '../value-objects/email.vo';
 import { BaseEntityProps } from '../interfaces/props/base-entity-props.interface';
 
-export abstract class BaseEntityBuilder<TProps extends BaseEntityProps> {
+export abstract class BaseEntityBuilder<
+  Entity,
+  TProps extends BaseEntityProps,
+> {
   protected readonly _id: string;
   protected readonly _password?: string;
   protected readonly encryptedPassword?: string;
@@ -22,28 +25,28 @@ export abstract class BaseEntityBuilder<TProps extends BaseEntityProps> {
     this._password = password;
   }
 
-  protected withCreatedAt(createdAt: Date): this {
+  public withCreatedAt(createdAt: Date): this {
     this._props.createdAt = createdAt;
     return this;
   }
 
-  protected withUpdatedAt(updatedAt: Date): this {
+  public withUpdatedAt(updatedAt: Date): this {
     this._props.updatedAt = updatedAt;
     return this;
   }
 
-  protected withEmail(email: string): this {
-    (this._props as any).email = Email.create(email);
+  public withEmail(email: string): this {
+    this._props.email = Email.create(email);
     return this;
   }
 
-  protected withContactInfo(contactInfo: ContactInfoDto): this {
-    (this._props as any).contactInfo = ContactInfo.fromDto(contactInfo);
+  public withContactInfo(contactInfo: ContactInfoDto): this {
+    this._props.contactInfo = ContactInfo.fromDto(contactInfo);
     return this;
   }
 
-  protected withAddress(address: AddressDto): this {
-    (this._props as any).address = Address.fromDto(address);
+  public withAddress(address: AddressDto): this {
+    this._props.address = Address.fromDto(address);
     return this;
   }
 
@@ -55,5 +58,5 @@ export abstract class BaseEntityBuilder<TProps extends BaseEntityProps> {
   }
 
   protected abstract validateRequiredProperties(): void;
-  protected abstract build(): Promise<any>;
+  protected abstract build(): Promise<Entity>;
 }

@@ -1,9 +1,25 @@
+import { IsEnum, IsString } from 'class-validator';
+import { ViaAdministration } from '../../../domain/enums/via-administration';
+
 export class MedicineDto {
-  name: string;
-  dosage: string;
-  frequency: string;
-  viaAdministration: string;
-  duration: string;
-  observations: string;
-  prescriptionDate: Date;
+  @IsString()
+  public readonly name: string;
+
+  @IsString()
+  public readonly dosage: string;
+
+  @IsString()
+  public readonly frequency: string;
+
+  @IsEnum(ViaAdministration)
+  public readonly viaAdministration: ViaAdministration;
+
+  @IsString()
+  public readonly duration: string;
+
+  @IsString()
+  public readonly observations: string;
+
+  @IsString()
+  public readonly prescriptionDate: Date;
 }

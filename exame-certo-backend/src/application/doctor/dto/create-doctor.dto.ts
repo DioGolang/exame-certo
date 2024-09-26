@@ -1,6 +1,13 @@
 import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
-import { IsEmail, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateDoctorDto {
   @IsOptional()
@@ -16,8 +23,13 @@ export class CreateDoctorDto {
   @IsString()
   public readonly password: string;
 
-  public readonly contactInfo: ContactInfoDto;
+  @ValidateNested()
+  @Type(() => AddressDto)
   public readonly address: AddressDto;
+
+  @ValidateNested()
+  @Type(() => ContactInfoDto)
+  public readonly contactInfo: ContactInfoDto;
 
   @IsString()
   public readonly registrationNumber: string;

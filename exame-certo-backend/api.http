@@ -42,10 +42,10 @@ content-type: application/json
 {
   "id": null,
   "password": "123456",
-  "name": "Dr. Examinador 1",
-  "email": "examinador1@gmail.com",
+  "name": "Dr. Examinador 3",
+  "email": "examinador2@gmail.com",
   "registrationNumber": "123456",
-  "specialization": "Cardiologista",
+  "specialization": "Neurologista",
   "address": {
     "street": "Rua São Shibituba",
     "number": "123",
@@ -61,7 +61,7 @@ content-type: application/json
     "emergencyPhone": "11 98765-4321",
     "emergencyPhone2": "11 98765-4321",
     "emergencyPhone3": "11 98765-4321",
-    "email": "contato@clinica1.com.br",
+    "email": "contato@clinica2.com.br",
     "extension": "123",
     "extension2": "123",
     "extension3": "123"

@@ -1,21 +1,14 @@
-import { ContactInfo } from '../value-objects/contact-info.vo';
-import { Address } from '../value-objects/address.vo';
 import { Doctor } from '../entities/doctor.entity';
 import { DoctorProps } from '../interfaces/props/doctor-props.interface';
 import { v4 as uuidv4 } from 'uuid';
-import { Email } from '../value-objects/email.vo';
 import { Anamnesis } from '../entities/anamnesis.entity';
 import { Exam } from '../entities/exam.entity';
 import { Clinic } from '../entities/clinic.entity';
 import { Report } from '../entities/report.entity';
-import { PasswordUtils } from '../../shared/utils/password.utils';
-import { ContactInfoDto } from '../../application/shared/dtos/contact-info.dto';
+import { AddressDto } from '../../application/shared/dtos/address.dto';
+import { BaseEntityBuilder } from './entity.builder';
 
-export class DoctorBuilder {
-  private readonly _id: string;
-  private readonly _password: string;
-  private readonly encryptedPassword?: string;
-  private _props: Partial<DoctorProps> = {};
+export class DoctorBuilder extends BaseEntityBuilder<Doctor, DoctorProps> {
   private _anamnesis: Anamnesis[] = [];
   private _exams: Exam[] = [];
   private _clinics: Clinic[] = [];
@@ -26,9 +19,7 @@ export class DoctorBuilder {
     encryptedPassword?: string,
     password?: string,
   ) {
-    this._id = id;
-    this.encryptedPassword = encryptedPassword;
-    this._password = password;
+    super(id, encryptedPassword, password);
   }
 
   public static create(password: string): DoctorBuilder {
@@ -50,19 +41,8 @@ export class DoctorBuilder {
     return this;
   }
 
-  withEmail(email: string): DoctorBuilder {
-    this._props.email = Email.create(email);
-    return this;
-  }
-
-  withContactInfo(contactInfo: ContactInfoDto): DoctorBuilder {
-    this._props.contactInfo = ContactInfo.fromDto(contactInfo);
-    return this;
-  }
-
-  withProfessionalAddress(professionalAddress: Address): DoctorBuilder {
-    this._props.address = Address.fromDto(professionalAddress);
-    return this;
+  withProfessionalAddress(professionalAddress: AddressDto): DoctorBuilder {
+    return this.withAddress(professionalAddress);
   }
 
   withRegistrationNumber(registrationNumber: string): DoctorBuilder {
@@ -85,27 +65,17 @@ export class DoctorBuilder {
     return this;
   }
 
-  withClinics(clinic: Clinic[]): DoctorBuilder {
-    this._clinics = clinic;
+  withClinics(clinics: Clinic[]): DoctorBuilder {
+    this._clinics = clinics;
     return this;
   }
 
-  withReport(report: Report[]): DoctorBuilder {
-    this._reports = report;
+  withReport(reports: Report[]): DoctorBuilder {
+    this._reports = reports;
     return this;
   }
 
-  public withCreatedAt(createdAt: Date): DoctorBuilder {
-    this._props.createdAt = createdAt;
-    return this;
-  }
-
-  public withUpdatedAt(updatedAt: Date): DoctorBuilder {
-    this._props.updatedAt = updatedAt;
-    return this;
-  }
-
-  async build(): Promise<Doctor> {
+  public async build(): Promise<Doctor> {
     this.validateRequiredProperties();
     const finalPasswordHash = await this.getFinalPasswordHash();
 
@@ -119,28 +89,21 @@ export class DoctorBuilder {
     return doctor;
   }
 
-  private validateRequiredProperties(): void {
+  protected validateRequiredProperties(): void {
     if (
       !this._props.name ||
       !this._props.email ||
       !this._props.address ||
       !this._props.contactInfo
     ) {
-      throw new Error('Missing required properties to build Clinic.');
+      throw new Error('Missing required properties to build Doctor.');
     }
   }
 
-  private async getFinalPasswordHash(): Promise<string> {
-    return PasswordUtils.determinePasswordHash(
-      this._password,
-      this.encryptedPassword,
-    );
-  }
-
-  private addRelationshipsToDoctor(clinic: Doctor): void {
-    this._anamnesis.forEach((a) => clinic.addAnamnesis(a));
-    this._exams.forEach((e) => clinic.addExam(e));
-    this._clinics.forEach((c) => clinic.addClinic(c));
-    this._reports.forEach((r) => clinic.addReport(r));
+  private addRelationshipsToDoctor(doctor: Doctor): void {
+    this._anamnesis.forEach((a) => doctor.addAnamnesis(a));
+    this._exams.forEach((e) => doctor.addExam(e));
+    this._clinics.forEach((c) => doctor.addClinic(c));
+    this._reports.forEach((r) => doctor.addReport(r));
   }
 }

@@ -166,7 +166,7 @@ export class Patient {
     return this._id;
   }
 
-  get passwordHash(): string {
+  get password(): string {
     return this._password;
   }
 
