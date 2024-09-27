@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ClinicQueryRepository } from '../../../../../domain/repositories/clinic-query.repository';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,7 +20,17 @@ export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
   }
 
   async findById(id: string): Promise<ClinicModel> {
-    return await this.clinicModel.findOne({ id }).exec();
+    try {
+      const clinic = await this.clinicModel.findOne({ id }).exec();
+      if (!clinic) {
+        throw new NotFoundException(`Clinic with ID ${id} not found.`);
+      }
+      return clinic;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error fetching clinic with ID ${id}`,
+      );
+    }
   }
 
   findAll(): Promise<ClinicModel[]> {

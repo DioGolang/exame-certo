@@ -14,6 +14,6 @@ export class ClinicController {
 
   @Get(':id')
   async getClinic(@Param('id') clinicId: string): Promise<Clinic | null> {
-    return await this.clinicService.getClinic(clinicId);
+    return this.clinicService.getClinic(clinicId);
   }
 }

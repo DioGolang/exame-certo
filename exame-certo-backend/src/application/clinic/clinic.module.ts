@@ -9,6 +9,7 @@ import { CommandsHandlers } from './commands';
 import { QueriesHandlers } from './queries';
 import { EventsHandlers } from './events';
 import { Consumers } from './consumers';
+import { EventPublisherService } from './services/event-publisher.service';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Consumers } from './consumers';
   ],
   providers: [
     ClinicService,
+    EventPublisherService,
     ...CommandsHandlers,
     ...EventsHandlers,
     ClinicSaga,
@@ -27,6 +29,7 @@ import { Consumers } from './consumers';
   ],
   exports: [
     ClinicService,
+    EventPublisherService,
     ...CommandsHandlers,
     ...EventsHandlers,
     ClinicSaga,

@@ -1,4 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateClinicDto } from '../dto/create-clinic.dto';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateClinicCommand } from '../commands/create-clinic.command';
@@ -20,18 +25,25 @@ export class ClinicService {
   }
 
   async getClinic(id: string): Promise<Clinic> {
-    const clinicSchema = await this.queryBus.execute(new GetClinicQuery(id));
-    const builderClinic = await this.clinicBuilder.createClinicBuilder(
-      id,
-      undefined,
-      clinicSchema.password,
-    );
-    const clinic = await builderClinic
-      .withName(clinicSchema.name)
-      .withEmail(clinicSchema.email)
-      .withAddress(clinicSchema.address)
-      .withContactInfo(clinicSchema.contactInfo)
-      .build();
-    return clinic;
+    try {
+      const clinicSchema = await this.queryBus.execute(new GetClinicQuery(id));
+      const builderClinic = await this.clinicBuilder.createClinicBuilder(
+        id,
+        undefined,
+        clinicSchema.password,
+      );
+      const clinic = await builderClinic
+        .withName(clinicSchema.name)
+        .withEmail(clinicSchema.email)
+        .withAddress(clinicSchema.address)
+        .withContactInfo(clinicSchema.contactInfo)
+        .build();
+      return clinic;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error fetching clinic');
+    }
   }
 }

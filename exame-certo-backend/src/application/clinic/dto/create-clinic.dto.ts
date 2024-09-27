@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  MinLength,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -15,6 +16,7 @@ export class CreateClinicDto {
   public readonly id?: string;
 
   @IsString()
+  @MinLength(8)
   public readonly password: string;
 
   @IsString()

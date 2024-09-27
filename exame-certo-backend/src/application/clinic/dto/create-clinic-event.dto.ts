@@ -1,6 +1,7 @@
 import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
 import { Exclude, Expose, Type } from 'class-transformer';
+import { EmailDto } from '../../dtos/create-email.dto';
 
 @Exclude()
 export class CreateClinicEventDto {

@@ -4,18 +4,18 @@ Content-Type: application/json
 
 {
   "id": null,
-  "password": "123456",
-  "name": "Clinica de Exames 6",
-  "email": "clinica6@clinica.com.br" ,
+  "password": "12345678",
+  "name": "Clinica de Exames 7",
+  "email": "clinica7@clinica.com.br" ,
   "address": {
-    "street": "Rua dos exames",
+    "street": "Rua dos exames 7",
     "number": "123",
-    "neighborhood": "jaçana",
+    "neighborhood": "Santana",
     "city": "São Paulo",
     "state": "SP",
     "zipCode": "12345-678",
     "country": "Brasil",
-    "complement": "Sala 1"
+    "complement": "Sala 2"
   },
   "contactInfo": {
     "phone": "11 1234-5678",
