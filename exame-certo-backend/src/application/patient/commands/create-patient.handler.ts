@@ -3,6 +3,7 @@ import { CreatePatientCommand } from './create-patient.command';
 import { Inject } from '@nestjs/common';
 import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { PatientCommandRepository } from '../../../domain/repositories/patient-command.repository';
+import { CreatePatientEvent } from '../events/create-patient.event';
 
 @CommandHandler(CreatePatientCommand)
 export class CreatePatientHandler
@@ -34,6 +35,7 @@ export class CreatePatientHandler
       )
       .withAddress(command.createPatientDto.address)
       .withContactInfo(command.createPatientDto.contactInfo)
+      .withHealthInsurance(command.createPatientDto.healthInsurance)
       .build();
 
     const createPatientDto = {
@@ -54,13 +56,14 @@ export class CreatePatientHandler
       socioeconomicInformation: { ...patient.socioeconomicInformation },
       address: { ...patient.address },
       contactInfo: { ...patient.contactInfo },
+      healthInsurance: patient.healthInsurance,
       createdAt: patient.createdAt,
       updatedAt: patient.updatedAt,
     };
 
     await this.patientRepository.save(createPatientDto);
 
-    // const event = new CreatePatientEvent(createPatientEventDto);
-    // this.eventBus.publish(event);
+    const event = new CreatePatientEvent(createPatientDto);
+    this.eventBus.publish(event);
   }
 }

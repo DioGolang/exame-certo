@@ -7,16 +7,19 @@ export type SocioEconomicInformationDocument =
 @Schema()
 export class SocioEconomicInformation {
   @Prop({ required: true })
-  income: number;
+  profession: string;
 
   @Prop({ required: true })
   educationLevel: string;
 
   @Prop({ required: true })
-  employmentStatus: string;
+  housingConditions: string;
 
   @Prop()
-  housingStatus: string;
+  incomeLevel: string;
+
+  @Prop()
+  socialSupport: string;
 }
 
 export const SocioEconomicInformationSchema = SchemaFactory.createForClass(

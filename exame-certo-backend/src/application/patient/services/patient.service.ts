@@ -3,6 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { CreatePatientCommand } from '../commands/create-patient.command';
 import { GetPatientQuery } from '../queries/get-patient.query';
+import { CreatePatientDto } from '../dto/create-patient.dto';
 
 @Injectable()
 export class PatientService {
@@ -12,7 +13,7 @@ export class PatientService {
     @Inject('BuilderFactory') private readonly patientBuilder: BuilderFactory,
   ) {}
 
-  async createPatient(patient) {
+  async createPatient(patient: CreatePatientDto) {
     await this.commandBus.execute(new CreatePatientCommand(patient));
   }
 

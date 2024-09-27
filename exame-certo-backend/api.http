@@ -67,3 +67,64 @@ content-type: application/json
     "extension3": "123"
   }
 }
+
+### GET DOCTOR
+GET http://localhost:3000/doctor/
+
+
+### POST CREATE PATIENT
+POST http://localhost:3000/patients
+content-type: application/json
+
+{
+  "id": null,
+  "name": "Neide",
+  "lastName": "Vasco",
+  "email": "ire2@gmail.com",
+  "password": "123456",
+  "dateOfBirth": "1990-01-01",
+  "sex": "Female",
+  "maritalStatus": "Solteiro(a)",
+  "documentation": {
+    "cpf": {
+      "cpf": "123.456.789-00"
+    },
+    "rg": {
+      "rg": "12.345.678-9"
+    },
+    "cnh": {
+      "cnh": "12345678900"
+    },
+    "cns": {
+      "cns": "12345678900"
+    }
+  },
+  "socioeconomicInformation": {
+    "profession": "Professora",
+    "educationLevel": "Ensino Superior",
+    "housingConditions": "Casa",
+    "incomeLevel": "renda mensal domiciliar entre  dois salários e três salários",
+    "socialSupport": "Familia"
+  },
+  "address": {
+    "street": "Rua São Shibituba",
+    "number": "123",
+    "neighborhood": "jaçana",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "12345-678",
+    "country": "Brasil",
+    "complement": "Sala 1"
+  },
+  "contactInfo": {
+    "phone": "11 1234-5678",
+    "emergencyPhone": "11 98765-4321",
+    "emergencyPhone2": "11 98765-4321",
+    "emergencyPhone3": "11 98765-4321",
+    "email": "contato@clinica2.com.br",
+    "extension": "123",
+    "extension2": "123",
+    "extension3": "123"
+  },
+  "healthInsurance": "Unimed"
+}

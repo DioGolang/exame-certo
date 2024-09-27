@@ -32,6 +32,7 @@ export class CreatePatientDto {
   @IsString()
   public readonly password: string;
 
+  @Type(() => Date)
   @IsDate()
   public readonly dateOfBirth: Date;
 
