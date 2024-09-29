@@ -7,7 +7,7 @@ import { ClinicQueryRepository } from '../../../../../domain/repositories/clinic
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Clinic as ClinicModel } from '../../schemas/clinic.schema';
-import { CreateClinicEventDto } from '../../../../../application/clinic/dto/create-clinic-event.dto';
+import { Clinic } from '../../../../../domain/entities/clinic.entity';
 
 @Injectable()
 export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
@@ -15,8 +15,8 @@ export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
     @InjectModel(ClinicModel.name) private clinicModel: Model<ClinicModel>,
   ) {}
 
-  async save(createClinicDto: CreateClinicEventDto): Promise<void> {
-    await new this.clinicModel(createClinicDto).save();
+  async save(clinic: Clinic): Promise<void> {
+    await new this.clinicModel(clinic).save();
   }
 
   async findById(id: string): Promise<ClinicModel> {

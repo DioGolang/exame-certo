@@ -3,9 +3,8 @@ POST http://localhost:3000/clinic
 Content-Type: application/json
 
 {
-  "id": null,
   "password": "12345678",
-  "name": "Clinica de Exames 7",
+  "name": "Clinica de Exames 10",
   "email": "clinica7@clinica.com.br" ,
   "address": {
     "street": "Rua dos exames 7",

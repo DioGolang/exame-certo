@@ -2,23 +2,16 @@ import { EventBus } from '@nestjs/cqrs';
 import { Injectable } from '@nestjs/common';
 import { Clinic } from '../../../domain/entities/clinic.entity';
 import { CreateClinicEvent } from '../events/create-clinic.event';
+import { ClinicMapper } from '../mappers/clinic.mapper';
 
 @Injectable()
 export class EventPublisherService {
   constructor(private readonly eventBus: EventBus) {}
 
   async publishCreateClinicEvent(clinic: Clinic): Promise<void> {
-    const createClinicEventDto = {
-      id: clinic.id,
-      password: clinic.password,
-      name: clinic.name,
-      email: clinic.email,
-      address: clinic.address,
-      contactInfo: { ...clinic.contactInfo },
-      createdAt: clinic.createdAt,
-      updatedAt: clinic.updatedAt,
-    };
-    const event = new CreateClinicEvent(createClinicEventDto);
+    const event = new CreateClinicEvent(
+      ClinicMapper.toCreateClinicEventDto(clinic),
+    );
     this.eventBus.publish(event);
   }
 }

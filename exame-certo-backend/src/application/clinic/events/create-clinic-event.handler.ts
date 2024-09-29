@@ -17,37 +17,37 @@ export class CreateClinicEventHandler
 
   public async handle(event: CreateClinicEvent): Promise<void> {
     console.log('CreateClinicEvent', event);
-    // const clinicBuilder = await this.clinicBuilder.createClinicBuilder(
-    //   event.createClinicEventDto.id,
-    //   undefined,
-    //   event.createClinicEventDto.password,
-    // );
-    //
-    // const clinic2 = await clinicBuilder
-    //   .withName(event.createClinicEventDto.name)
-    //   .withEmail(event.createClinicEventDto.email)
-    //   .withAddress(event.createClinicEventDto.address)
-    //   .withContactInfo(event.createClinicEventDto.contactInfo)
-    //   .withCreatedAt(event.createClinicEventDto.createdAt)
-    //   .withUpdatedAt(event.createClinicEventDto.updatedAt)
-    //   .build();
-    // console.log(clinic2);
+    const clinicBuilder = await this.clinicBuilder.createClinicBuilder(
+      event.createClinicEventDto.id,
+      undefined,
+      event.createClinicEventDto.password,
+    );
 
-    const clinic = {
-      id: event.createClinicEventDto.id,
-      name: event.createClinicEventDto.name,
-      email: event.createClinicEventDto.email,
-      password: event.createClinicEventDto.password,
-      address: { ...event.createClinicEventDto.address },
-      contactInfo: { ...event.createClinicEventDto.contactInfo },
-      createdAt: event.createClinicEventDto.createdAt,
-      updatedAt: event.createClinicEventDto.updatedAt,
-      doctors: [],
-      patients: [],
-      exams: [],
-      anamnesis: [],
-    };
+    const clinic2 = await clinicBuilder
+      .withName(event.createClinicEventDto.name)
+      .withEmail(event.createClinicEventDto.email)
+      .withAddress(event.createClinicEventDto.address)
+      .withContactInfo(event.createClinicEventDto.contactInfo)
+      .withCreatedAt(event.createClinicEventDto.createdAt)
+      .withUpdatedAt(event.createClinicEventDto.updatedAt)
+      .build();
+    console.log(clinic2);
 
-    await this.clinicMongoRepository.save(clinic);
+    // const clinic = {
+    //   id: event.createClinicEventDto.id,
+    //   name: event.createClinicEventDto.name,
+    //   email: event.createClinicEventDto.email,
+    //   password: event.createClinicEventDto.password,
+    //   address: { ...event.createClinicEventDto.address },
+    //   contactInfo: { ...event.createClinicEventDto.contactInfo },
+    //   createdAt: event.createClinicEventDto.createdAt,
+    //   updatedAt: event.createClinicEventDto.updatedAt,
+    //   doctors: [],
+    //   patients: [],
+    //   exams: [],
+    //   anamnesis: [],
+    // };
+
+    await this.clinicMongoRepository.save(clinic2.toDto());
   }
 }

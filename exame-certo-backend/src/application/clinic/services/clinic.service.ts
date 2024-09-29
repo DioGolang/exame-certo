@@ -20,7 +20,6 @@ export class ClinicService {
   ) {}
 
   async createClinic(createClinicDto: CreateClinicDto): Promise<void> {
-    // const command = plainToClass(CreateClinicCommand, createClinicDto);
     await this.commandBus.execute(new CreateClinicCommand(createClinicDto));
   }
 

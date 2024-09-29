@@ -144,6 +144,23 @@ export class Clinic {
     return EntityUtils.isAssociatedWith(this._doctors, doctor);
   }
 
+  public toDto(): any {
+    return {
+      id: this._id,
+      name: this._props.name,
+      email: this._props.email.value,
+      password: this._password,
+      address: this._props.address,
+      contactInfo: this._props.contactInfo,
+      doctors: this._doctors.map((doctor) => doctor.id),
+      patients: this._patients.map((patient) => patient.id),
+      exams: this._exams.map((exam) => exam.id),
+      anamnesis: this._anamnesis.map((anamnesis) => anamnesis.id),
+      createdAt: this._props.createdAt,
+      updatedAt: this._props.updatedAt,
+    };
+  }
+
   get id(): string {
     return this._id;
   }
