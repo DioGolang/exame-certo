@@ -35,7 +35,17 @@ services:
     volumes:
       - ./.docker/rabbitmq_data:/var/lib/rabbitmq
 
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.docker/redis_data:/data
+    environment:
+     REDIS_PASSWORD: ${REDIS_PASSWORD}
+
 volumes:
   postgres_data:
   mongodb_data:
   rabbitmq_data:
+  redis_data:

@@ -10,6 +10,7 @@ import { QueriesHandlers } from './queries';
 import { EventsHandlers } from './events';
 import { Consumers } from './consumers';
 import { EventPublisherService } from './services/event-publisher.service';
+import { ClinicMapper } from './mappers/clinic.mapper';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EventPublisherService } from './services/event-publisher.service';
   providers: [
     ClinicService,
     EventPublisherService,
+    ClinicMapper,
     ...CommandsHandlers,
     ...EventsHandlers,
     ClinicSaga,

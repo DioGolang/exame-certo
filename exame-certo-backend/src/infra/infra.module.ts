@@ -6,6 +6,7 @@ import { RabbitmqModule } from './messaging/rabbitmq/rabbitmq.module';
 import { CommandRepositoriesModule } from './persistence/postgres/repositories/command-repositories.module';
 import { QueryRepositoriesModule } from './persistence/mongodb/repositories/query-repositories.module';
 import { EncryptionModule } from './security/encryption/encryption.module';
+import { MappingModule } from './mapping/mapping.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EncryptionModule } from './security/encryption/encryption.module';
     CommandRepositoriesModule,
     QueryRepositoriesModule,
     EncryptionModule,
+    MappingModule,
   ],
 })
 export class InfraModule {}

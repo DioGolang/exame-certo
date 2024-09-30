@@ -6,6 +6,7 @@ import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { Clinic } from '../../../domain/entities/clinic.entity';
 import { CreateClinicEvent } from '../events/create-clinic.event';
 import { ClinicMapper } from '../mappers/clinic.mapper';
+import { InvalidClinicException } from '../../../domain/exceptions/invalid-clinic.exception';
 
 @CommandHandler(CreateClinicCommand)
 export class CreateClinicHandler
@@ -25,16 +26,18 @@ export class CreateClinicHandler
       await this.saveClinic(clinic);
       await this.publishCreateClinicEvent(clinic);
     } catch (error) {
-      throw new Error(error);
+      throw new InvalidClinicException(
+        'Failed to create clinic: ' + error.message,
+      );
     }
   }
 
-  private async buildClinic(command: CreateClinicCommand) {
+  private async buildClinic(command: CreateClinicCommand): Promise<Clinic> {
     const clinicBuilder = await this.clinicBuilder.createClinicBuilder(
       undefined,
       command.createClinicDto.password,
     );
-    return await clinicBuilder
+    return clinicBuilder
       .withName(command.createClinicDto.name)
       .withEmail(command.createClinicDto.email)
       .withAddress(command.createClinicDto.address)
@@ -42,7 +45,7 @@ export class CreateClinicHandler
       .build();
   }
 
-  private async saveClinic(clinic: Clinic) {
+  private async saveClinic(clinic: Clinic): Promise<void> {
     await this.clinicRepository.save(clinic);
   }
 

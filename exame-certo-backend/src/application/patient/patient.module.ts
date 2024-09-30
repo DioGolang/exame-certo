@@ -8,6 +8,7 @@ import { CommandsHandlers } from './commands';
 import { EventsHandlers } from './events';
 import { QueriesHandlers } from './queries';
 import { Consumers } from './consumers';
+import { PatientMapper } from './mappers/patient.mapper';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { Consumers } from './consumers';
   ],
   providers: [
     PatientService,
+    PatientMapper,
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,
