@@ -16,9 +16,6 @@ export class Report {
   @Prop({ required: true, unique: true })
   id: string; // UUID
 
-  @Prop({ required: true })
-  tenant_id: string;
-
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }] })
   exams: Exam[];
 

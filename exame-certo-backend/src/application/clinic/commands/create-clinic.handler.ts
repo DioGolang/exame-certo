@@ -18,6 +18,7 @@ export class CreateClinicHandler
     @Inject('BuilderFactory')
     private readonly clinicBuilder: BuilderFactory,
     private readonly eventBus: EventBus,
+    private readonly clinicMapper: ClinicMapper,
   ) {}
 
   async execute(command: CreateClinicCommand): Promise<void> {
@@ -46,12 +47,13 @@ export class CreateClinicHandler
   }
 
   private async saveClinic(clinic: Clinic): Promise<void> {
-    await this.clinicRepository.save(clinic);
+    const clinicEntity = this.clinicMapper.toPersistence(clinic);
+    await this.clinicRepository.save(clinicEntity);
   }
 
   private async publishCreateClinicEvent(clinic: Clinic): Promise<void> {
     const event = new CreateClinicEvent(
-      ClinicMapper.toCreateClinicEventDto(clinic),
+      this.clinicMapper.toCreateClinicEventDto(clinic),
     );
     this.eventBus.publish(event);
   }

@@ -32,6 +32,7 @@ import { ClinicMapper } from './mappers/clinic.mapper';
   exports: [
     ClinicService,
     EventPublisherService,
+    ClinicMapper,
     ...CommandsHandlers,
     ...EventsHandlers,
     ClinicSaga,
