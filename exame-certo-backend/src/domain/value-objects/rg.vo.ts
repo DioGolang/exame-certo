@@ -22,3 +22,7 @@ export class RG {
     return new RG(rg.rg);
   }
 }
+// number: rg.number,
+// issuingBody: rg.issuingBody,
+// issueDate: rg.issueDate,
+// uf: rg.uf,

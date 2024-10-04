@@ -4,6 +4,8 @@ import { ClinicEntity } from '../../../infra/persistence/postgres/entities/clini
 import { Clinic as ClinicDocument } from '../../../infra/persistence/mongodb/schemas/clinic.schema';
 import { Inject, Injectable } from '@nestjs/common';
 import { BuilderFactory } from '../../../domain/builders/builder.factory';
+import { AddressMapper } from '../../shared/mappers/address.mapper';
+import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
 
 @Injectable()
 export class ClinicMapper {
@@ -63,8 +65,10 @@ export class ClinicMapper {
     clinicDocument.password = clinic.password;
     clinicDocument.name = clinic.name;
     clinicDocument.email = clinic.email;
-    clinicDocument.address = clinic.address;
-    clinicDocument.contactInfo = clinic.contactInfo;
+    clinicDocument.address = AddressMapper.toDocument(clinic.address);
+    clinicDocument.contactInfo = ContactInfoMapper.toDocument(
+      clinic.contactInfo,
+    );
     clinicDocument.exams = [];
     clinicDocument.anamnesis = [];
     clinicDocument.doctors = [];

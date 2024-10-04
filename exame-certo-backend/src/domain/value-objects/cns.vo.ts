@@ -1,7 +1,7 @@
 import { CNSDto } from '../../application/shared/dtos/cns.dto';
 
 export class CNS {
-  private readonly cns;
+  private readonly cns: string;
 
   constructor(cns: string) {
     if (!this.validateCNS(cns)) {

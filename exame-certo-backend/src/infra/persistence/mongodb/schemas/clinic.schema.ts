@@ -1,9 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Address } from '../../../../domain/value-objects/address.vo';
-import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
 import { HydratedDocument } from 'mongoose';
-import { AddressSchema } from './address.schema';
-import { ContactInfoSchema } from './contact-info.schema';
+import { Address, AddressSchema } from './address.schema';
+import { ContactInfo, ContactInfoSchema } from './contact-info.schema';
 import * as mongoose from 'mongoose';
 import { Anamnesis } from './anamnesis.schema';
 import { Exam } from './exam.schema';

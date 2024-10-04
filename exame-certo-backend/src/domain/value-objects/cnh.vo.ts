@@ -22,3 +22,9 @@ export class CNH {
     return new CNH(cnh.cnh);
   }
 }
+
+//   number: cnh.number,
+//   expirationDate: cnh.expirationDate,
+//   category: cnh.category,
+//   register: cnh.register,
+//   state: cnh.state

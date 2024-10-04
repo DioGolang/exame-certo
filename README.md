@@ -34,7 +34,9 @@ Os princípios SOLID são seguidos rigorosamente para garantir que o código sej
  ## Padrões de Design Aplicados
 
 1. **Repository Pattern:**
-   - Para abstrair a lógica de persistência de dados e permitir a troca de tecnologias de armazenamento sem impacto no domínio.
+    - **Porquê:** Abstrai a persistência de dados, permitindo que o domínio se concentre em regras de negócio, e facilita a troca de tecnologias de banco de dados.
+    - **Exemplo:** Utilizamos o Repository Pattern para acessar dados de `Patient`, `Doctor`, `Clinic`, `Anamnesis`, `Report`, `Exam`, em nosso banco de dados PostgreSQL, além de retornar dados pelo MongoDB.
+    - **Diagrama:**
 
 2. **Factory Pattern:**
    - Para criar instâncias complexas de objetos de domínio com dependências.
@@ -45,12 +47,33 @@ Os princípios SOLID são seguidos rigorosamente para garantir que o código sej
 4. **Event-Driven Architecture:**
    - Para processar eventos de webhooks e sincronização de dados de forma desacoplada e assíncrona.
 
+5. **Dead Letter Queues (DLQ):**
+   - **Porquê:** As Dead Letter Queues (DLQ) são filas especiais usadas para armazenar mensagens que falharam no processamento ou não puderam ser entregues ao consumidor com sucesso após várias tentativas. Elas são utilizadas para lidar com erros, inconsistências ou problemas temporários no processamento de mensagens.
+   - **Exemplo:** No RabbitMQ, você pode configurar uma fila de dead-letter associada a uma fila principal. Quando o processamento de uma mensagem falha (ou atinge um número máximo de tentativas), ela é movida para a Dead Letter Queue, onde pode ser analisada ou processada posteriormente.
+
+6. **Outbox Pattern:**
+   - É uma estratégia de design que assegura a consistência entre o estado do banco de dados e a publicação de eventos em sistemas distribuídos. Funciona como uma fila intermediária, onde as mensagens a serem enviadas são armazenadas antes de serem efetivamente publicadas.
+   - **Exemplo:** Como o sistema está usando bancos de dados diferentes para comandos e consultas, é importante garantir que os dados de escrita no `PostgreSQL` sejam sincronizados com o MongoDB para leitura.
+   O problema que o Outbox Pattern resolve é garantir que tanto os comandos (escrita) quanto a publicação de eventos (`RabbitMQ`) sejam feitos de forma atômica, evitando inconsistências causadas por falhas no meio da operação. Sem o Outbox Pattern, há o risco de salvar dados no banco, mas falhar ao enviar o evento para o `RabbitMQ` (ou vice-versa).
+    - - Outbox Pattern pode ser otimizado com o uso de uma fila intermediária como o `Redis`, e o pacote `@nestjs/bullmq` oferece uma excelente solução para gerenciar filas com Redis no `NestJS`, além de possibilitar a criação de produtores, consumidores, e ouvintes de filas de maneira distribuída. Esse setup melhora ainda mais a resiliência e escalabilidade do sistema, especialmente em ambientes onde há múltiplos nós de rede e integração com outras plataformas.
+    - - Em vez de apenas salvar os eventos no banco de dados (`PostgreSQL`), usaremos Redis para gerenciar a fila de eventos, e o pacote `@nestjs/bullmq` para produzir e consumir essas mensagens. O Outbox Pattern ainda será aplicado para garantir a consistência atômica entre os eventos no banco de dados e na fila de eventos.
+   - - Produtores adicionam eventos à fila `Redis`.
+   - - Consumidores processam os eventos da fila `Redis`.
+   - - Listeners são usados para capturar eventos de falha ou sucesso.
+      
+
 ---
 
 ## Padrões arquiteturiais 
 
 1. **CQRS:**
    - Para separar as operações de leitura (queries) das operações de escrita (commands) do sistema.
+   - RabbitMQ está sendo usado para mensagens
+   - **Vantagens:**
+   - 1. **Desacoplamento:** RabbitMQ permite que o produtor (quem emite o evento) e o consumidor (quem lida com o evento) sejam completamente desacoplados. A aplicação que escreve dados no PostgreSQL (escrita) não precisa se preocupar com a aplicação que lê e atualiza o MongoDB (leitura).
+   - 2. **Escalabilidade:** RabbitMQ permite o processamento assíncrono e paralelo de eventos. Se você precisar processar eventos de forma mais rápida, pode simplesmente adicionar mais consumidores.
+   - 3. **Garantia de Entrega:** RabbitMQ suporta várias garantias de entrega, como "at least once" e "exactly once", para que os eventos não sejam perdidos. Isso é essencial para garantir que todos os eventos sejam corretamente consumidos e o MongoDB seja atualizado conforme necessário.
+   - 4. **Tolerância a Falhas:** RabbitMQ permite reprocessar eventos caso algum consumidor falhe temporariamente ou haja algum erro no processamento.    
 
 ---
 
@@ -226,30 +249,37 @@ Esses contextos são isolados e interagem de forma controlada, utilizando o tena
 
 ## Tecnologias Utilizadas
 
-1. **NestJS:**
+1. **Framework Backend:**
+   - Nestjs
    - Backend modular e extensível.
    - Suporte para arquitetura limpa e orientação a DDD.
    - Implementação de serviços RESTful para comunicação com o frontend e sistemas externos.
 
-2. **Next.js:**
-   - Framework React.js para renderização do frontend.
-   - SSR (Server-Side Rendering) para melhorar SEO e tempos de carregamento.
+2. **Framework voltado para React:**
+   - Next.js
 
 3. **Banco de Dados:**
    - Banco de dados relacional como PostgreSQL para armazenar dados estruturados.
    - Banco de dados NoSQL como MongoDB para leitura dos dados.
    - Implementação de criptografia em repouso para dados sensíveis.
 
-4. **OCR:**
+4. **NoSQL**
+   - MongoDB
+   - Redis
+
+5. **Software de Mensagens**
+   - RabbitMQ
+
+6. **OCR:**
    - Biblioteca Tesseract.js para OCR e conversão de laudos em texto pesquisável.
 
-5. **Keycloak**
+7. **Keycloak**
    - Keycloak fornece uma solução completa para autenticação, gerenciamento de usuários e controle de acesso.
 
-6. **JWT**
+8. **JWT**
    - Os tokens JWT permitem autenticação sem estado e escalável, com a capacidade de incluir informações de controle de acesso.
 
-7. **Chart.js/D3.js:**
+9. **Chart.js/D3.js:**
    - Utilizadas para a geração de gráficos de evolução dos exames na interface de usuário.
 
 
