@@ -11,6 +11,7 @@ import { EventsHandlers } from './events';
 import { Consumers } from './consumers';
 import { EventPublisherService } from './services/event-publisher.service';
 import { ClinicMapper } from './mappers/clinic.mapper';
+import { ClinicDomainServiceModule } from '../../domain/services/clinic/clinic-domain-service.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ClinicMapper } from './mappers/clinic.mapper';
     ClinicQueryRepositoryModule,
     ClinicCommandRepositoryModule,
     BuildersModule,
+    ClinicDomainServiceModule,
   ],
   providers: [
     ClinicService,

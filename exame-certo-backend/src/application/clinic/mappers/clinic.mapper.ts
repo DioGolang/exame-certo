@@ -6,6 +6,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { AddressMapper } from '../../shared/mappers/address.mapper';
 import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
+import { ClinicBuilder } from '../../../domain/builders/clinic.builder';
 
 @Injectable()
 export class ClinicMapper {
@@ -27,12 +28,27 @@ export class ClinicMapper {
     };
   }
 
+  async fromEventDtoToDomain(
+    createClinicEventDto: CreateClinicEventDto,
+  ): Promise<Clinic> {
+    const clinicBuilder = new ClinicBuilder();
+    return clinicBuilder
+      .withId(createClinicEventDto.id)
+      .withPasswordHash(createClinicEventDto.password)
+      .withName(createClinicEventDto.name)
+      .withEmail(createClinicEventDto.email)
+      .withAddress(createClinicEventDto.address)
+      .withContactInfo(createClinicEventDto.contactInfo)
+      .withCreatedAt(createClinicEventDto.createdAt)
+      .withUpdatedAt(createClinicEventDto.updatedAt)
+      .build();
+  }
+
   async toDomain(clinicEntity: ClinicEntity): Promise<Clinic> {
-    const clinicBuild = await this.builderFactory.createClinicBuilder(
-      undefined,
-      clinicEntity.password,
-    );
-    return clinicBuild
+    const clinicBuilder = new ClinicBuilder();
+    return clinicBuilder
+      .withId(clinicEntity.id)
+      .withPasswordHash(clinicEntity.password)
       .withName(clinicEntity.name)
       .withEmail(clinicEntity.email)
       .withAddress(clinicEntity.address)
@@ -76,5 +92,19 @@ export class ClinicMapper {
     clinicDocument.createdAt = clinic.createdAt;
     clinicDocument.updatedAt = clinic.updatedAt;
     return clinicDocument;
+  }
+
+  async documentForDomain(clinicDocument: ClinicDocument): Promise<Clinic> {
+    const clinicBuilder = new ClinicBuilder();
+    return clinicBuilder
+      .withId(clinicDocument.id)
+      .withPasswordHash(clinicDocument.password)
+      .withName(clinicDocument.name)
+      .withEmail(clinicDocument.email)
+      .withAddress(clinicDocument.address)
+      .withContactInfo(clinicDocument.contactInfo)
+      .withCreatedAt(clinicDocument.createdAt)
+      .withUpdatedAt(clinicDocument.updatedAt)
+      .build();
   }
 }

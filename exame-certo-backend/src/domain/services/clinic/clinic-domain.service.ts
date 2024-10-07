@@ -1,42 +1,37 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BuilderFactory } from '../../builders/builder.factory';
-import { CreateClinicDto } from '../../../application/clinic/dto/create-clinic.dto';
 import { Clinic } from '../../entities/clinic.entity';
-import { ClinicEntity } from '../../../infra/persistence/postgres/entities/clinic.entity';
+import { v4 as uuidv4 } from 'uuid';
+import { PasswordHash } from '../../../application/interfaces/hasher.interface';
+import { ClinicBuilder } from '../../builders/clinic.builder';
+import { CreateClinicCommand } from '../../../application/clinic/commands/create-clinic.command';
 
 @Injectable()
 export class ClinicDomainService {
   constructor(
     @Inject('BuilderFactory')
     private readonly clinicBuilderFactory: BuilderFactory,
+    @Inject('PasswordHash')
+    private readonly passwordHash: PasswordHash,
   ) {}
 
-  async createClinic(clinicDto: CreateClinicDto): Promise<Clinic> {
-    const clinicBuilder = await this.clinicBuilderFactory.createClinicBuilder(
-      undefined,
-      clinicDto.password,
+  async createClinic(
+    clinicClinicCommand: CreateClinicCommand,
+  ): Promise<Clinic> {
+    const id = uuidv4();
+    const passwordHash = await this.passwordHash.hash(
+      clinicClinicCommand.createClinicDto.password,
     );
+    const clinicBuilder = new ClinicBuilder();
     return clinicBuilder
-      .withName(clinicDto.name)
-      .withEmail(clinicDto.email)
-      .withAddress(clinicDto.address)
-      .withContactInfo(clinicDto.contactInfo)
+      .withId(id)
+      .withPasswordHash(passwordHash)
+      .withName(clinicClinicCommand.createClinicDto.name)
+      .withEmail(clinicClinicCommand.createClinicDto.email)
+      .withAddress(clinicClinicCommand.createClinicDto.address)
+      .withContactInfo(clinicClinicCommand.createClinicDto.contactInfo)
+      .withCreatedAt(new Date())
+      .withUpdatedAt(new Date())
       .build();
-  }
-
-  async rehydrateClinic(clinicEntity: ClinicEntity): Promise<Clinic> {
-    const clinicBuilder = await this.clinicBuilderFactory.createClinicBuilder(
-      clinicEntity.id,
-      clinicEntity.password,
-    );
-
-    const clinic = clinicBuilder
-      .withName(clinicEntity.name)
-      .withEmail(clinicEntity.email)
-      .withAddress(clinicEntity.address)
-      .withContactInfo(clinicEntity.contactInfo)
-      .build();
-
-    return clinic;
   }
 }

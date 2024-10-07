@@ -1,6 +1,5 @@
 import { AnamnesisBuilder } from './anamnesisBuilder';
 import { BuilderFactory } from './builder.factory';
-import { ClinicBuilder } from './clinic.builder';
 import { DoctorBuilder } from './doctor.builder';
 import { ExamBuilder } from './examBuilder';
 import { PatientBuilder } from './patient.builder';
@@ -25,18 +24,6 @@ export class DefaultBuilderFactory extends BuilderFactory {
     encryptedPassword?: string,
   ): Promise<DoctorBuilder> {
     return this.buildWithLogin(DoctorBuilder, {
-      id,
-      password,
-      encryptedPassword,
-    });
-  }
-
-  async createClinicBuilder(
-    id?: string,
-    password?: string,
-    encryptedPassword?: string,
-  ): Promise<ClinicBuilder> {
-    return this.buildWithLogin(ClinicBuilder, {
       id,
       password,
       encryptedPassword,

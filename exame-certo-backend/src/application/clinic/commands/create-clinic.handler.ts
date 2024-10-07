@@ -2,11 +2,11 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { CreateClinicCommand } from './create-clinic.command';
 import { Inject } from '@nestjs/common';
 import { ClinicCommandRepository } from '../../../domain/repositories/clinic-command.repository';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { Clinic } from '../../../domain/entities/clinic.entity';
 import { CreateClinicEvent } from '../events/create-clinic.event';
 import { ClinicMapper } from '../mappers/clinic.mapper';
 import { InvalidClinicException } from '../../../domain/exceptions/invalid-clinic.exception';
+import { ClinicDomainService } from '../../../domain/services/clinic/clinic-domain.service';
 
 @CommandHandler(CreateClinicCommand)
 export class CreateClinicHandler
@@ -15,8 +15,7 @@ export class CreateClinicHandler
   constructor(
     @Inject('ClinicCommandRepository')
     private readonly clinicRepository: ClinicCommandRepository,
-    @Inject('BuilderFactory')
-    private readonly clinicBuilder: BuilderFactory,
+    private readonly clinicDomainService: ClinicDomainService,
     private readonly eventBus: EventBus,
     private readonly clinicMapper: ClinicMapper,
   ) {}
@@ -34,16 +33,7 @@ export class CreateClinicHandler
   }
 
   private async buildClinic(command: CreateClinicCommand): Promise<Clinic> {
-    const clinicBuilder = await this.clinicBuilder.createClinicBuilder(
-      undefined,
-      command.createClinicDto.password,
-    );
-    return clinicBuilder
-      .withName(command.createClinicDto.name)
-      .withEmail(command.createClinicDto.email)
-      .withAddress(command.createClinicDto.address)
-      .withContactInfo(command.createClinicDto.contactInfo)
-      .build();
+    return this.clinicDomainService.createClinic(command);
   }
 
   private async saveClinic(clinic: Clinic): Promise<void> {
