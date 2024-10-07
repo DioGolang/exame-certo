@@ -24,19 +24,19 @@ A aplicação utiliza Domain-Driven Design (DDD) para modelar o domínio de form
 Os princípios SOLID são seguidos rigorosamente para garantir que o código seja robusto, flexível e de fácil manutenção:
 
 - **S - Single Responsibility Principle (SRP):**
-Cada classe no projeto tem uma responsabilidade única. Por exemplo, a classe PatientService é responsável apenas pela lógica de manipulação e consulta de pacientes, enquanto a classe ExamService trata exclusivamente das operações relacionadas a exames laboratoriais. Isso mantém o código limpo e focado, facilitando sua manutenção e extensão.
+Cada classe no projeto tem uma responsabilidade única. Por exemplo, a classe `PatientService` é responsável apenas pela lógica de criação, manipulação e consulta de pacientes, enquanto a classe `ExamService` trata exclusivamente das operações relacionadas a exames laboratoriais. Isso mantém o código limpo e focado, facilitando sua manutenção e extensão.
 
 - **O - Open/Closed Principle (OCP):**
-O projeto foi estruturado de forma que as classes sejam abertas para extensão, mas fechadas para modificação. Um exemplo disso é o uso de interfaces nos repositórios, como IPatientRepository. Se houver a necessidade de alterar a fonte de dados (por exemplo, trocar o banco de dados), podemos criar uma nova implementação da interface sem alterar o código existente, apenas registrando a nova implementação.
+O projeto foi estruturado de forma que as classes sejam abertas para extensão, mas fechadas para modificação. Um exemplo disso é o uso de interfaces nos repositórios, como `IPatientRepository`. Se houver a necessidade de alterar a fonte de dados (por exemplo, trocar o banco de dados), podemos criar uma nova implementação da interface sem alterar o código existente, apenas registrando a nova implementação.
 
 - **L - Liskov Substitution Principle (LSP):**
-Subtipos são usados de forma que possam substituir seus tipos base sem comprometer a integridade do sistema. Um exemplo é a substituição de repositórios concretos, como PostgresPatientRepository, que pode ser substituído por MongoPatientRepository para consultas, sem a necessidade de mudar a lógica do serviço que os consome. A aplicação pode continuar funcionando corretamente com qualquer subtipo.
+Subtipos são usados de forma que possam substituir seus tipos base sem comprometer a integridade do sistema. Um exemplo é a substituição de repositórios concretos, como `PostgresPatientRepository`, que pode ser substituído por `MongoPatientRepository` para consultas, sem a necessidade de mudar a lógica do serviço que os consome. A aplicação pode continuar funcionando corretamente com qualquer subtipo.
 
 - **I - Interface Segregation Principle (ISP):**
-Interfaces são desenhadas de forma a não forçar classes a implementarem métodos que não utilizam. No projeto, cada interface foi segregada para comportar apenas as operações necessárias. Por exemplo, a interface IExamRepository define apenas os métodos específicos para manipulação de exames, enquanto IReportRepository lida exclusivamente com relatórios, evitando que os repositórios sejam sobrecarregados com métodos desnecessários.
+Interfaces são desenhadas de forma a não forçar classes a implementarem métodos que não utilizam. No projeto, cada interface foi segregada para comportar apenas as operações necessárias. Por exemplo, a interface IExamRepository define apenas os métodos específicos para manipulação de exames, enquanto `IReportRepository` lida exclusivamente com relatórios, evitando que os repositórios sejam sobrecarregados com métodos desnecessários.
 
 - **D - Dependency Inversion Principle (DIP):**
-As dependências no sistema são invertidas, de modo que os serviços dependem de abstrações e não de implementações concretas. Isso é feito principalmente por meio da injeção de dependência no NestJS, onde serviços como PatientService recebem instâncias de IPatientRepository através de injeção, sem conhecer a implementação concreta. Assim, a camada de domínio permanece desacoplada da camada de infraestrutura, facilitando a troca de implementações (ex: mudar de PostgreSQL para MongoDB) sem modificar o código de negócio.
+As dependências no sistema são invertidas, de modo que os serviços dependem de abstrações e não de implementações concretas. Isso é feito principalmente por meio da injeção de dependência no NestJS, onde serviços como `PatientService` recebem instâncias de `IPatientRepository` através de injeção, sem conhecer a implementação concreta. Assim, a camada de domínio permanece desacoplada da camada de infraestrutura, facilitando a troca de implementações (ex: mudar de PostgreSQL para MongoDB) sem modificar o código de negócio.
 
 ---
 
