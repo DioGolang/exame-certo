@@ -10,24 +10,33 @@ Este projeto adota uma arquitetura sólida e escalável baseada nos seguintes pr
 
 ### Clean Architecture
 
-A arquitetura limpa, ou Clean Architecture, é utilizada para manter uma separação clara entre as diferentes camadas da aplicação. Isso promove a independência de frameworks, UI, banco de dados e qualquer outra dependência externa, garantindo que as regras de negócio permaneçam isoladas e facilmente testáveis.
+A Clean Architecture foi adotada para garantir a separação de responsabilidades entre as camadas da aplicação, tornando o sistema independente de frameworks externos, UI, banco de dados e outras dependências. Com isso, as regras de negócio são mantidas isoladas, permitindo que as funcionalidades sejam facilmente testáveis e escaláveis.
 
 ---
 
 ### Domain-Driven Design (DDD)
 
-dotamos o Domain-Driven Design (DDD) para focar na modelagem do domínio de forma a refletir com precisão o mundo real. DDD nos ajuda a capturar a complexidade do negócio em um modelo de software que seja compreensível e flexível. As entidades, agregados, repositórios e serviços são modelados para expressar claramente as regras e lógica de negócio.
+A aplicação utiliza Domain-Driven Design (DDD) para modelar o domínio de forma a refletir fielmente o mundo real. Essa abordagem permite capturar a complexidade do negócio em um modelo de software flexível e compreensível. As entidades, agregados, repositórios e serviços foram projetados para expressar claramente as regras de negócio e o fluxo de trabalho clínico.
 
 ---
 
 ### Princípios SOLID
 Os princípios SOLID são seguidos rigorosamente para garantir que o código seja robusto, flexível e de fácil manutenção:
 
-- **S** - *Single Responsibility Principle (SRP):* Cada classe ou módulo tem uma única responsabilidade.
-- **O** - *Open/Closed Principle (OCP):* O código é aberto para extensão, mas fechado para modificação.
-- **L** - *Liskov Substitution Principle (LSP):* Subtipos devem ser substituíveis por seus tipos base sem alterar a corretude do programa.
-- **I** - *Interface Segregation Principle (ISP):* Módulos não devem ser forçados a depender de interfaces que não utilizam.
-- **D** - *Dependency Inversion Principle (DIP):* Abstrações não devem depender de detalhes, e sim o contrário.
+- **S - Single Responsibility Principle (SRP):**
+Cada classe no projeto tem uma responsabilidade única. Por exemplo, a classe PatientService é responsável apenas pela lógica de manipulação e consulta de pacientes, enquanto a classe ExamService trata exclusivamente das operações relacionadas a exames laboratoriais. Isso mantém o código limpo e focado, facilitando sua manutenção e extensão.
+
+- **O - Open/Closed Principle (OCP):**
+O projeto foi estruturado de forma que as classes sejam abertas para extensão, mas fechadas para modificação. Um exemplo disso é o uso de interfaces nos repositórios, como IPatientRepository. Se houver a necessidade de alterar a fonte de dados (por exemplo, trocar o banco de dados), podemos criar uma nova implementação da interface sem alterar o código existente, apenas registrando a nova implementação.
+
+- **L - Liskov Substitution Principle (LSP):**
+Subtipos são usados de forma que possam substituir seus tipos base sem comprometer a integridade do sistema. Um exemplo é a substituição de repositórios concretos, como PostgresPatientRepository, que pode ser substituído por MongoPatientRepository para consultas, sem a necessidade de mudar a lógica do serviço que os consome. A aplicação pode continuar funcionando corretamente com qualquer subtipo.
+
+- **I - Interface Segregation Principle (ISP):**
+Interfaces são desenhadas de forma a não forçar classes a implementarem métodos que não utilizam. No projeto, cada interface foi segregada para comportar apenas as operações necessárias. Por exemplo, a interface IExamRepository define apenas os métodos específicos para manipulação de exames, enquanto IReportRepository lida exclusivamente com relatórios, evitando que os repositórios sejam sobrecarregados com métodos desnecessários.
+
+- **D - Dependency Inversion Principle (DIP):**
+As dependências no sistema são invertidas, de modo que os serviços dependem de abstrações e não de implementações concretas. Isso é feito principalmente por meio da injeção de dependência no NestJS, onde serviços como PatientService recebem instâncias de IPatientRepository através de injeção, sem conhecer a implementação concreta. Assim, a camada de domínio permanece desacoplada da camada de infraestrutura, facilitando a troca de implementações (ex: mudar de PostgreSQL para MongoDB) sem modificar o código de negócio.
 
 ---
 
@@ -42,10 +51,10 @@ Os princípios SOLID são seguidos rigorosamente para garantir que o código sej
    - Para criar instâncias complexas de objetos de domínio com dependências.
 
 3. **Service Layer:**
-   - Para encapsular a lógica de aplicação, mantendo a camada de domínio limpa e focada.
+   - Encapsula a lógica de aplicação, permitindo que o domínio permaneça focado em suas regras de negócio. Facilita a implementação de use cases que orquestram interações entre as camadas da aplicação.
 
 4. **Event-Driven Architecture:**
-   - Para processar eventos de webhooks e sincronização de dados de forma desacoplada e assíncrona.
+   - A arquitetura orientada a eventos permite o processamento desacoplado e assíncrono de dados e eventos externos, como sincronizações com sistemas de terceiros. Utiliza-se o RabbitMQ para gerenciar filas de eventos.
 
 5. **Dead Letter Queues (DLQ):**
    - **Porquê:** As Dead Letter Queues (DLQ) são filas especiais usadas para armazenar mensagens que falharam no processamento ou não puderam ser entregues ao consumidor com sucesso após várias tentativas. Elas são utilizadas para lidar com erros, inconsistências ou problemas temporários no processamento de mensagens.
@@ -79,12 +88,12 @@ Os princípios SOLID são seguidos rigorosamente para garantir que o código sej
 
 ### Desafios Identificados
 
-1. **Padrões de Interoperabilidade:** HL7, FHIR, DICOM.
+1. **Padrões de Interoperabilidade:** Padrões como HL7, FHIR e DICOM foram investigados para garantir a compatibilidade com sistemas de prontuário eletrônico (EHRs).
 2. **Certificação Digital:** Implementação de certificação digital.
 3. **ETL:** Processos de ETL para integração com EHRs.
 4. **Webhooks:** Recepção de notificações em tempo real.
-5. **Segurança e Privacidade dos Dados:** Criptografia e autenticação multifator (MFA).
-6. **Digitalização e Armazenamento de Laudos:** OCR.
+5. **Segurança e Privacidade dos Dados:** A aplicação emprega criptografia de dados e autenticação multifator (MFA) para proteger informações sensíveis.
+6. **Digitalização e Armazenamento de Laudos:** Laudos médicos podem ser digitalizados e convertidos para texto utilizando Tesseract.js, o que facilita a organização e busca dos documentos
 7. **Autenticação e Segurança:** JWT, OAuth2.
 8. **Processamento Assíncrono:** Gerenciamento de tarefas assíncronas.
 
