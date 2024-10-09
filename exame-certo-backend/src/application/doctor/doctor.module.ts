@@ -9,6 +9,9 @@ import { EventsHandlers } from './events';
 import { Consumers } from './consumers';
 import { QueriesHandlers } from './queries';
 import { Mappers } from './mappers';
+import { DoctorDomainServiceModule } from '../../domain/services/doctor/doctor-domain-service.module';
+import { DoctorMapper } from './mappers/doctor.mapper';
+import { EventPublisherService } from './services/event-publisher.service';
 
 @Module({
   imports: [
@@ -16,9 +19,12 @@ import { Mappers } from './mappers';
     DoctorQueryRepositoryModule,
     DoctorCommandRepositoryModule,
     BuildersModule,
+    DoctorDomainServiceModule,
   ],
   providers: [
     DoctorService,
+    EventPublisherService,
+    DoctorMapper,
     ...Mappers,
     ...CommandsHandlers,
     ...EventsHandlers,
@@ -27,6 +33,8 @@ import { Mappers } from './mappers';
   ],
   exports: [
     DoctorService,
+    EventPublisherService,
+    DoctorMapper,
     ...Mappers,
     ...CommandsHandlers,
     ...EventsHandlers,

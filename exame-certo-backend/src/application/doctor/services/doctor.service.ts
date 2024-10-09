@@ -1,17 +1,23 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { CreateDoctorCommand } from '../commands/create-doctor.command';
 import { CreateDoctorDto } from '../dto/create-doctor.dto';
 import { GetDoctorQuery } from '../queries/get-doctor.query';
 import { Doctor } from '../../../domain/entities/doctor.entity';
+import { DoctorDomainService } from '../../../domain/services/doctor/doctor-domain.service';
+import { DoctorMapper } from '../mappers/doctor.mapper';
 
 @Injectable()
 export class DoctorService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    @Inject('BuilderFactory') private readonly doctorBuilder: BuilderFactory,
+    private readonly doctorDomainService: DoctorDomainService,
+    private readonly doctorMapper: DoctorMapper,
   ) {}
 
   async createDoctor(createDoctorDto: CreateDoctorDto): Promise<void> {
@@ -19,18 +25,14 @@ export class DoctorService {
   }
 
   async getDoctor(id: string): Promise<Doctor> {
-    const doctorSchema = await this.queryBus.execute(new GetDoctorQuery(id));
-    const builderDoctor = await this.doctorBuilder.createDoctorBuilder(
-      id,
-      undefined,
-      doctorSchema.password,
-    );
-    const doctor = await builderDoctor
-      .withName(doctorSchema.name)
-      .withEmail(doctorSchema.email)
-      .withProfessionalAddress(doctorSchema.address)
-      .withContactInfo(doctorSchema.contactInfo)
-      .build();
-    return doctor;
+    try {
+      const doctorSchema = await this.queryBus.execute(new GetDoctorQuery(id));
+      return this.doctorMapper.documentForDomain(doctorSchema);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error fetching Doctor');
+    }
   }
 }

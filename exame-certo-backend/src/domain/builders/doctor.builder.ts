@@ -1,6 +1,5 @@
 import { Doctor } from '../entities/doctor.entity';
 import { DoctorProps } from '../interfaces/props/doctor-props.interface';
-import { v4 as uuidv4 } from 'uuid';
 import { Anamnesis } from '../entities/anamnesis.entity';
 import { Exam } from '../entities/exam.entity';
 import { Clinic } from '../entities/clinic.entity';
@@ -13,28 +12,6 @@ export class DoctorBuilder extends BaseEntityBuilder<Doctor, DoctorProps> {
   private _exams: Exam[] = [];
   private _clinics: Clinic[] = [];
   private _reports: Report[] = [];
-
-  private constructor(
-    id: string,
-    encryptedPassword?: string,
-    password?: string,
-  ) {
-    super(id, encryptedPassword, password);
-  }
-
-  public static create(password: string): DoctorBuilder {
-    const createdAt = new Date();
-    const id = uuidv4();
-    const builder = new DoctorBuilder(id, undefined, password);
-    return builder.withCreatedAt(createdAt).withUpdatedAt(createdAt);
-  }
-
-  public static rehydrate(
-    id: string,
-    encryptedPassword: string,
-  ): DoctorBuilder {
-    return new DoctorBuilder(id, encryptedPassword);
-  }
 
   withName(name: string): DoctorBuilder {
     this._props.name = name;
@@ -77,15 +54,12 @@ export class DoctorBuilder extends BaseEntityBuilder<Doctor, DoctorProps> {
 
   public async build(): Promise<Doctor> {
     this.validateRequiredProperties();
-    const finalPasswordHash = await this.getFinalPasswordHash();
-
     const doctor = new Doctor(
       this._id,
       this._props as DoctorProps,
-      finalPasswordHash,
+      this._passwordHash,
     );
-
-    this.addRelationshipsToDoctor(doctor);
+    this.addRelationshipsToEntities(doctor);
     return doctor;
   }
 
@@ -100,7 +74,7 @@ export class DoctorBuilder extends BaseEntityBuilder<Doctor, DoctorProps> {
     }
   }
 
-  private addRelationshipsToDoctor(doctor: Doctor): void {
+  protected addRelationshipsToEntities(doctor: Doctor): void {
     this._anamnesis.forEach((a) => doctor.addAnamnesis(a));
     this._exams.forEach((e) => doctor.addExam(e));
     this._clinics.forEach((c) => doctor.addClinic(c));

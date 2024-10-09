@@ -6,6 +6,7 @@ import { DoctorEntity } from '../../../infra/persistence/postgres/entities/docto
 import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { AddressMapper } from '../../shared/mappers/address.mapper';
 import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
+import { DoctorBuilder } from '../../../domain/builders/doctor.builder';
 
 @Injectable()
 export class DoctorMapper {
@@ -30,10 +31,7 @@ export class DoctorMapper {
   }
 
   async toDomain(doctorEntity: DoctorEntity): Promise<Doctor> {
-    const doctorBuild = await this.builderFactory.createDoctorBuilder(
-      undefined,
-      doctorEntity.password,
-    );
+    const doctorBuild = new DoctorBuilder();
     return doctorBuild
       .withName(doctorEntity.name)
       .withEmail(doctorEntity.email)
@@ -82,5 +80,20 @@ export class DoctorMapper {
     doctorDocument.createdAt = doctor.createdAt;
     doctorDocument.updatedAt = doctor.updatedAt;
     return doctorDocument;
+  }
+  async documentForDomain(doctorDocument: DoctorDocument): Promise<Doctor> {
+    const doctorBuilder = new DoctorBuilder();
+    return doctorBuilder
+      .withId(doctorDocument.id)
+      .withPasswordHash(doctorDocument.password)
+      .withName(doctorDocument.name)
+      .withEmail(doctorDocument.email)
+      .withRegistrationNumber(doctorDocument.registrationNumber)
+      .withSpecialization(doctorDocument.specialization)
+      .withAddress(doctorDocument.address)
+      .withContactInfo(doctorDocument.contactInfo)
+      .withCreatedAt(doctorDocument.createdAt)
+      .withUpdatedAt(doctorDocument.updatedAt)
+      .build();
   }
 }
