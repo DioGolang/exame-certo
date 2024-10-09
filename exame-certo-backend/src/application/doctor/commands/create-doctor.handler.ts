@@ -37,7 +37,8 @@ export class CreateDoctorHandler
   }
 
   private async saveDoctor(doctor: Doctor): Promise<void> {
-    await this.doctorRepository.save(doctor);
+    const doctorEntity = this.doctorMapper.toPersistence(doctor);
+    await this.doctorRepository.save(doctorEntity);
   }
   private async pushCreateDoctorEvent(doctor: Doctor): Promise<void> {
     const event = new CreateDoctorEvent(

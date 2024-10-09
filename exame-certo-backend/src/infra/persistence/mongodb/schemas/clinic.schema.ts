@@ -7,8 +7,6 @@ import { Anamnesis } from './anamnesis.schema';
 import { Exam } from './exam.schema';
 import { Patient } from './patient.schema';
 import { Doctor } from './doctor.schema';
-import { EmailSchema } from './email.schema';
-import { Email } from '../../../../domain/value-objects/email.vo';
 
 export type ClinicDocument = HydratedDocument<Clinic>;
 

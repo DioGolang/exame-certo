@@ -8,5 +8,5 @@ export const rabbitMQConfig: RabbitMQConfig = {
     },
   ],
   uri: `amqp://${process.env.RABBITMQ_DEFAULT_USER}:${process.env.RABBITMQ_DEFAULT_PASS}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`,
-  // connectionInitOptions: { wait: false }, // Inicia imediatamente sem esperar conexão
+  connectionInitOptions: { wait: true, timeout: 10000 },
 };

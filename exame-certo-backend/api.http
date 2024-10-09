@@ -41,8 +41,8 @@ content-type: application/json
 {
   "id": null,
   "password": "123456",
-  "name": "Dr. Examinador 3",
-  "email": "examinador2@gmail.com",
+  "name": "Dr. Examinador 4",
+  "email": "examinador4@gmail.com",
   "registrationNumber": "123456",
   "specialization": "Neurologista",
   "address": {

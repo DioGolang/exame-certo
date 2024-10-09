@@ -19,9 +19,19 @@ export class CreateDoctorEventHandler
 
   public async handle(event: CreateDoctorEvent): Promise<void> {
     console.log('CreateDoctorEvent', event);
-    //
-    //
-    // this.doctorMapper.toDocument(event);
-    // await this.doctorMongoRepository.save(doctor);
+    const doctor = {
+      id: event.createDoctorEventDto.id,
+      password: event.createDoctorEventDto.password,
+      name: event.createDoctorEventDto.name,
+      email: event.createDoctorEventDto.email,
+      address: event.createDoctorEventDto.address,
+      registrationNumber: event.createDoctorEventDto.registrationNumber,
+      specialization: event.createDoctorEventDto.specialization,
+      contactInfo: event.createDoctorEventDto.contactInfo,
+      createdAt: event.createDoctorEventDto.createdAt,
+      updatedAt: event.createDoctorEventDto.updatedAt,
+    };
+
+    await this.doctorMongoRepository.save(doctor);
   }
 }
