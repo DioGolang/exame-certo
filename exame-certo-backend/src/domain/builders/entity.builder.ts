@@ -23,16 +23,6 @@ export abstract class BaseEntityBuilder<
     return this;
   }
 
-  public withCreatedAt(createdAt: Date): this {
-    this._props.createdAt = createdAt;
-    return this;
-  }
-
-  public withUpdatedAt(updatedAt: Date): this {
-    this._props.updatedAt = updatedAt;
-    return this;
-  }
-
   public withEmail(email: string): this {
     this._props.email = Email.create(email);
     return this;
@@ -45,6 +35,16 @@ export abstract class BaseEntityBuilder<
 
   public withAddress(address: AddressDto): this {
     this._props.address = Address.fromDto(address);
+    return this;
+  }
+
+  public withCreatedAt(createdAt: Date): this {
+    this._props.createdAt = createdAt;
+    return this;
+  }
+
+  public withUpdatedAt(updatedAt: Date): this {
+    this._props.updatedAt = updatedAt;
     return this;
   }
 

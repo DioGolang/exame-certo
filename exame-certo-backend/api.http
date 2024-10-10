@@ -77,13 +77,13 @@ content-type: application/json
 
 {
   "id": null,
-  "name": "Neide",
+  "name": "Mario",
   "lastName": "Vasco",
-  "email": "ire2@gmail.com",
+  "email": "mario2@gmail.com",
   "password": "123456",
   "dateOfBirth": "1990-01-01",
   "sex": "Female",
-  "maritalStatus": "Solteiro(a)",
+  "maritalStatus": "Casado(a)",
   "documentation": {
     "cpf": {
       "cpf": "123.456.789-00"

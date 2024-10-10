@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { PatientQueryRepositoryModule } from '../../infra/persistence/mongodb/repositories/patient-query-repository/patient-query-repository.module';
 import { PatientCommandRepositoryModule } from '../../infra/persistence/postgres/repositories/patient-command-repository/patient-command-repository.module';
@@ -9,6 +9,8 @@ import { EventsHandlers } from './events';
 import { QueriesHandlers } from './queries';
 import { Consumers } from './consumers';
 import { PatientMapper } from './mappers/patient.mapper';
+import { EventPublisherService } from './services/event-publisher.service';
+import { PatientDomainServiceModule } from '../../domain/services/patient/patient-domain-service.module';
 
 @Module({
   imports: [
@@ -16,10 +18,12 @@ import { PatientMapper } from './mappers/patient.mapper';
     PatientQueryRepositoryModule,
     PatientCommandRepositoryModule,
     BuildersModule,
+    PatientDomainServiceModule,
   ],
   providers: [
     PatientService,
     PatientMapper,
+    EventPublisherService,
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,
@@ -28,6 +32,7 @@ import { PatientMapper } from './mappers/patient.mapper';
   exports: [
     PatientService,
     PatientMapper,
+    EventPublisherService,
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,

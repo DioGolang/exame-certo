@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ClinicCommandRepositoryImpl } from './clinic-command-repository';
+import { ClinicCommandRepositoryImpl } from './clinic-command.repository';
 import { ClinicEntity } from '../../entities/clinic.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

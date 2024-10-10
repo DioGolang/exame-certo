@@ -8,7 +8,6 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateClinicCommand } from '../commands/create-clinic.command';
 import { GetClinicQuery } from '../queries/get-clinic.query';
 import { Clinic } from '../../../domain/entities/clinic.entity';
-import { ClinicDomainService } from '../../../domain/services/clinic/clinic-domain.service';
 import { ClinicMapper } from '../mappers/clinic.mapper';
 
 @Injectable()
@@ -16,7 +15,6 @@ export class ClinicService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly clinicDomainService: ClinicDomainService,
     private readonly clinicMapper: ClinicMapper,
   ) {}
 

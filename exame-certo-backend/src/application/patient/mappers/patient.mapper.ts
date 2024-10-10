@@ -7,6 +7,7 @@ import { DocumentationMapper } from '../../shared/mappers/documentation.mapper';
 import { PatientEntity } from '../../../infra/persistence/postgres/entities/patient.entity';
 import { AddressMapper } from '../../shared/mappers/address.mapper';
 import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
+import { PatientBuilder } from '../../../domain/builders/patient.builder';
 
 @Injectable()
 export class PatientMapper {
@@ -27,7 +28,7 @@ export class PatientMapper {
       maritalStatus: patient.maritalStatus,
       documentation: DocumentationMapper.mapToDto(patient.documentation),
       socioeconomicInformation: patient.socioeconomicInformation,
-      address: patient.address,
+      address: AddressMapper.toDto(patient.address),
       contactInfo: patient.contactInfo,
       healthInsurance: patient?.healthInsurance,
       createdAt: patient.createdAt,
@@ -36,10 +37,7 @@ export class PatientMapper {
   }
 
   async toDomain(patientEntity: PatientEntity): Promise<Patient> {
-    const patientBuild = await this.builderFactory.createPatientBuilder(
-      undefined,
-      patientEntity.password,
-    );
+    const patientBuild = new PatientBuilder();
     return patientBuild
       .withName(patientEntity.name)
       .withLastName(patientEntity.lastName)
@@ -98,5 +96,27 @@ export class PatientMapper {
     patientDocument.createdAt = patient.createdAt;
     patientDocument.updatedAt = patient.updatedAt;
     return patientDocument;
+  }
+
+  async documentForDomain(patientDocument: PatientDocument): Promise<Patient> {
+    const patientBuilder = new PatientBuilder();
+    return patientBuilder
+      .withId(patientDocument.id)
+      .withPasswordHash(patientDocument.passwordHash)
+      .withName(patientDocument.name)
+      .withLastName(patientDocument.lastName)
+      .withEmail(patientDocument.email)
+      .withDateOfBirth(patientDocument.dateOfBirth)
+      .withSex(patientDocument.sex)
+      .withMaritalStatus(patientDocument.maritalStatus)
+      .withDocumentation(
+        DocumentationMapper.mapToDto(patientDocument.documentation),
+      )
+      .withSocioeconomicInformation(patientDocument.socioeconomicInformation)
+      .withAddress(patientDocument.address)
+      .withContactInfo(patientDocument.contactInfo)
+      .withCreatedAt(patientDocument.createdAt)
+      .withUpdatedAt(patientDocument.updatedAt)
+      .build();
   }
 }

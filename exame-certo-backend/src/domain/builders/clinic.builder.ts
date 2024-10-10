@@ -1,51 +1,19 @@
-import { Address } from '../value-objects/address.vo';
-import { ContactInfo } from '../value-objects/contact-info.vo';
 import { Clinic } from '../entities/clinic.entity';
 import { ClinicProps } from '../interfaces/props/clinic-props.interface';
-import { Email } from '../value-objects/email.vo';
 import { Anamnesis } from '../entities/anamnesis.entity';
 import { Exam } from '../entities/exam.entity';
 import { Doctor } from '../entities/doctor.entity';
 import { Patient } from '../entities/patient.entity';
-import { AddressDto } from '../../application/shared/dtos/address.dto';
-import { ContactInfoDto } from '../../application/shared/dtos/contact-info.dto';
+import { BaseEntityBuilder } from './entity.builder';
 
-export class ClinicBuilder {
-  private _id: string;
-  private _passwordHash: string;
-  private readonly _props: Partial<ClinicProps> = {};
+export class ClinicBuilder extends BaseEntityBuilder<Clinic, ClinicProps> {
   private _anamnesis: Anamnesis[] = [];
   private _exams: Exam[] = [];
   private _patients: Patient[] = [];
   private _doctors: Doctor[] = [];
 
-  withId(id: string): this {
-    this._id = id;
-    return this;
-  }
-
-  withEmail(email: string): ClinicBuilder {
-    this._props.email = Email.create(email);
-    return this;
-  }
-
-  withPasswordHash(passwordHash: string): this {
-    this._passwordHash = passwordHash;
-    return this;
-  }
-
   withName(name: string): ClinicBuilder {
     this._props.name = name;
-    return this;
-  }
-
-  withAddress(address: AddressDto): ClinicBuilder {
-    this._props.address = Address.fromDto(address);
-    return this;
-  }
-
-  withContactInfo(contactInfoDto: ContactInfoDto): ClinicBuilder {
-    this._props.contactInfo = ContactInfo.fromDto(contactInfoDto);
     return this;
   }
 
@@ -69,30 +37,18 @@ export class ClinicBuilder {
     return this;
   }
 
-  public withCreatedAt(createdAt: Date): ClinicBuilder {
-    this._props.createdAt = createdAt;
-    return this;
-  }
-
-  public withUpdatedAt(updatedAt: Date): ClinicBuilder {
-    this._props.updatedAt = updatedAt;
-    return this;
-  }
-
   async build(): Promise<Clinic> {
     this.validateRequiredProperties();
-
     const clinic = new Clinic(
       this._id,
       this._props as ClinicProps,
       this._passwordHash,
     );
-
-    this.addRelationshipsToClinic(clinic);
+    this.addRelationshipsToEntities(clinic);
     return clinic;
   }
 
-  private validateRequiredProperties(): void {
+  protected validateRequiredProperties(): void {
     if (
       !this._props.name ||
       !this._props.email ||
@@ -103,7 +59,7 @@ export class ClinicBuilder {
     }
   }
 
-  private addRelationshipsToClinic(clinic: Clinic): void {
+  protected addRelationshipsToEntities(clinic: Clinic): void {
     this._anamnesis.forEach((a) => clinic.addAnamnesis(a));
     this._exams.forEach((e) => clinic.addExam(e));
     this._patients.forEach((p) => clinic.addPatient(p));

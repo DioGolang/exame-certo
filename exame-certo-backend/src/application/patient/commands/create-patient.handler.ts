@@ -1,9 +1,12 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { CreatePatientCommand } from './create-patient.command';
 import { Inject } from '@nestjs/common';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { PatientCommandRepository } from '../../../domain/repositories/patient-command.repository';
 import { CreatePatientEvent } from '../events/create-patient.event';
+import { PatientMapper } from '../mappers/patient.mapper';
+import { PatientDomainService } from '../../../domain/services/patient/patient-domain.service';
+import { Patient } from '../../../domain/entities/patient.entity';
+import { InvalidPatientException } from '../../../domain/exceptions/invalid-patient.exception';
 
 @CommandHandler(CreatePatientCommand)
 export class CreatePatientHandler
@@ -12,58 +15,35 @@ export class CreatePatientHandler
   constructor(
     @Inject('PatientCommandRepository')
     private readonly patientRepository: PatientCommandRepository,
-    @Inject('BuilderFactory')
-    private readonly builderFactory: BuilderFactory,
+    private readonly patientDomainService: PatientDomainService,
     private readonly eventBus: EventBus,
+    private readonly patientMapper: PatientMapper,
   ) {}
 
   async execute(command: CreatePatientCommand): Promise<void> {
-    const patientBuilder = await this.builderFactory.createPatientBuilder(
-      undefined,
-      command.createPatientDto.password,
+    try {
+      const patient = await this.buildPatient(command);
+      await this.savePatient(patient);
+      await this.publishPatientCreatedEvent(patient);
+    } catch (error) {
+      throw new InvalidPatientException(
+        'Failed to create patient: ' + error.message,
+      );
+    }
+  }
+
+  private async buildPatient(command: CreatePatientCommand): Promise<Patient> {
+    return this.patientDomainService.createPatient(command);
+  }
+  private async savePatient(patient: Patient): Promise<void> {
+    const patientEntity = this.patientMapper.toCreatePatientEventDto(patient);
+    await this.patientRepository.save(patientEntity);
+  }
+
+  private async publishPatientCreatedEvent(patient: Patient): Promise<void> {
+    const event = new CreatePatientEvent(
+      this.patientMapper.toCreatePatientEventDto(patient),
     );
-    const patient = await patientBuilder
-      .withName(command.createPatientDto.name)
-      .withLastName(command.createPatientDto.lastName)
-      .withEmail(command.createPatientDto.email)
-      .withDateOfBirth(command.createPatientDto.dateOfBirth)
-      .withSex(command.createPatientDto.sex)
-      .withMaritalStatus(command.createPatientDto.maritalStatus)
-      .withDocumentation(command.createPatientDto.documentation)
-      .withSocioeconomicInformation(
-        command.createPatientDto.socioeconomicInformation,
-      )
-      .withAddress(command.createPatientDto.address)
-      .withContactInfo(command.createPatientDto.contactInfo)
-      .withHealthInsurance(command.createPatientDto.healthInsurance)
-      .build();
-
-    const createPatientDto = {
-      id: patient.id,
-      name: patient.name,
-      lastName: patient.lastName,
-      email: patient.email,
-      password: patient.password,
-      dateOfBirth: patient.dateOfBirth,
-      sex: patient.sex,
-      maritalStatus: patient.maritalStatus,
-      documentation: {
-        cpf: { cpf: patient.documentation.cpf.value },
-        rg: { rg: patient.documentation.rg.value },
-        cnh: { cnh: patient.documentation.cnh.value },
-        cns: { cns: patient.documentation.cns.value },
-      },
-      socioeconomicInformation: { ...patient.socioeconomicInformation },
-      address: { ...patient.address },
-      contactInfo: { ...patient.contactInfo },
-      healthInsurance: patient.healthInsurance,
-      createdAt: patient.createdAt,
-      updatedAt: patient.updatedAt,
-    };
-
-    await this.patientRepository.save(createPatientDto);
-
-    const event = new CreatePatientEvent(createPatientDto);
     this.eventBus.publish(event);
   }
 }
