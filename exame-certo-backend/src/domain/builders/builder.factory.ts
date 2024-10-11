@@ -1,9 +1,10 @@
-import { AnamnesisBuilder } from './anamnesisBuilder';
-import { ExamBuilder } from './examBuilder';
-import { ReportBuilder } from './reportBuilder';
+import { BaseEntityBuilder } from './entity.builder';
+import { BaseEntityProps } from '../interfaces/props/base-entity-props.interface';
 
-export abstract class BuilderFactory {
-  abstract createAnamnesisBuilder(id?: string): Promise<AnamnesisBuilder>;
-  abstract createExamBuilder(id?: string): Promise<ExamBuilder>;
-  abstract createReportBuilder(id?: string): Promise<ReportBuilder>;
+export abstract class BuilderFactory<
+  TEntity,
+  TProps extends BaseEntityProps,
+  TBuilder extends BaseEntityBuilder<TEntity, TProps>,
+> {
+  abstract createBuilder(): TBuilder;
 }

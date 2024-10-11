@@ -1,24 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { BuilderFactory } from '../../builders/builder.factory';
 import { Clinic } from '../../entities/clinic.entity';
-import { v4 as uuidv4 } from 'uuid';
 import { PasswordHash } from '../../../application/interfaces/hasher.interface';
 import { ClinicBuilder } from '../../builders/clinic.builder';
 import { CreateClinicCommand } from '../../../application/clinic/commands/create-clinic.command';
+import { UuidGenerator } from '../../interfaces/uuid-generator.interface';
 
 @Injectable()
 export class ClinicDomainService {
   constructor(
-    @Inject('BuilderFactory')
-    private readonly clinicBuilderFactory: BuilderFactory,
     @Inject('PasswordHash')
     private readonly passwordHash: PasswordHash,
+    @Inject('UuidGenerator')
+    private readonly uuidGeneratorService: UuidGenerator,
   ) {}
 
   async createClinic(
     clinicClinicCommand: CreateClinicCommand,
   ): Promise<Clinic> {
-    const id = uuidv4();
+    const id = this.uuidGeneratorService.generate();
     const passwordHash = await this.passwordHash.hash(
       clinicClinicCommand.createClinicDto.password,
     );

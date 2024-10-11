@@ -1,13 +1,27 @@
 import { Module } from '@nestjs/common';
-import { DefaultBuilderFactory } from './default-builder.factory';
+import { DoctorFactory } from './doctor.factory';
+import { PatientFactory } from './patient.factory';
+import { ClinicFactory } from './clinic.factory';
 
 @Module({
   providers: [
     {
-      provide: 'BuilderFactory',
-      useClass: DefaultBuilderFactory,
+      provide: 'ClinicBuilderFactory',
+      useClass: ClinicFactory,
+    },
+    {
+      provide: 'PatientBuilderFactory',
+      useClass: PatientFactory,
+    },
+    {
+      provide: 'DoctorBuilderFactory',
+      useClass: DoctorFactory,
     },
   ],
-  exports: ['BuilderFactory'],
+  exports: [
+    'ClinicBuilderFactory',
+    'PatientBuilderFactory',
+    'DoctorBuilderFactory',
+  ],
 })
 export class BuildersModule {}

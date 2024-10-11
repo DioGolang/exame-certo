@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
+import { Injectable } from '@nestjs/common';
 import { Patient as PatientDocument } from '../../../infra/persistence/mongodb/schemas/patient.schema';
 import { Patient } from '../../../domain/entities/patient.entity';
 import { CreatePatientEventDto } from '../dto/create-patient-event.dto';
@@ -11,10 +10,7 @@ import { PatientBuilder } from '../../../domain/builders/patient.builder';
 
 @Injectable()
 export class PatientMapper {
-  constructor(
-    @Inject('BuilderFactory')
-    private readonly builderFactory: BuilderFactory,
-  ) {}
+  constructor() {}
 
   toCreatePatientEventDto(patient: Patient): CreatePatientEventDto {
     return {

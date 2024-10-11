@@ -4,7 +4,6 @@ import { Anamnesis } from '../entities/anamnesis.entity';
 import { Exam } from '../entities/exam.entity';
 import { Clinic } from '../entities/clinic.entity';
 import { Report } from '../entities/report.entity';
-import { AddressDto } from '../../application/shared/dtos/address.dto';
 import { BaseEntityBuilder } from './entity.builder';
 
 export class DoctorBuilder extends BaseEntityBuilder<Doctor, DoctorProps> {
@@ -13,41 +12,37 @@ export class DoctorBuilder extends BaseEntityBuilder<Doctor, DoctorProps> {
   private _clinics: Clinic[] = [];
   private _reports: Report[] = [];
 
-  withName(name: string): DoctorBuilder {
+  withName(name: string): this {
     this._props.name = name;
     return this;
   }
 
-  withProfessionalAddress(professionalAddress: AddressDto): DoctorBuilder {
-    return this.withAddress(professionalAddress);
-  }
-
-  withRegistrationNumber(registrationNumber: string): DoctorBuilder {
+  withRegistrationNumber(registrationNumber: string): this {
     this._props.registrationNumber = registrationNumber;
     return this;
   }
 
-  withSpecialization(specialization: string): DoctorBuilder {
+  withSpecialization(specialization: string): this {
     this._props.specialization = specialization;
     return this;
   }
 
-  withAnamnesis(anamnesis: Anamnesis[]): DoctorBuilder {
+  withAnamnesis(anamnesis: Anamnesis[]): this {
     this._anamnesis = anamnesis;
     return this;
   }
 
-  withExams(exams: Exam[]): DoctorBuilder {
+  withExams(exams: Exam[]): this {
     this._exams = exams;
     return this;
   }
 
-  withClinics(clinics: Clinic[]): DoctorBuilder {
+  withClinics(clinics: Clinic[]): this {
     this._clinics = clinics;
     return this;
   }
 
-  withReport(reports: Report[]): DoctorBuilder {
+  withReport(reports: Report[]): this {
     this._reports = reports;
     return this;
   }

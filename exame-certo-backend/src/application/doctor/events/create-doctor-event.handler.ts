@@ -3,7 +3,6 @@ import { CreateDoctorEvent } from './create-doctor.event';
 import { Inject } from '@nestjs/common';
 import { DoctorQueryRepository } from '../../../domain/repositories/doctor-query.repository';
 import { DoctorMapper } from '../mappers/doctor.mapper';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
 
 @EventsHandler(CreateDoctorEvent)
 export class CreateDoctorEventHandler
@@ -12,8 +11,6 @@ export class CreateDoctorEventHandler
   constructor(
     @Inject('DoctorQueryRepository')
     private readonly doctorMongoRepository: DoctorQueryRepository,
-    @Inject('BuilderFactory')
-    private readonly clinicBuilder: BuilderFactory,
     private readonly doctorMapper: DoctorMapper,
   ) {}
 

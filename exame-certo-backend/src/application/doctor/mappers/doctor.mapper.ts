@@ -3,16 +3,21 @@ import { CreateDoctorEventDto } from '../dto/create-doctor-event.dto';
 import { Doctor as DoctorDocument } from '../../../infra/persistence/mongodb/schemas/doctor.schema';
 import { Doctor } from '../../../domain/entities/doctor.entity';
 import { DoctorEntity } from '../../../infra/persistence/postgres/entities/doctor.entity';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { AddressMapper } from '../../shared/mappers/address.mapper';
 import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
 import { DoctorBuilder } from '../../../domain/builders/doctor.builder';
+import { BuilderFactory } from '../../../domain/builders/builder.factory';
+import { DoctorProps } from '../../../domain/interfaces/props/doctor-props.interface';
 
 @Injectable()
 export class DoctorMapper {
   constructor(
-    @Inject('BuilderFactory')
-    private readonly builderFactory: BuilderFactory,
+    @Inject('DoctorBuilderFactory')
+    private readonly doctorBuilderFactory: BuilderFactory<
+      Doctor,
+      DoctorProps,
+      DoctorBuilder
+    >,
   ) {}
 
   toCreateDoctorEventDto(doctor: Doctor): CreateDoctorEventDto {
@@ -82,7 +87,7 @@ export class DoctorMapper {
     return doctorDocument;
   }
   async documentForDomain(doctorDocument: DoctorDocument): Promise<Doctor> {
-    const doctorBuilder = new DoctorBuilder();
+    const doctorBuilder = this.doctorBuilderFactory.createBuilder();
     return doctorBuilder
       .withId(doctorDocument.id)
       .withPasswordHash(doctorDocument.password)

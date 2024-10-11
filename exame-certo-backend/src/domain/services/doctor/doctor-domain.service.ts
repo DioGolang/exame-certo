@@ -4,25 +4,32 @@ import { PasswordHash } from '../../../application/interfaces/hasher.interface';
 import { Doctor } from '../../entities/doctor.entity';
 import { CreateDoctorCommand } from '../../../application/doctor/commands/create-doctor.command';
 import { DoctorBuilder } from '../../builders/doctor.builder';
-import { v4 as uuidv4 } from 'uuid';
+import { UuidGenerator } from '../../interfaces/uuid-generator.interface';
+import { DoctorProps } from '../../interfaces/props/doctor-props.interface';
 
 @Injectable()
 export class DoctorDomainService {
   constructor(
-    @Inject('BuilderFactory')
-    private readonly doctorBuilderFactory: BuilderFactory,
+    @Inject('DoctorBuilderFactory')
+    private readonly doctorBuilderFactory: BuilderFactory<
+      Doctor,
+      DoctorProps,
+      DoctorBuilder
+    >,
     @Inject('PasswordHash')
     private readonly passwordHash: PasswordHash,
+    @Inject('UuidGenerator')
+    private readonly uuidGeneratorService: UuidGenerator,
   ) {}
 
   async createDoctor(
     createDoctorCommand: CreateDoctorCommand,
   ): Promise<Doctor> {
-    const id = uuidv4();
+    const id = this.uuidGeneratorService.generate();
     const passwordHash = await this.passwordHash.hash(
       createDoctorCommand.createDoctorDto.password,
     );
-    const doctorBuilder = new DoctorBuilder();
+    const doctorBuilder = this.doctorBuilderFactory.createBuilder();
     return doctorBuilder
       .withId(id)
       .withPasswordHash(passwordHash)

@@ -7,12 +7,17 @@ import { BuilderFactory } from '../../../domain/builders/builder.factory';
 import { AddressMapper } from '../../shared/mappers/address.mapper';
 import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
 import { ClinicBuilder } from '../../../domain/builders/clinic.builder';
+import { ClinicProps } from '../../../domain/interfaces/props/clinic-props.interface';
 
 @Injectable()
 export class ClinicMapper {
   constructor(
-    @Inject('BuilderFactory')
-    private readonly builderFactory: BuilderFactory,
+    @Inject('ClinicBuilderFactory')
+    private readonly clinicBuilderFactory: BuilderFactory<
+      Clinic,
+      ClinicProps,
+      ClinicBuilder
+    >,
   ) {}
 
   toCreateClinicEventDto(clinic: Clinic): CreateClinicEventDto {
@@ -31,7 +36,7 @@ export class ClinicMapper {
   async fromEventDtoToDomain(
     createClinicEventDto: CreateClinicEventDto,
   ): Promise<Clinic> {
-    const clinicBuilder = new ClinicBuilder();
+    const clinicBuilder = this.clinicBuilderFactory.createBuilder();
     return clinicBuilder
       .withId(createClinicEventDto.id)
       .withPasswordHash(createClinicEventDto.password)
@@ -45,7 +50,7 @@ export class ClinicMapper {
   }
 
   async toDomain(clinicEntity: ClinicEntity): Promise<Clinic> {
-    const clinicBuilder = new ClinicBuilder();
+    const clinicBuilder = this.clinicBuilderFactory.createBuilder();
     return clinicBuilder
       .withId(clinicEntity.id)
       .withPasswordHash(clinicEntity.password)
