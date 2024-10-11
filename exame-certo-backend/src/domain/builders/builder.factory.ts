@@ -7,4 +7,5 @@ export abstract class BuilderFactory<
   TBuilder extends BaseEntityBuilder<TEntity, TProps>,
 > {
   abstract createBuilder(): TBuilder;
+  abstract configureBuilder(builder: TBuilder, data: any): TBuilder;
 }

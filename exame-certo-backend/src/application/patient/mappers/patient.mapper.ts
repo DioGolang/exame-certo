@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Patient as PatientDocument } from '../../../infra/persistence/mongodb/schemas/patient.schema';
 import { Patient } from '../../../domain/entities/patient.entity';
 import { CreatePatientEventDto } from '../dto/create-patient-event.dto';
@@ -7,10 +7,19 @@ import { PatientEntity } from '../../../infra/persistence/postgres/entities/pati
 import { AddressMapper } from '../../shared/mappers/address.mapper';
 import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
 import { PatientBuilder } from '../../../domain/builders/patient.builder';
+import { BuilderFactory } from '../../../domain/builders/builder.factory';
+import { PatientProps } from '../../../domain/interfaces/props/patient-props.interface';
 
 @Injectable()
 export class PatientMapper {
-  constructor() {}
+  constructor(
+    @Inject('PatientBuilderFactory')
+    private readonly patientBuilderFactory: BuilderFactory<
+      Patient,
+      PatientProps,
+      PatientBuilder
+    >,
+  ) {}
 
   toCreatePatientEventDto(patient: Patient): CreatePatientEventDto {
     return {
@@ -33,24 +42,9 @@ export class PatientMapper {
   }
 
   async toDomain(patientEntity: PatientEntity): Promise<Patient> {
-    const patientBuild = new PatientBuilder();
-    return patientBuild
-      .withName(patientEntity.name)
-      .withLastName(patientEntity.lastName)
-      .withEmail(patientEntity.email)
-      .withDateOfBirth(patientEntity.dateOfBirth)
-      .withSex(patientEntity.sex)
-      .withMaritalStatus(patientEntity.maritalStatus)
-      .withDocumentation(
-        DocumentationMapper.mapToDto(patientEntity.documentation),
-      )
-      .withSocioeconomicInformation(patientEntity.socioeconomicInformation)
-      .withAddress(patientEntity.address)
-      .withContactInfo(patientEntity.contactInfo)
-      .withHealthInsurance(patientEntity.healthInsurance)
-      .withCreatedAt(patientEntity.createdAt)
-      .withUpdatedAt(patientEntity.updatedAt)
-      .build();
+    const patientBuild = this.patientBuilderFactory.createBuilder();
+    this.patientBuilderFactory.configureBuilder(patientBuild, patientEntity);
+    return patientBuild.build();
   }
 
   toPersistence(patient: Patient): PatientEntity {
@@ -95,24 +89,11 @@ export class PatientMapper {
   }
 
   async documentForDomain(patientDocument: PatientDocument): Promise<Patient> {
-    const patientBuilder = new PatientBuilder();
-    return patientBuilder
-      .withId(patientDocument.id)
-      .withPasswordHash(patientDocument.passwordHash)
-      .withName(patientDocument.name)
-      .withLastName(patientDocument.lastName)
-      .withEmail(patientDocument.email)
-      .withDateOfBirth(patientDocument.dateOfBirth)
-      .withSex(patientDocument.sex)
-      .withMaritalStatus(patientDocument.maritalStatus)
-      .withDocumentation(
-        DocumentationMapper.mapToDto(patientDocument.documentation),
-      )
-      .withSocioeconomicInformation(patientDocument.socioeconomicInformation)
-      .withAddress(patientDocument.address)
-      .withContactInfo(patientDocument.contactInfo)
-      .withCreatedAt(patientDocument.createdAt)
-      .withUpdatedAt(patientDocument.updatedAt)
-      .build();
+    const patientBuilder = this.patientBuilderFactory.createBuilder();
+    this.patientBuilderFactory.configureBuilder(
+      patientBuilder,
+      patientDocument,
+    );
+    return patientBuilder.build();
   }
 }

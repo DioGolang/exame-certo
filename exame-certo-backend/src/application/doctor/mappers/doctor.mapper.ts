@@ -36,17 +36,9 @@ export class DoctorMapper {
   }
 
   async toDomain(doctorEntity: DoctorEntity): Promise<Doctor> {
-    const doctorBuild = new DoctorBuilder();
-    return doctorBuild
-      .withName(doctorEntity.name)
-      .withEmail(doctorEntity.email)
-      .withRegistrationNumber(doctorEntity.registrationNumber)
-      .withSpecialization(doctorEntity.specialization)
-      .withAddress(doctorEntity.address)
-      .withContactInfo(doctorEntity.contactInfo)
-      .withCreatedAt(doctorEntity.createdAt)
-      .withUpdatedAt(doctorEntity.updatedAt)
-      .build();
+    const doctorBuild = this.doctorBuilderFactory.createBuilder();
+    this.doctorBuilderFactory.configureBuilder(doctorBuild, doctorEntity);
+    return doctorBuild.build();
   }
 
   toPersistence(doctor: Doctor): DoctorEntity {
@@ -88,17 +80,7 @@ export class DoctorMapper {
   }
   async documentForDomain(doctorDocument: DoctorDocument): Promise<Doctor> {
     const doctorBuilder = this.doctorBuilderFactory.createBuilder();
-    return doctorBuilder
-      .withId(doctorDocument.id)
-      .withPasswordHash(doctorDocument.password)
-      .withName(doctorDocument.name)
-      .withEmail(doctorDocument.email)
-      .withRegistrationNumber(doctorDocument.registrationNumber)
-      .withSpecialization(doctorDocument.specialization)
-      .withAddress(doctorDocument.address)
-      .withContactInfo(doctorDocument.contactInfo)
-      .withCreatedAt(doctorDocument.createdAt)
-      .withUpdatedAt(doctorDocument.updatedAt)
-      .build();
+    this.doctorBuilderFactory.configureBuilder(doctorBuilder, doctorDocument);
+    return doctorBuilder.build();
   }
 }

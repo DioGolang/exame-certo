@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { Doctor } from '../entities/doctor.entity';
 import { DoctorProps } from '../interfaces/props/doctor-props.interface';
 import { DoctorBuilder } from './doctor.builder';
-import { Address } from '../value-objects/address.vo';
 import { ContactInfoDto } from '../../application/shared/dtos/contact-info.dto';
+import { AddressDto } from '../../application/shared/dtos/address.dto';
 
 interface DoctorData {
   id: string;
@@ -13,7 +13,7 @@ interface DoctorData {
   email: string;
   registrationNumber: string;
   specialization: string;
-  address: Address;
+  address: AddressDto;
   contactInfo: ContactInfoDto;
   createdAt: Date;
   updatedAt: Date;
@@ -28,11 +28,13 @@ export class DoctorFactory extends BuilderFactory<
   createBuilder(): DoctorBuilder {
     return new DoctorBuilder();
   }
-  configureDoctorBuilder(
+  configureBuilder(
     builder: DoctorBuilder,
     doctorData: DoctorData,
   ): DoctorBuilder {
     return builder
+      .withId(doctorData.id)
+      .withPasswordHash(doctorData.password)
       .withName(doctorData.name)
       .withEmail(doctorData.email)
       .withRegistrationNumber(doctorData.registrationNumber)
