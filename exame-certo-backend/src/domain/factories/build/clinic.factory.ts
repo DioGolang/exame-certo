@@ -10,7 +10,7 @@ interface ClinicData {
   id: string;
   name: string;
   email: string;
-  password: string;
+  passwordHash: string;
   address: Address;
   contactInfo: ContactInfo;
   createdAt: Date;
@@ -31,7 +31,7 @@ export class ClinicFactory extends BuilderFactory<
       .withId(data.id)
       .withName(data.name)
       .withEmail(data.email)
-      .withPasswordHash(data.password)
+      .withPasswordHash(data.passwordHash)
       .withAddress(data.address)
       .withContactInfo(data.contactInfo)
       .withCreatedAt(data.createdAt)

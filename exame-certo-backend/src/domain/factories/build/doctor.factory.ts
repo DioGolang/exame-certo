@@ -8,7 +8,7 @@ import { AddressDto } from '../../../application/shared/dtos/address.dto';
 
 interface DoctorData {
   id: string;
-  password: string;
+  passwordHash: string;
   name: string;
   email: string;
   registrationNumber: string;
@@ -34,7 +34,7 @@ export class DoctorFactory extends BuilderFactory<
   ): DoctorBuilder {
     return builder
       .withId(doctorData.id)
-      .withPasswordHash(doctorData.password)
+      .withPasswordHash(doctorData.passwordHash)
       .withName(doctorData.name)
       .withEmail(doctorData.email)
       .withRegistrationNumber(doctorData.registrationNumber)

@@ -29,7 +29,7 @@ export class CreatePatientEventDto {
   public readonly email: string;
 
   @IsString()
-  public readonly password: string;
+  public readonly passwordHash: string;
 
   @IsDate()
   public readonly dateOfBirth: Date;

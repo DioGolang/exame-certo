@@ -39,7 +39,7 @@ export class DoctorMapper
       id: doctor.id,
       name: doctor.name,
       email: doctor.email,
-      password: doctor.password,
+      passwordHash: doctor['_passwordHash'],
       registrationNumber: doctor.registrationNumber,
       specialization: doctor.specialization,
       address: doctor.address,

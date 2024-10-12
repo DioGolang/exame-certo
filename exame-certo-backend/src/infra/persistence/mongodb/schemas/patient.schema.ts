@@ -23,14 +23,14 @@ export class Patient {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: true })
+  passwordHash: string;
+
   @Prop()
   lastName: string;
 
   @Prop()
   email: string;
-
-  @Prop()
-  passwordHash: string;
 
   @Prop()
   dateOfBirth: Date;

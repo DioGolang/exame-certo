@@ -18,7 +18,7 @@ export class CreateClinicEventHandler
     console.log('CreateClinicEvent', event);
     const clinic = {
       id: event.createClinicEventDto.id,
-      password: event.createClinicEventDto.password,
+      passwordHash: event.createClinicEventDto.passwordHash,
       name: event.createClinicEventDto.name,
       email: event.createClinicEventDto.email,
       address: event.createClinicEventDto.address,

@@ -1,8 +1,8 @@
 import { DoctorCommandRepository } from '../../../../../domain/repositories/doctor-command.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DoctorEntity } from '../../entities/doctor.entity';
-import { CreateDoctorDto } from '../../../../../application/doctor/dto/create-doctor.dto';
 import { Repository } from 'typeorm';
+import { CreateDoctorEventDto } from '../../../../../application/doctor/dto/create-doctor-event.dto';
 
 export class DoctorCommandRepositoryImpl implements DoctorCommandRepository {
   constructor(
@@ -10,11 +10,11 @@ export class DoctorCommandRepositoryImpl implements DoctorCommandRepository {
     private readonly doctorRepository: Repository<DoctorEntity>,
   ) {}
 
-  async save(doctor: CreateDoctorDto): Promise<void> {
+  async save(doctor: CreateDoctorEventDto): Promise<void> {
     await this.doctorRepository.save(doctor);
   }
 
-  async update(doctor) {
+  async update(doctor: CreateDoctorEventDto): Promise<void> {
     throw new Error('Method not implemented.');
   }
 

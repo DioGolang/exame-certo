@@ -17,7 +17,7 @@ export class DoctorPersistenceFactory
     persistence.id = data.id;
     persistence.name = data.name;
     persistence.email = data.email;
-    persistence.password = data.password;
+    persistence.passwordHash = data['_passwordHash'];
     persistence.registrationNumber = data.registrationNumber;
     persistence.specialization = data.specialization;
     persistence.address = data.address;
@@ -33,7 +33,7 @@ export class DoctorPersistenceFactory
     document.id = data.id;
     document.name = data.name;
     document.email = data.email;
-    document.password = data.password;
+    document.passwordHash = data['_passwordHash'];
     document.registrationNumber = data.registrationNumber;
     document.specialization = data.specialization;
     document.address = AddressMapper.toDocument(data.address);

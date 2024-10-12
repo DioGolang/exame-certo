@@ -29,9 +29,10 @@ export class ClinicMapper
   ) {}
 
   toCreateDomainEventDto(clinic: Clinic): CreateClinicEventDto {
+    console.log(clinic['_password']);
     return {
       id: clinic.id,
-      password: clinic.password,
+      passwordHash: clinic['_passwordHash'],
       name: clinic.name,
       email: clinic.email,
       address: clinic.address,

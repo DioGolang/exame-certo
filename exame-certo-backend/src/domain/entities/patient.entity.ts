@@ -16,7 +16,7 @@ import { EntityUtils } from '../../shared/utils/entity.utils';
 
 export class Patient {
   private readonly _id: string;
-  private readonly _password: string;
+  private readonly _passwordHash: string;
   private readonly _props: Readonly<PatientProps>;
   private readonly _anamnesis: Anamnesis[] = [];
   private readonly _exams: Exam[] = [];
@@ -26,7 +26,7 @@ export class Patient {
   constructor(id: string, props: PatientProps, passwordHash: string) {
     this._id = id;
     this._props = { ...props };
-    this._password = passwordHash;
+    this._passwordHash = passwordHash;
     this.validate();
   }
 
@@ -34,7 +34,7 @@ export class Patient {
     rawPassword: string,
     passwordHash: PasswordHash,
   ): Promise<boolean> {
-    return await passwordHash.compare(rawPassword, this._password);
+    return await passwordHash.compare(rawPassword, this._passwordHash);
   }
 
   // Add methods for specific collections
@@ -155,7 +155,7 @@ export class Patient {
       'Date of birth is required',
       errors,
     );
-    ValidationUtils.checkPassword(this._password, errors);
+    ValidationUtils.checkPassword(this._passwordHash, errors);
 
     if (errors.length > 0) {
       throw new InvalidPatientException(errors.join('; '));
@@ -164,10 +164,6 @@ export class Patient {
 
   get id(): string {
     return this._id;
-  }
-
-  get password(): string {
-    return this._password;
   }
 
   get name(): string {

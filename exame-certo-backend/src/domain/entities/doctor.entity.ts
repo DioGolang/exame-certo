@@ -12,7 +12,7 @@ import { EntityUtils } from '../../shared/utils/entity.utils';
 
 export class Doctor {
   private readonly _id: string;
-  private readonly _password: string;
+  private readonly _passwordHash: string;
   private _props: Readonly<DoctorProps>;
   private _anamnesis: Anamnesis[] = [];
   private _exams: Exam[] = [];
@@ -22,7 +22,7 @@ export class Doctor {
   constructor(id: string, props: DoctorProps, passwordHash: string) {
     this._id = id;
     this._props = { ...props };
-    this._password = passwordHash;
+    this._passwordHash = passwordHash;
     this.validate();
   }
 
@@ -30,7 +30,7 @@ export class Doctor {
     rawPassword: string,
     passwordHash: PasswordHash,
   ): Promise<boolean> {
-    return await passwordHash.compare(rawPassword, this._password);
+    return await passwordHash.compare(rawPassword, this._passwordHash);
   }
 
   //validate
@@ -38,7 +38,7 @@ export class Doctor {
   private validate(): void {
     const errors: string[] = [];
     ValidationUtils.checkField(this._props.name, 'Name is required', errors);
-    ValidationUtils.checkPassword(this._password, errors);
+    ValidationUtils.checkPassword(this._passwordHash, errors);
 
     if (errors.length > 0) {
       throw new InvalidDoctorException(errors.join('; '));
@@ -131,10 +131,6 @@ export class Doctor {
     return this._id;
   }
 
-  get password(): string {
-    return this._password;
-  }
-
   get name(): string {
     return this._props.name;
   }
@@ -142,7 +138,7 @@ export class Doctor {
   get email(): string {
     return this._props.email.value;
   }
-  // password, clinics
+  // passwordHash, clinics
   get registrationNumber(): string {
     return this._props.registrationNumber;
   }

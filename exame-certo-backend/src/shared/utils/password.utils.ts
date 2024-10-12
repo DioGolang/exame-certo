@@ -8,7 +8,9 @@ export class PasswordUtils {
     encryptedPassword?: string,
   ): Promise<string> {
     if (!password && !encryptedPassword) {
-      throw new Error('Either password or encryptedPassword must be provided.');
+      throw new Error(
+        'Either passwordHash or encryptedPassword must be provided.',
+      );
     }
 
     return password ? this.passwordHasher.hash(password) : encryptedPassword!;

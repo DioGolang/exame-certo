@@ -24,7 +24,7 @@ export class ClinicCreatedConsumer {
     //   id: event.createClinicEventDto.id,
     //   name: event.createClinicEventDto.name,
     //   email: event.createClinicEventDto.email,
-    //   password: event.createClinicEventDto.password,
+    //   passwordHash: event.createClinicEventDto.passwordHash,
     //   address: { ...event.createClinicEventDto.address },
     //   contactInfo: { ...event.createClinicEventDto.contactInfo },
     //   createdAt: event.createClinicEventDto.createdAt,

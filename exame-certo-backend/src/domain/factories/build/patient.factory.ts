@@ -15,7 +15,7 @@ interface PatientData {
   name: string;
   lastName: string;
   email: string;
-  password: string;
+  passwordHash: string;
   dateOfBirth: Date;
   sex: Sex;
   maritalStatus: MaritalStatus;
@@ -43,7 +43,7 @@ export class PatientFactory extends BuilderFactory<
       .withName(data.name)
       .withLastName(data.lastName)
       .withEmail(data.email)
-      .withPasswordHash(data.password)
+      .withPasswordHash(data.passwordHash)
       .withSex(data.sex)
       .withMaritalStatus(data.maritalStatus)
       .withDocumentation(data.documentation)

@@ -12,7 +12,7 @@ import { EntityUtils } from '../../shared/utils/entity.utils';
 
 export class Clinic {
   private readonly _id: string;
-  private readonly _password: string;
+  private readonly _passwordHash: string;
   private readonly _props: Readonly<ClinicProps>;
   private readonly _patients: Patient[] = [];
   private readonly _doctors: Doctor[] = [];
@@ -22,7 +22,7 @@ export class Clinic {
   constructor(id: string, props: ClinicProps, passwordHash: string) {
     this._id = id;
     this._props = { ...props };
-    this._password = passwordHash;
+    this._passwordHash = passwordHash;
     this.validate();
   }
 
@@ -30,7 +30,7 @@ export class Clinic {
     rawPassword: string,
     passwordHash: PasswordHash,
   ): Promise<boolean> {
-    return await passwordHash.compare(rawPassword, this._password);
+    return await passwordHash.compare(rawPassword, this._passwordHash);
   }
 
   private validate(): void {
@@ -41,7 +41,11 @@ export class Clinic {
       'Email is required',
       errors,
     );
-    ValidationUtils.checkField(this._password, 'Password is required', errors);
+    ValidationUtils.checkField(
+      this._passwordHash,
+      'Password is required',
+      errors,
+    );
 
     if (errors.length > 0) {
       throw new InvalidClinicException(errors.join('; '));
@@ -149,7 +153,7 @@ export class Clinic {
       id: this._id,
       name: this._props.name,
       email: this._props.email.value,
-      password: this._password,
+      password: this._passwordHash,
       address: this._props.address,
       contactInfo: this._props.contactInfo,
       doctors: this._doctors.map((doctor) => doctor.id),
@@ -181,8 +185,8 @@ export class Clinic {
     return this._props.contactInfo;
   }
 
-  get password(): string {
-    return this._password;
+  get passwordHash(): string {
+    return this._passwordHash;
   }
 
   get createdAt(): Date {

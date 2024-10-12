@@ -22,7 +22,7 @@ export class Doctor {
   email: string;
 
   @Prop({ required: true })
-  password: string;
+  passwordHash: string;
 
   @Prop({ type: ContactInfoSchema })
   contactInfo: ContactInfo;

@@ -8,7 +8,7 @@ export class CreateClinicEventDto {
   public readonly id: string;
 
   @Exclude()
-  public readonly password: string;
+  public readonly passwordHash: string;
 
   @Expose()
   public readonly name: string;

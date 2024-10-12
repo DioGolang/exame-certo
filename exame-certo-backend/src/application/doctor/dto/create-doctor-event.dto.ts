@@ -14,7 +14,7 @@ export class CreateDoctorEventDto {
   public readonly email: string;
 
   @Exclude()
-  public readonly password: string;
+  public readonly passwordHash: string;
 
   @Expose()
   public readonly registrationNumber: string;

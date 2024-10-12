@@ -54,7 +54,7 @@
 //     expect(clinic.exams).toEqual(exams);
 //
 //     expect(hasher.hash).toHaveBeenCalledWith('clinic_password');
-//     expect(clinic.password).toBe('clinic_password_hash');
+//     expect(clinic.passwordHash).toBe('clinic_password_hash');
 //
 //     expect(validator.validate).toHaveBeenCalledWith(clinic);
 //   });

@@ -21,7 +21,7 @@ export class PatientPersistenceFactory
     persistence.name = data.name;
     persistence.lastName = data.lastName;
     persistence.email = data.email;
-    persistence.password = data.password;
+    persistence.passwordHash = data['_passwordHash'];
     persistence.dateOfBirth = data.dateOfBirth;
     persistence.sex = data.sex;
     persistence.maritalStatus = data.maritalStatus;
@@ -42,7 +42,7 @@ export class PatientPersistenceFactory
     document.name = data.name;
     document.lastName = data.lastName;
     document.email = data.email;
-    document.passwordHash = data.password;
+    document.passwordHash = data['_passwordHash'];
     document.dateOfBirth = data.dateOfBirth;
     document.sex = data.sex;
     document.maritalStatus = data.maritalStatus;

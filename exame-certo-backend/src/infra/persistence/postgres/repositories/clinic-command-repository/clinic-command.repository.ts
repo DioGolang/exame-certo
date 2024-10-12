@@ -2,8 +2,8 @@ import { ClinicCommandRepository } from '../../../../../domain/repositories/clin
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateClinicDto } from '../../../../../application/clinic/dto/create-clinic.dto';
 import { ClinicEntity } from '../../entities/clinic.entity';
+import { CreateClinicEventDto } from '../../../../../application/clinic/dto/create-clinic-event.dto';
 
 @Injectable()
 export class ClinicCommandRepositoryImpl implements ClinicCommandRepository {
@@ -12,11 +12,11 @@ export class ClinicCommandRepositoryImpl implements ClinicCommandRepository {
     private readonly clinicRepository: Repository<ClinicEntity>,
   ) {}
 
-  async save(clinic: CreateClinicDto): Promise<void> {
+  async save(clinic: CreateClinicEventDto): Promise<void> {
     await this.clinicRepository.save(clinic);
   }
 
-  update(entity: CreateClinicDto): Promise<void> {
+  update(entity: CreateClinicEventDto): Promise<void> {
     throw new Error('Method not implemented.');
   }
 

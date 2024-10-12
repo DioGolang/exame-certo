@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "password": "12345678",
-  "name": "Clinica de Exames 13",
+  "name": "Clinica de Exames NEW 2",
   "email": "clinica13@clinica.com.br" ,
   "address": {
     "street": "Rua dos exames 13",
@@ -41,7 +41,7 @@ content-type: application/json
 {
   "id": null,
   "password": "123456",
-  "name": "Dr. Examinador 5",
+  "name": "Dr. Examinador 5 NEW",
   "email": "examinador5@gmail.com",
   "registrationNumber": "123456",
   "specialization": "Neurologista",
@@ -77,7 +77,7 @@ content-type: application/json
 
 {
   "id": null,
-  "name": "chewbacca",
+  "name": "chewbacca NEW",
   "lastName": "Vasco",
   "email": "mario2@gmail.com",
   "password": "123456",

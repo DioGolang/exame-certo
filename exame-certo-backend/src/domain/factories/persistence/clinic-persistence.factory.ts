@@ -17,7 +17,7 @@ export class ClinicPersistenceFactory
     persistence.id = data.id;
     persistence.name = data.name;
     persistence.email = data.email;
-    persistence.password = data.password;
+    persistence.passwordHash = data['_passwordHash'];
     persistence.address = data.address;
     persistence.contactInfo = data.contactInfo;
     persistence.createdAt = data.createdAt;
@@ -31,7 +31,7 @@ export class ClinicPersistenceFactory
     document.id = data.id;
     document.name = data.name;
     document.email = data.email;
-    document.password = data.password;
+    document.passwordHash = data['_passwordHash'];
     document.address = AddressMapper.toDocument(data.address);
     document.contactInfo = ContactInfoMapper.toDocument(data.contactInfo);
     document.createdAt = data.createdAt;

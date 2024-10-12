@@ -25,7 +25,7 @@ export class PatientEntity {
   email: string;
 
   @Column()
-  password: string;
+  passwordHash: string;
 
   @Column()
   dateOfBirth: Date;

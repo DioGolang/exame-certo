@@ -18,7 +18,7 @@ export class ClinicEntity {
   email: string;
 
   @Column()
-  password: string;
+  passwordHash: string;
 
   @Column('jsonb')
   address: Address;

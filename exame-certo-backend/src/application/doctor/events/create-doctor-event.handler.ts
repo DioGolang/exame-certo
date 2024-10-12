@@ -18,7 +18,7 @@ export class CreateDoctorEventHandler
     console.log('CreateDoctorEvent', event);
     const doctor = {
       id: event.createDoctorEventDto.id,
-      password: event.createDoctorEventDto.password,
+      passwordHash: event.createDoctorEventDto.passwordHash,
       name: event.createDoctorEventDto.name,
       email: event.createDoctorEventDto.email,
       address: event.createDoctorEventDto.address,

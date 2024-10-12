@@ -22,7 +22,7 @@ export class Clinic {
   email: string;
 
   @Prop({ required: true })
-  password: string;
+  passwordHash: string;
 
   @Prop({ type: AddressSchema })
   address: Address;

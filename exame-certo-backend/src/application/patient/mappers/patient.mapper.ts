@@ -37,7 +37,7 @@ export class PatientMapper
       name: patient.name,
       lastName: patient.lastName,
       email: patient.email,
-      password: patient.password,
+      passwordHash: patient['_passwordHash'],
       dateOfBirth: patient.dateOfBirth,
       sex: patient.sex,
       maritalStatus: patient.maritalStatus,
