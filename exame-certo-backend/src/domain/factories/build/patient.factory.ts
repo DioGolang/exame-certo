@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { BuilderFactory } from './builder.factory';
-import { Patient } from '../entities/patient.entity';
-import { PatientProps } from '../interfaces/props/patient-props.interface';
-import { PatientBuilder } from './patient.builder';
-import { ContactInfoDto } from '../../application/shared/dtos/contact-info.dto';
-import { Sex } from '../enums/sex.enum';
-import { MaritalStatus } from '../enums/marital-status.enum';
-import { DocumentationDto } from '../../application/shared/dtos/documentation.dto';
-import { SocioEconomicInformationDto } from '../../application/shared/dtos/socio-economic-information.dto';
-import { AddressDto } from '../../application/shared/dtos/address.dto';
+import { Patient } from '../../entities/patient.entity';
+import { PatientProps } from '../../interfaces/props/patient-props.interface';
+import { PatientBuilder } from '../../builders/patient.builder';
+import { ContactInfoDto } from '../../../application/shared/dtos/contact-info.dto';
+import { Sex } from '../../enums/sex.enum';
+import { MaritalStatus } from '../../enums/marital-status.enum';
+import { DocumentationDto } from '../../../application/shared/dtos/documentation.dto';
+import { SocioEconomicInformationDto } from '../../../application/shared/dtos/socio-economic-information.dto';
+import { AddressDto } from '../../../application/shared/dtos/address.dto';
 
 interface PatientData {
   id: string;

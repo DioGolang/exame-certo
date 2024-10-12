@@ -1,5 +1,5 @@
-import { BaseEntityBuilder } from './entity.builder';
-import { BaseEntityProps } from '../interfaces/props/base-entity-props.interface';
+import { BaseEntityBuilder } from '../../builders/entity.builder';
+import { BaseEntityProps } from '../../interfaces/props/base-entity-props.interface';
 
 export abstract class BuilderFactory<
   TEntity,

@@ -3,14 +3,16 @@ import { CreateClinicEventDto } from '../dto/create-clinic-event.dto';
 import { ClinicEntity } from '../../../infra/persistence/postgres/entities/clinic.entity';
 import { Clinic as ClinicDocument } from '../../../infra/persistence/mongodb/schemas/clinic.schema';
 import { Inject, Injectable } from '@nestjs/common';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
-import { AddressMapper } from '../../shared/mappers/address.mapper';
-import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
+import { BuilderFactory } from '../../../domain/factories/build/builder.factory';
 import { ClinicBuilder } from '../../../domain/builders/clinic.builder';
 import { ClinicProps } from '../../../domain/interfaces/props/clinic-props.interface';
+import { PersistenceFactory } from '../../../domain/factories/persistence/persistence-factory.interface';
+import { Mapper } from '../../interfaces/mapper.interface';
 
 @Injectable()
-export class ClinicMapper {
+export class ClinicMapper
+  implements Mapper<Clinic, ClinicEntity, ClinicDocument, CreateClinicEventDto>
+{
   constructor(
     @Inject('ClinicBuilderFactory')
     private readonly clinicBuilderFactory: BuilderFactory<
@@ -18,9 +20,15 @@ export class ClinicMapper {
       ClinicProps,
       ClinicBuilder
     >,
+    @Inject('ClinicPersistenceFactory')
+    private readonly clinicPersistenceFactory: PersistenceFactory<
+      ClinicEntity,
+      ClinicDocument,
+      Clinic
+    >,
   ) {}
 
-  toCreateClinicEventDto(clinic: Clinic): CreateClinicEventDto {
+  toCreateDomainEventDto(clinic: Clinic): CreateClinicEventDto {
     return {
       id: clinic.id,
       password: clinic.password,
@@ -37,79 +45,34 @@ export class ClinicMapper {
     createClinicEventDto: CreateClinicEventDto,
   ): Promise<Clinic> {
     const clinicBuilder = this.clinicBuilderFactory.createBuilder();
-    return clinicBuilder
-      .withId(createClinicEventDto.id)
-      .withPasswordHash(createClinicEventDto.password)
-      .withName(createClinicEventDto.name)
-      .withEmail(createClinicEventDto.email)
-      .withAddress(createClinicEventDto.address)
-      .withContactInfo(createClinicEventDto.contactInfo)
-      .withCreatedAt(createClinicEventDto.createdAt)
-      .withUpdatedAt(createClinicEventDto.updatedAt)
-      .build();
+    this.clinicBuilderFactory.configureBuilder(
+      clinicBuilder,
+      createClinicEventDto,
+    );
+    return clinicBuilder.build();
   }
 
   async toDomain(clinicEntity: ClinicEntity): Promise<Clinic> {
     const clinicBuilder = this.clinicBuilderFactory.createBuilder();
-    return clinicBuilder
-      .withId(clinicEntity.id)
-      .withPasswordHash(clinicEntity.password)
-      .withName(clinicEntity.name)
-      .withEmail(clinicEntity.email)
-      .withAddress(clinicEntity.address)
-      .withContactInfo(clinicEntity.contactInfo)
-      .withCreatedAt(clinicEntity.createdAt)
-      .withUpdatedAt(clinicEntity.updatedAt)
-      .build();
+    this.clinicBuilderFactory.configureBuilder(clinicBuilder, clinicEntity);
+    return clinicBuilder.build();
   }
 
   toPersistence(clinic: Clinic): ClinicEntity {
-    const clinicEntity = new ClinicEntity();
-    clinicEntity.id = clinic.id;
-    clinicEntity.password = clinic.password;
-    clinicEntity.name = clinic.name;
-    clinicEntity.email = clinic.email;
-    clinicEntity.address = clinic.address;
-    clinicEntity.contactInfo = clinic.contactInfo;
-    clinicEntity.exams = [];
-    clinicEntity.anamnesis = [];
-    clinicEntity.doctors = [];
-    clinicEntity.patients = [];
-    clinicEntity.createdAt = clinic.createdAt;
-    clinicEntity.updatedAt = clinic.updatedAt;
+    const clinicEntity = this.clinicPersistenceFactory.createEntity();
+    this.clinicPersistenceFactory.configurePersistence(clinicEntity, clinic);
     return clinicEntity;
   }
 
   toDocument(clinic: Clinic): ClinicDocument {
-    const clinicDocument = new ClinicDocument();
-    clinicDocument.id = clinic.id;
-    clinicDocument.password = clinic.password;
-    clinicDocument.name = clinic.name;
-    clinicDocument.email = clinic.email;
-    clinicDocument.address = AddressMapper.toDocument(clinic.address);
-    clinicDocument.contactInfo = ContactInfoMapper.toDocument(
-      clinic.contactInfo,
-    );
-    clinicDocument.exams = [];
-    clinicDocument.anamnesis = [];
-    clinicDocument.doctors = [];
-    clinicDocument.patients = [];
-    clinicDocument.createdAt = clinic.createdAt;
-    clinicDocument.updatedAt = clinic.updatedAt;
+    const clinicDocument = this.clinicPersistenceFactory.createDocument();
+    this.clinicPersistenceFactory.configureDocument(clinicDocument, clinic);
     return clinicDocument;
   }
 
   async documentForDomain(clinicDocument: ClinicDocument): Promise<Clinic> {
-    const clinicBuilder = new ClinicBuilder();
-    return clinicBuilder
-      .withId(clinicDocument.id)
-      .withPasswordHash(clinicDocument.password)
-      .withName(clinicDocument.name)
-      .withEmail(clinicDocument.email)
-      .withAddress(clinicDocument.address)
-      .withContactInfo(clinicDocument.contactInfo)
-      .withCreatedAt(clinicDocument.createdAt)
-      .withUpdatedAt(clinicDocument.updatedAt)
-      .build();
+    const clinicBuilder = this.clinicBuilderFactory.createBuilder();
+    this.clinicBuilderFactory.configureBuilder(clinicBuilder, clinicDocument);
+    return clinicBuilder.build();
   }
 }

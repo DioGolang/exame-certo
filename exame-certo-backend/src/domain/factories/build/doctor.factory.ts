@@ -1,10 +1,10 @@
 import { BuilderFactory } from './builder.factory';
 import { Injectable } from '@nestjs/common';
-import { Doctor } from '../entities/doctor.entity';
-import { DoctorProps } from '../interfaces/props/doctor-props.interface';
-import { DoctorBuilder } from './doctor.builder';
-import { ContactInfoDto } from '../../application/shared/dtos/contact-info.dto';
-import { AddressDto } from '../../application/shared/dtos/address.dto';
+import { Doctor } from '../../entities/doctor.entity';
+import { DoctorProps } from '../../interfaces/props/doctor-props.interface';
+import { DoctorBuilder } from '../../builders/doctor.builder';
+import { ContactInfoDto } from '../../../application/shared/dtos/contact-info.dto';
+import { AddressDto } from '../../../application/shared/dtos/address.dto';
 
 interface DoctorData {
   id: string;

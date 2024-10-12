@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { BuilderFactory } from '../../builders/builder.factory';
+import { BuilderFactory } from '../../factories/build/builder.factory';
 import { PasswordHash } from '../../../application/interfaces/hasher.interface';
 import { CreatePatientCommand } from '../../../application/patient/commands/create-patient.command';
 import { Patient } from '../../entities/patient.entity';

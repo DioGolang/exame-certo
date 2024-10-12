@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
+import { BuilderFactory } from '../../../domain/factories/build/builder.factory';
 import { Clinic } from '../../../domain/entities/clinic.entity';
 import { ClinicProps } from '../../../domain/interfaces/props/clinic-props.interface';
 import { ClinicBuilder } from '../../../domain/builders/clinic.builder';

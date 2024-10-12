@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { BuilderFactory } from './builder.factory';
-import { Clinic } from '../entities/clinic.entity';
-import { ClinicBuilder } from './clinic.builder';
-import { ClinicProps } from '../interfaces/props/clinic-props.interface';
-import { Address } from '../value-objects/address.vo';
-import { ContactInfo } from '../value-objects/contact-info.vo';
+import { Clinic } from '../../entities/clinic.entity';
+import { ClinicBuilder } from '../../builders/clinic.builder';
+import { ClinicProps } from '../../interfaces/props/clinic-props.interface';
+import { Address } from '../../value-objects/address.vo';
+import { ContactInfo } from '../../value-objects/contact-info.vo';
 
 interface ClinicData {
   id: string;

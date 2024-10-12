@@ -13,7 +13,7 @@ export class EventPublisherService {
 
   async publishCreatePatientEvent(patient: Patient): Promise<void> {
     const event = new CreateClinicEvent(
-      this.patientMapper.toCreatePatientEventDto(patient),
+      this.patientMapper.toCreateDomainEventDto(patient),
     );
     this.eventBus.publish(event);
   }

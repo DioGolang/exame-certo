@@ -14,7 +14,7 @@ export class EventPublisherService {
 
   async publishCreateDoctorEvent(doctor: Doctor): Promise<void> {
     const event = new CreateDoctorEvent(
-      this.doctorMapper.toCreateDoctorEventDto(doctor),
+      this.doctorMapper.toCreateDomainEventDto(doctor),
     );
     this.eventBus.publish(event);
   }

@@ -4,10 +4,10 @@ Content-Type: application/json
 
 {
   "password": "12345678",
-  "name": "Clinica de Exames 11",
-  "email": "clinica11@clinica.com.br" ,
+  "name": "Clinica de Exames 13",
+  "email": "clinica13@clinica.com.br" ,
   "address": {
-    "street": "Rua dos exames 11",
+    "street": "Rua dos exames 13",
     "number": "123",
     "neighborhood": "Santana",
     "city": "São Paulo",
@@ -77,13 +77,13 @@ content-type: application/json
 
 {
   "id": null,
-  "name": "Gilvania",
+  "name": "chewbacca",
   "lastName": "Vasco",
   "email": "mario2@gmail.com",
   "password": "123456",
   "dateOfBirth": "1990-01-01",
   "sex": "Female",
-  "maritalStatus": "Casado(a)",
+  "maritalStatus": "Solteiro(a)",
   "documentation": {
     "cpf": {
       "cpf": "123.456.789-00"

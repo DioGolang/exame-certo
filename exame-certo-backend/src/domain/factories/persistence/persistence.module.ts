@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClinicPersistenceFactory } from './clinic-persistence.factory';
+import { PatientPersistenceFactory } from './patient-persistence.factory';
+import { DoctorPersistenceFactory } from './doctor-persistence.factory';
 
 @Module({
   providers: [
@@ -9,11 +11,11 @@ import { ClinicPersistenceFactory } from './clinic-persistence.factory';
     },
     {
       provide: 'PatientPersistenceFactory',
-      useClass: ClinicPersistenceFactory,
+      useClass: PatientPersistenceFactory,
     },
     {
       provide: 'DoctorPersistenceFactory',
-      useClass: ClinicPersistenceFactory,
+      useClass: DoctorPersistenceFactory,
     },
   ],
   exports: [

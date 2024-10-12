@@ -36,13 +36,13 @@ export class CreatePatientHandler
     return this.patientDomainService.createPatient(command);
   }
   private async savePatient(patient: Patient): Promise<void> {
-    const patientEntity = this.patientMapper.toCreatePatientEventDto(patient);
+    const patientEntity = this.patientMapper.toCreateDomainEventDto(patient);
     await this.patientRepository.save(patientEntity);
   }
 
   private async publishPatientCreatedEvent(patient: Patient): Promise<void> {
     const event = new CreatePatientEvent(
-      this.patientMapper.toCreatePatientEventDto(patient),
+      this.patientMapper.toCreateDomainEventDto(patient),
     );
     this.eventBus.publish(event);
   }

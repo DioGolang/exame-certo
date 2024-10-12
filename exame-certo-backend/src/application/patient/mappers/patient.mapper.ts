@@ -5,13 +5,17 @@ import { CreatePatientEventDto } from '../dto/create-patient-event.dto';
 import { DocumentationMapper } from '../../shared/mappers/documentation.mapper';
 import { PatientEntity } from '../../../infra/persistence/postgres/entities/patient.entity';
 import { AddressMapper } from '../../shared/mappers/address.mapper';
-import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
 import { PatientBuilder } from '../../../domain/builders/patient.builder';
-import { BuilderFactory } from '../../../domain/builders/builder.factory';
+import { BuilderFactory } from '../../../domain/factories/build/builder.factory';
 import { PatientProps } from '../../../domain/interfaces/props/patient-props.interface';
+import { PersistenceFactory } from '../../../domain/factories/persistence/persistence-factory.interface';
+import { Mapper } from '../../interfaces/mapper.interface';
 
 @Injectable()
-export class PatientMapper {
+export class PatientMapper
+  implements
+    Mapper<Patient, PatientEntity, PatientDocument, CreatePatientEventDto>
+{
   constructor(
     @Inject('PatientBuilderFactory')
     private readonly patientBuilderFactory: BuilderFactory<
@@ -19,9 +23,15 @@ export class PatientMapper {
       PatientProps,
       PatientBuilder
     >,
+    @Inject('PatientPersistenceFactory')
+    private readonly patientPersistenceFactory: PersistenceFactory<
+      PatientEntity,
+      PatientDocument,
+      Patient
+    >,
   ) {}
 
-  toCreatePatientEventDto(patient: Patient): CreatePatientEventDto {
+  toCreateDomainEventDto(patient: Patient): CreatePatientEventDto {
     return {
       id: patient.id,
       name: patient.name,
@@ -41,6 +51,12 @@ export class PatientMapper {
     };
   }
 
+  fromEventDtoToDomain(dto: CreatePatientEventDto): Promise<Patient> {
+    const patientBuilder = this.patientBuilderFactory.createBuilder();
+    this.patientBuilderFactory.configureBuilder(patientBuilder, dto);
+    return Promise.resolve(patientBuilder.build());
+  }
+
   async toDomain(patientEntity: PatientEntity): Promise<Patient> {
     const patientBuild = this.patientBuilderFactory.createBuilder();
     this.patientBuilderFactory.configureBuilder(patientBuild, patientEntity);
@@ -48,43 +64,14 @@ export class PatientMapper {
   }
 
   toPersistence(patient: Patient): PatientEntity {
-    const patientEntity = new PatientEntity();
-    patientEntity.id = patient.id;
-    patientEntity.name = patient.name;
-    patientEntity.lastName = patient.lastName;
-    patientEntity.email = patient.email;
-    patientEntity.password = patient.password;
-    patientEntity.dateOfBirth = patient.dateOfBirth;
-    patientEntity.sex = patient.sex;
-    patientEntity.maritalStatus = patient.maritalStatus;
-    patientEntity.documentation = patient.documentation;
-    patientEntity.socioeconomicInformation = patient.socioeconomicInformation;
-    patientEntity.address = patient.address;
-    patientEntity.contactInfo = patient.contactInfo;
-    patientEntity.healthInsurance = patient?.healthInsurance;
-    patientEntity.createdAt = patient.createdAt;
-    patientEntity.updatedAt = patient.updatedAt;
+    const patientEntity = this.patientPersistenceFactory.createEntity();
+    this.patientPersistenceFactory.configurePersistence(patientEntity, patient);
     return patientEntity;
   }
 
   toDocument(patient: Patient): PatientDocument {
     const patientDocument = new PatientDocument();
-    patientDocument.id = patient.id;
-    patientDocument.name = patient.name;
-    patientDocument.lastName = patient.lastName;
-    patientDocument.email = patient.email;
-    patientDocument.passwordHash = patient.password;
-    patientDocument.dateOfBirth = patient.dateOfBirth;
-    patientDocument.sex = patient.sex;
-    patientDocument.maritalStatus = patient.maritalStatus;
-    patientDocument.documentation = patient.documentation;
-    patientDocument.socioeconomicInformation = patient.socioeconomicInformation;
-    patientDocument.address = AddressMapper.toDocument(patient.address);
-    patientDocument.contactInfo = ContactInfoMapper.toDocument(
-      patient.contactInfo,
-    );
-    patientDocument.createdAt = patient.createdAt;
-    patientDocument.updatedAt = patient.updatedAt;
+    this.patientPersistenceFactory.configureDocument(patientDocument, patient);
     return patientDocument;
   }
 
