@@ -2,7 +2,7 @@ import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
 import { IsEmail, IsString, MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { UniqueEmail } from '../validators/unique-email.decorator';
+import { UniqueField } from '../../shared/validators/unique-field.decorator';
 
 export class CreateClinicDto {
   @IsString()
@@ -12,7 +12,7 @@ export class CreateClinicDto {
   @IsString()
   public readonly name: string;
 
-  @UniqueEmail({ message: 'Email já cadastrado.' })
+  @UniqueField('emailUniqueForClinic', { message: 'Email já cadastrado.' })
   @IsEmail()
   public readonly email: string;
 
