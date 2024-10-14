@@ -19,7 +19,7 @@ export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
     await new this.clinicModel(clinic).save();
   }
 
-  async findById(id: string): Promise<ClinicModel> {
+  async findById(id: string): Promise<ClinicModel | null> {
     try {
       const clinic = await this.clinicModel.findOne({ id }).exec();
       if (!clinic) {
@@ -29,6 +29,17 @@ export class ClinicQueryRepositoryImpl implements ClinicQueryRepository {
     } catch (error) {
       throw new InternalServerErrorException(
         `Error fetching clinic with ID ${id}`,
+      );
+    }
+  }
+
+  async findByEmail(email: string): Promise<ClinicModel | null> {
+    try {
+      return await this.clinicModel.findOne({ email }).exec();
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error fetching clinic with email ${email}`,
+        error.message,
       );
     }
   }

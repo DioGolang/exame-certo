@@ -74,6 +74,7 @@ export class ClinicMapper
   async documentForDomain(clinicDocument: ClinicDocument): Promise<Clinic> {
     const clinicBuilder = this.clinicBuilderFactory.createBuilder();
     this.clinicBuilderFactory.configureBuilder(clinicBuilder, clinicDocument);
+    console.log(clinicDocument);
     return clinicBuilder.build();
   }
 }

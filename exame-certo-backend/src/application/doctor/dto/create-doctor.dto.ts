@@ -10,10 +10,6 @@ import {
 import { Type } from 'class-transformer';
 
 export class CreateDoctorDto {
-  @IsOptional()
-  @IsUUID('4')
-  public readonly id?: string;
-
   @IsString()
   public readonly name: string;
 

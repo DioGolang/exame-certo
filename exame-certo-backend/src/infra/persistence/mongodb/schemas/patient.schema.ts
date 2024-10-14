@@ -29,7 +29,7 @@ export class Patient {
   @Prop()
   lastName: string;
 
-  @Prop()
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop()

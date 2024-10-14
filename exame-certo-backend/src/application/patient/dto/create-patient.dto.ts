@@ -4,7 +4,6 @@ import {
   IsEnum,
   IsOptional,
   IsString,
-  IsUUID,
   ValidateNested,
 } from 'class-validator';
 import { AddressDto } from '../../shared/dtos/address.dto';
@@ -16,10 +15,6 @@ import { DocumentationDto } from '../../shared/dtos/documentation.dto';
 import { SocioEconomicInformationDto } from '../../shared/dtos/socio-economic-information.dto';
 
 export class CreatePatientDto {
-  @IsOptional()
-  @IsUUID('4')
-  public readonly id?: string;
-
   @IsString()
   public readonly name: string;
 

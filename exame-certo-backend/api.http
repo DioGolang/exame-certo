@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "password": "12345678",
-  "name": "Clinica de Exames NEW 2",
-  "email": "clinica13@clinica.com.br" ,
+  "name": "Clinica de Exames NEW 3",
+  "email": "clinica13@clinica.com.br",
   "address": {
     "street": "Rua dos exames 13",
     "number": "123",
@@ -31,7 +31,7 @@ Content-Type: application/json
 ###
 
 ### GET CLINIC
-GET http://localhost:3000/clinic/42f014c8-4b60-42d9-bb82-29663aef8a51
+GET http://localhost:3000/clinic/fb47235e-e320-4e00-9cfc-c5b21a2091dc
 
 
 ### POST CREATE DOCTOR
@@ -39,9 +39,8 @@ POST http://localhost:3000/doctor
 content-type: application/json
 
 {
-  "id": null,
   "password": "123456",
-  "name": "Dr. Examinador 5 NEW",
+  "name": "Dr. Examinador 5 NEW 2",
   "email": "examinador5@gmail.com",
   "registrationNumber": "123456",
   "specialization": "Neurologista",
@@ -76,7 +75,6 @@ POST http://localhost:3000/patients
 content-type: application/json
 
 {
-  "id": null,
   "name": "chewbacca NEW",
   "lastName": "Vasco",
   "email": "mario2@gmail.com",

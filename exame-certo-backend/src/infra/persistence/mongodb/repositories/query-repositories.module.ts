@@ -4,6 +4,10 @@ import { PatientQueryRepositoryModule } from './patient-query-repository/patient
 import { DoctorQueryRepositoryModule } from './doctor-query-repository/doctor-query-repository.module';
 
 @Module({
-  imports: [ClinicQueryRepositoryModule, PatientQueryRepositoryModule, DoctorQueryRepositoryModule],
+  imports: [
+    ClinicQueryRepositoryModule,
+    PatientQueryRepositoryModule,
+    DoctorQueryRepositoryModule,
+  ],
 })
 export class QueryRepositoriesModule {}

@@ -13,6 +13,8 @@ import { ClinicMapper } from './mappers/clinic.mapper';
 import { ClinicDomainServiceModule } from '../../domain/services/clinic/clinic-domain-service.module';
 import { BuildModule } from '../../domain/factories/build/build.module';
 import { PersistenceModule } from '../../domain/factories/persistence/persistence.module';
+import { ValidationService } from './validators/validation.service';
+import { UniqueEmailValidatorConstraint } from './validators/unique-email.validator';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { PersistenceModule } from '../../domain/factories/persistence/persistenc
     ClinicService,
     EventPublisherService,
     ClinicMapper,
+    ValidationService,
+    UniqueEmailValidatorConstraint,
     ...CommandsHandlers,
     ...EventsHandlers,
     ClinicSaga,
@@ -37,6 +41,8 @@ import { PersistenceModule } from '../../domain/factories/persistence/persistenc
     ClinicService,
     EventPublisherService,
     ClinicMapper,
+    ValidationService,
+    UniqueEmailValidatorConstraint,
     ...CommandsHandlers,
     ...EventsHandlers,
     ClinicSaga,

@@ -18,7 +18,7 @@ export class Doctor {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop({ required: true })
@@ -30,10 +30,10 @@ export class Doctor {
   @Prop({ type: AddressSchema })
   address: Address;
 
-  @Prop()
+  @Prop({ required: true, unique: true })
   registrationNumber: string;
 
-  @Prop()
+  @Prop({ required: true })
   specialization: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Anamnesis' }] })

@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { InfraModule } from './infra/infra.module';
 import { PatientModule } from './application/patient/patient.module';
 import { DoctorModule } from './application/doctor/doctor.module';
+import { ClinicModule } from './application/clinic/clinic.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { DoctorModule } from './application/doctor/doctor.module';
     InfraModule,
     PresentationModule,
     SharedModule,
+    ClinicModule,
     PatientModule,
     DoctorModule,
   ],

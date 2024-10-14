@@ -14,7 +14,7 @@ export class DoctorEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -26,7 +26,7 @@ export class DoctorEntity {
   @Column('jsonb')
   address: Address;
 
-  @Column()
+  @Column({ unique: true })
   registrationNumber: string;
 
   @Column()

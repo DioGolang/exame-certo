@@ -3,6 +3,7 @@ import { Doctor } from '../../schemas/doctor.schema';
 import { Model } from 'mongoose';
 import { DoctorQueryRepository } from '../../../../../domain/repositories/doctor-query.repository';
 import { CreateDoctorEventDto } from '../../../../../application/doctor/dto/create-doctor-event.dto';
+import { NotFoundException } from '@nestjs/common';
 
 export class DoctorQueryRepositoryImpl implements DoctorQueryRepository {
   constructor(@InjectModel(Doctor.name) private doctorModel: Model<Doctor>) {}
@@ -13,6 +14,19 @@ export class DoctorQueryRepositoryImpl implements DoctorQueryRepository {
   findById(id: string): Promise<Doctor> {
     throw new Error('Method not implemented.');
   }
+
+  findByEmail(email: string): Promise<any> {
+    try {
+      const doctor = this.doctorModel.findOne({ email }).exec();
+      if (!doctor) {
+        throw new NotFoundException(`Doctor with email ${email} not found.`);
+      }
+      return doctor;
+    } catch (error) {
+      throw new NotFoundException(`Doctor with email ${email} not found.`);
+    }
+  }
+
   findAll(): Promise<Doctor[]> {
     throw new Error('Method not implemented.');
   }
