@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
-import { FieldValidatorConstraint } from './field.validator';
+import { UniqueFieldConstraint } from './unique-field.validator';
 
 export function UniqueField(
   targetName: string,
@@ -11,7 +11,7 @@ export function UniqueField(
       propertyName: propertyName,
       options: validationOptions,
       constraints: [targetName],
-      validator: FieldValidatorConstraint,
+      validator: UniqueFieldConstraint,
     });
   };
 }

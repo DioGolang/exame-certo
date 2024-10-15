@@ -29,6 +29,11 @@ RABBITMQ_DEFAULT_PASS=your_password
 RABBITMQ_PORT=5672
 RABBITMQ_QUEUE=notifications_queue
 
+#REDIS
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=your_password
+
 # JWT
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN=3600
@@ -39,7 +44,22 @@ JWT_EXPIRES_IN=3600
 - .docker/postgres_data
 - .docker/rabbitmq_data
 - .docker/mongodb_data
+- .docker/redis_data
 
+Conceda as permissões nas pastas antes de prosseguir(Linux):  
+```bash
+
+sudo chmod -R 775 ./.docker/postgres_data
+sudo chmod -R 775 ./.docker/rabbitmq_data
+sudo chmod -R 775 ./.docker/mongodb_data
+sudo chmod -R 775 ./.docker/redis_data
+
+sudo chown -R 1001:1001 ./.docker/postgres_data
+sudo chown -R 1001:1001 ./.docker/rabbitmq_data 
+sudo chown -R 1001:1001 ./.docker/mongodb_data 
+sudo chown -R 1001:1001 ./.docker/redis_data
+
+```
 
 ## Installation
 

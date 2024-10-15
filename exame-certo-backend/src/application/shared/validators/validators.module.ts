@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClinicValidationStrategy } from './clinic-validation.strategy';
 import { DoctorValidationStrategy } from './doctor-validation.strategy';
 import { PatientValidationStrategy } from './patient-validation.strategy';
-import { FieldValidatorConstraint } from './field.validator';
+import { UniqueFieldConstraint } from './unique-field.validator';
 import { ClinicQueryRepositoryModule } from '../../../infra/persistence/mongodb/repositories/clinic-query-repository/clinic-query-repository.module';
 import { DoctorQueryRepositoryModule } from '../../../infra/persistence/mongodb/repositories/doctor-query-repository/doctor-query-repository.module';
 import { PatientQueryRepositoryModule } from '../../../infra/persistence/mongodb/repositories/patient-query-repository/patient-query-repository.module';
@@ -14,7 +14,7 @@ import { PatientQueryRepositoryModule } from '../../../infra/persistence/mongodb
     PatientQueryRepositoryModule,
   ],
   providers: [
-    FieldValidatorConstraint,
+    UniqueFieldConstraint,
     ClinicValidationStrategy,
     DoctorValidationStrategy,
     PatientValidationStrategy,
@@ -38,7 +38,7 @@ import { PatientQueryRepositoryModule } from '../../../infra/persistence/mongodb
   ],
   exports: [
     'UniqueValidationStrategy',
-    FieldValidatorConstraint,
+    UniqueFieldConstraint,
     ClinicValidationStrategy,
     DoctorValidationStrategy,
     PatientValidationStrategy,

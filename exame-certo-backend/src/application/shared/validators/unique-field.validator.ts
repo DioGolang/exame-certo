@@ -8,7 +8,7 @@ import { UniqueValidationStrategy } from '../../interfaces/unique-validation-str
 
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class FieldValidatorConstraint implements ValidatorConstraintInterface {
+export class UniqueFieldConstraint implements ValidatorConstraintInterface {
   constructor(
     @Inject('UniqueValidationStrategy')
     private readonly strategies: {
