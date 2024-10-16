@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "password": "12345678",
-  "name": "Clinica de Exames NEW 3",
-  "email": "clinica13@clinica.com.br",
+  "name": "Clinica de Exames 100",
+  "email": "clinica100@clinica.com.br",
   "address": {
     "street": "Rua dos exames 13",
     "number": "123",
@@ -40,9 +40,9 @@ content-type: application/json
 
 {
   "password": "123456",
-  "name": "Dr. Examinador 5 NEW 2",
-  "email": "examinador5@gmail.com",
-  "registrationNumber": "123456",
+  "name": "Dr. Francisco",
+  "email": "examinador000@gmail.com",
+  "registrationNumber": "123400",
   "specialization": "Neurologista",
   "address": {
     "street": "Rua São Shibituba",
@@ -75,25 +75,25 @@ POST http://localhost:3000/patients
 content-type: application/json
 
 {
-  "name": "chewbacca NEW",
+  "name": "chewbacca",
   "lastName": "Vasco",
-  "email": "mario2@gmail.com",
+  "email": "chewbacca@gmail.com",
   "password": "123456",
   "dateOfBirth": "1990-01-01",
   "sex": "Female",
   "maritalStatus": "Solteiro(a)",
   "documentation": {
     "cpf": {
-      "cpf": "123.456.789-00"
+      "cpf": "123.456.789-01"
     },
     "rg": {
-      "rg": "12.345.678-9"
+      "rg": "12.545.578-9"
     },
     "cnh": {
-      "cnh": "12345678900"
+      "cnh": "12345618900"
     },
     "cns": {
-      "cns": "12345678900"
+      "cns": "12345678200"
     }
   },
   "socioeconomicInformation": {

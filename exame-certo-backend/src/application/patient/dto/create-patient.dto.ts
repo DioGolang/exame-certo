@@ -13,6 +13,7 @@ import { MaritalStatus } from '../../../domain/enums/marital-status.enum';
 import { Type } from 'class-transformer';
 import { DocumentationDto } from '../../shared/dtos/documentation.dto';
 import { SocioEconomicInformationDto } from '../../shared/dtos/socio-economic-information.dto';
+import { UniqueField } from '../../shared/validators/unique-field.decorator';
 
 export class CreatePatientDto {
   @IsString()
@@ -21,6 +22,7 @@ export class CreatePatientDto {
   @IsString()
   public readonly lastName: string;
 
+  @UniqueField('emailUniqueForPatient', { message: 'Email já cadastrado.' })
   @IsEmail()
   public readonly email: string;
 

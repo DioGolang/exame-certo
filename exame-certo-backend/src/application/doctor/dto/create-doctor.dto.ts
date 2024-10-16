@@ -1,18 +1,14 @@
 import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
-import {
-  IsEmail,
-  IsOptional,
-  IsString,
-  IsUUID,
-  ValidateNested,
-} from 'class-validator';
+import { IsEmail, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { UniqueField } from '../../shared/validators/unique-field.decorator';
 
 export class CreateDoctorDto {
   @IsString()
   public readonly name: string;
 
+  @UniqueField('emailUniqueForDoctor', { message: 'Email já cadastrado.' })
   @IsEmail()
   public readonly email: string;
 
