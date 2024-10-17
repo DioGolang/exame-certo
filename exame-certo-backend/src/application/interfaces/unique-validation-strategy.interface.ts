@@ -1,3 +1,3 @@
 export interface UniqueValidationStrategy {
-  isUniqueEmail(email: string): Promise<boolean>;
+  uniqueEmail(email: string): Promise<boolean>;
 }

@@ -22,7 +22,9 @@ export class CreatePatientDto {
   @IsString()
   public readonly lastName: string;
 
-  @UniqueField('emailUniqueForPatient', { message: 'Email já cadastrado.' })
+  @UniqueField('emailUniqueForPatient', 'uniqueEmail', {
+    message: 'Email já cadastrado.',
+  })
   @IsEmail()
   public readonly email: string;
 

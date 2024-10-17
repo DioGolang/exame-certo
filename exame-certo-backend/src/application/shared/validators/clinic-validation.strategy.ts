@@ -9,7 +9,7 @@ export class ClinicValidationStrategy implements UniqueValidationStrategy {
     private readonly clinicReadRepository: ClinicQueryRepository,
   ) {}
 
-  async isUniqueEmail(email: string): Promise<boolean> {
+  async uniqueEmail(email: string): Promise<boolean> {
     return await this.clinicReadRepository.findByEmail(email).then((clinic) => {
       return !clinic;
     });

@@ -17,11 +17,11 @@ export class UniqueFieldConstraint implements ValidatorConstraintInterface {
   ) {}
 
   async validate(value: string, args: ValidationArguments): Promise<boolean> {
-    const [validateFunction] = args.constraints;
+    const [validateFunction, methodName] = args.constraints;
     const strategy = this.strategies[validateFunction];
 
-    if (strategy) {
-      return await strategy.isUniqueEmail(value);
+    if (strategy && methodName && typeof strategy[methodName] === 'function') {
+      return await strategy[methodName](value);
     }
     return false;
   }

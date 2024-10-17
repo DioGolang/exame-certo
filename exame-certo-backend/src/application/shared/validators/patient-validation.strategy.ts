@@ -9,7 +9,7 @@ export class PatientValidationStrategy implements UniqueValidationStrategy {
     private readonly patientReadRepository: PatientQueryRepository,
   ) {}
 
-  async isUniqueEmail(email: string): Promise<boolean> {
+  async uniqueEmail(email: string): Promise<boolean> {
     return await this.patientReadRepository
       .findByEmail(email)
       .then((patient) => {
