@@ -8,9 +8,6 @@ import { NotFoundException } from '@nestjs/common';
 export class DoctorQueryRepositoryImpl implements DoctorQueryRepository {
   constructor(@InjectModel(Doctor.name) private doctorModel: Model<Doctor>) {}
 
-  findByRegistrationNumber(registrationNumber: string): Promise<Doctor | null> {
-    throw new Error('Method not implemented.');
-  }
   findById(id: string): Promise<Doctor> {
     throw new Error('Method not implemented.');
   }
@@ -24,6 +21,24 @@ export class DoctorQueryRepositoryImpl implements DoctorQueryRepository {
       return doctor;
     } catch (error) {
       throw new NotFoundException(`Doctor with email ${email} not found.`);
+    }
+  }
+
+  async findByRegistrationNumber(
+    registrationNumber: string,
+  ): Promise<Doctor | null> {
+    try {
+      const doctor = this.doctorModel.findOne({ registrationNumber }).exec();
+      if (!doctor) {
+        throw new NotFoundException(
+          `Doctor with registration number ${registrationNumber} not found.`,
+        );
+      }
+      return doctor;
+    } catch (error) {
+      throw new NotFoundException(
+        `Doctor with registration number ${registrationNumber} not found.`,
+      );
     }
   }
 

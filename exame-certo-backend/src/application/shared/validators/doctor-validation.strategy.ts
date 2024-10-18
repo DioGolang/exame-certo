@@ -14,4 +14,12 @@ export class DoctorValidationStrategy implements UniqueValidationStrategy {
       return !doctor;
     });
   }
+
+  async uniqueRegistrationNumber(registrationNumber: string): Promise<boolean> {
+    return await this.doctorReadRepository
+      .findByRegistrationNumber(registrationNumber)
+      .then((doctor) => {
+        return !doctor;
+      });
+  }
 }
