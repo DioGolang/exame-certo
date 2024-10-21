@@ -40,10 +40,10 @@ content-type: application/json
 
 {
   "password": "123456",
-  "name": "Dr. Francisco",
-  "email": "examinador000@gmail.com",
+  "name": "Dr. Owen",
+  "email": "Owen@gmail.com",
   "registrationNumber": "123400",
-  "specialization": "Neurologista",
+  "specialization": "Traumatologia",
   "address": {
     "street": "Rua São Shibituba",
     "number": "123",
@@ -77,14 +77,14 @@ content-type: application/json
 {
   "name": "chewbacca",
   "lastName": "Vasco",
-  "email": "chewbacca@gmail.com",
+  "email": "chewbacca1@gmail.com",
   "password": "123456",
   "dateOfBirth": "1990-01-01",
   "sex": "Female",
   "maritalStatus": "Solteiro(a)",
   "documentation": {
     "cpf": {
-      "cpf": "123.456.789-01"
+      "cpf": "123.456.789-03"
     },
     "rg": {
       "rg": "12.545.578-9"

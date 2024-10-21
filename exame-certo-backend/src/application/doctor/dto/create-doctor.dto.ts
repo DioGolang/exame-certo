@@ -8,7 +8,7 @@ export class CreateDoctorDto {
   @IsString()
   public readonly name: string;
 
-  @UniqueField('emailUniqueForDoctor', 'uniqueEmail', {
+  @UniqueField('fieldUniqueForDoctor', 'uniqueEmail', {
     message: 'Email já cadastrado.',
   })
   @IsEmail()
@@ -25,6 +25,9 @@ export class CreateDoctorDto {
   @Type(() => ContactInfoDto)
   public readonly contactInfo: ContactInfoDto;
 
+  @UniqueField('fieldUniqueForDoctor', 'uniqueRegistrationNumber', {
+    message: 'CRM já cadastrado.',
+  })
   @IsString()
   public readonly registrationNumber: string;
 

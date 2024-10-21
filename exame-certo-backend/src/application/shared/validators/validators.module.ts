@@ -25,9 +25,9 @@ import { PatientQueryRepositoryModule } from '../../../infra/persistence/mongodb
         patientValidation: PatientValidationStrategy,
         doctorValidation: DoctorValidationStrategy,
       ) => ({
-        emailUniqueForClinic: clinicValidation,
-        emailUniqueForPatient: patientValidation,
-        emailUniqueForDoctor: doctorValidation,
+        fieldUniqueForClinic: clinicValidation,
+        fieldUniqueForPatient: patientValidation,
+        fieldUniqueForDoctor: doctorValidation,
       }),
       inject: [
         ClinicValidationStrategy,

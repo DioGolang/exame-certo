@@ -12,7 +12,7 @@ export class CreateClinicDto {
   @IsString()
   public readonly name: string;
 
-  @UniqueField('emailUniqueForClinic', 'uniqueEmail', {
+  @UniqueField('fieldUniqueForClinic', 'uniqueEmail', {
     message: 'Email já cadastrado.',
   })
   @IsEmail()
