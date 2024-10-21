@@ -5,7 +5,7 @@ export type CPFDocument = HydratedDocument<CPF>;
 
 @Schema()
 export class CPF {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   cpf: string;
 }
 

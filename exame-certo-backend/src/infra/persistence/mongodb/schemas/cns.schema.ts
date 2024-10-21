@@ -5,7 +5,7 @@ export type CNSDocument = HydratedDocument<CNS>;
 
 @Schema()
 export class CNS {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   cns: string;
 }
 

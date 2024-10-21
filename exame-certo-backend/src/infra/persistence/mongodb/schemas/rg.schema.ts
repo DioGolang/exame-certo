@@ -5,7 +5,7 @@ export type RGDocument = HydratedDocument<RG>;
 
 @Schema()
 export class RG {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   rg: string;
 }
 

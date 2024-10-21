@@ -5,7 +5,7 @@ export type CNHDocument = HydratedDocument<CNH>;
 
 @Schema()
 export class CNH {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   cnh: string;
 }
 
