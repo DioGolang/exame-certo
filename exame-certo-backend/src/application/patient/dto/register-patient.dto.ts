@@ -15,7 +15,7 @@ import { DocumentationDto } from '../../shared/dtos/documentation.dto';
 import { SocioEconomicInformationDto } from '../../shared/dtos/socio-economic-information.dto';
 import { UniqueField } from '../../shared/validators/unique-field.decorator';
 
-export class CreatePatientDto {
+export class RegisterPatientDto {
   @IsString()
   public readonly name: string;
 

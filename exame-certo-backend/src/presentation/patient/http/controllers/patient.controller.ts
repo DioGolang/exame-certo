@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreatePatientDto } from '../../../../application/patient/dto/create-patient.dto';
+import { RegisterPatientDto } from '../../../../application/patient/dto/register-patient.dto';
 import { PatientService } from '../../../../application/patient/services/patient.service';
 
 @Controller('patients')
@@ -7,7 +7,7 @@ export class PatientController {
   constructor(private readonly patientService: PatientService) {}
 
   @Post()
-  async createPatient(@Body() patient: CreatePatientDto): Promise<void> {
+  async createPatient(@Body() patient: RegisterPatientDto): Promise<void> {
     await this.patientService.createPatient(patient);
   }
 

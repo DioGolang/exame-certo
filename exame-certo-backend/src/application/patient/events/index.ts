@@ -1,3 +1,3 @@
-import { CreatePatientEventHandler } from './create-patient-event.handler';
+import { RegisteredPatientEventHandler } from './registered-patient-event.handler';
 
-export const EventsHandlers = [CreatePatientEventHandler];
+export const EventsHandlers = [RegisteredPatientEventHandler];

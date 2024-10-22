@@ -4,9 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreatePatientCommand } from '../commands/create-patient.command';
+import { RegisterPatientCommand } from '../commands/register-patient.command';
 import { GetPatientQuery } from '../queries/get-patient.query';
-import { CreatePatientDto } from '../dto/create-patient.dto';
+import { RegisterPatientDto } from '../dto/register-patient.dto';
 import { PatientMapper } from '../mappers/patient.mapper';
 
 @Injectable()
@@ -17,9 +17,9 @@ export class PatientService {
     private readonly patientMapper: PatientMapper,
   ) {}
 
-  async createPatient(patient: CreatePatientDto) {
+  async createPatient(patient: RegisterPatientDto) {
     console.log(patient);
-    await this.commandBus.execute(new CreatePatientCommand(patient));
+    await this.commandBus.execute(new RegisterPatientCommand(patient));
   }
 
   async getPatient(id: string) {

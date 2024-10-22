@@ -1,3 +1,3 @@
-import { CreatePatientHandler } from './create-patient.handler';
+import { RegisterPatientHandler } from './register-patient.handler';
 
-export const CommandsHandlers = [CreatePatientHandler];
+export const CommandsHandlers = [RegisterPatientHandler];

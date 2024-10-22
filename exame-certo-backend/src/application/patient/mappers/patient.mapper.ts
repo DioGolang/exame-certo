@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Patient as PatientDocument } from '../../../infra/persistence/mongodb/schemas/patient.schema';
 import { Patient } from '../../../domain/entities/patient.entity';
-import { CreatePatientEventDto } from '../dto/create-patient-event.dto';
+import { RegisteredPatientEventDto } from '../dto/registered-patient-event.dto';
 import { DocumentationMapper } from '../../shared/mappers/documentation.mapper';
 import { PatientEntity } from '../../../infra/persistence/postgres/entities/patient.entity';
 import { AddressMapper } from '../../shared/mappers/address.mapper';
@@ -14,7 +14,7 @@ import { Mapper } from '../../interfaces/mapper.interface';
 @Injectable()
 export class PatientMapper
   implements
-    Mapper<Patient, PatientEntity, PatientDocument, CreatePatientEventDto>
+    Mapper<Patient, PatientEntity, PatientDocument, RegisteredPatientEventDto>
 {
   constructor(
     @Inject('PatientBuilderFactory')
@@ -31,7 +31,7 @@ export class PatientMapper
     >,
   ) {}
 
-  toCreateDomainEventDto(patient: Patient): CreatePatientEventDto {
+  toCreateDomainEventDto(patient: Patient): RegisteredPatientEventDto {
     return {
       id: patient.id,
       name: patient.name,
@@ -51,7 +51,7 @@ export class PatientMapper
     };
   }
 
-  fromEventDtoToDomain(dto: CreatePatientEventDto): Promise<Patient> {
+  fromEventDtoToDomain(dto: RegisteredPatientEventDto): Promise<Patient> {
     const patientBuilder = this.patientBuilderFactory.createBuilder();
     this.patientBuilderFactory.configureBuilder(patientBuilder, dto);
     return Promise.resolve(patientBuilder.build());

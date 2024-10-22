@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BuilderFactory } from '../../factories/build/builder.factory';
 import { PasswordHash } from '../../../application/interfaces/hasher.interface';
-import { CreatePatientCommand } from '../../../application/patient/commands/create-patient.command';
+import { RegisterPatientCommand } from '../../../application/patient/commands/register-patient.command';
 import { Patient } from '../../entities/patient.entity';
 import { PatientBuilder } from '../../builders/patient.builder';
 import { UuidGenerator } from '../../interfaces/uuid-generator.interface';
@@ -23,30 +23,30 @@ export class PatientDomainService {
   ) {}
 
   async createPatient(
-    createPatientCommand: CreatePatientCommand,
+    createPatientCommand: RegisterPatientCommand,
   ): Promise<Patient> {
     const id = this.uuidGeneratorService.generate();
     const passwordHash = await this.passwordHash.hash(
-      createPatientCommand.createPatientDto.password,
+      createPatientCommand.registerPatientDto.password,
     );
     const patientBuilder = this.patientBuilderFactory.createBuilder();
     return patientBuilder
       .withId(id)
       .withPasswordHash(passwordHash)
-      .withName(createPatientCommand.createPatientDto.name)
-      .withLastName(createPatientCommand.createPatientDto.lastName)
-      .withEmail(createPatientCommand.createPatientDto.email)
-      .withDateOfBirth(createPatientCommand.createPatientDto.dateOfBirth)
-      .withSex(createPatientCommand.createPatientDto.sex)
-      .withMaritalStatus(createPatientCommand.createPatientDto.maritalStatus)
-      .withDocumentation(createPatientCommand.createPatientDto.documentation)
+      .withName(createPatientCommand.registerPatientDto.name)
+      .withLastName(createPatientCommand.registerPatientDto.lastName)
+      .withEmail(createPatientCommand.registerPatientDto.email)
+      .withDateOfBirth(createPatientCommand.registerPatientDto.dateOfBirth)
+      .withSex(createPatientCommand.registerPatientDto.sex)
+      .withMaritalStatus(createPatientCommand.registerPatientDto.maritalStatus)
+      .withDocumentation(createPatientCommand.registerPatientDto.documentation)
       .withSocioeconomicInformation(
-        createPatientCommand.createPatientDto.socioeconomicInformation,
+        createPatientCommand.registerPatientDto.socioeconomicInformation,
       )
-      .withAddress(createPatientCommand.createPatientDto.address)
-      .withContactInfo(createPatientCommand.createPatientDto.contactInfo)
+      .withAddress(createPatientCommand.registerPatientDto.address)
+      .withContactInfo(createPatientCommand.registerPatientDto.contactInfo)
       .withHealthInsurance(
-        createPatientCommand.createPatientDto.healthInsurance,
+        createPatientCommand.registerPatientDto.healthInsurance,
       )
       .withCreatedAt(new Date())
       .withUpdatedAt(new Date())

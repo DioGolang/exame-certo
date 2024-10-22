@@ -16,7 +16,7 @@ import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
 
 @Exclude()
-export class CreatePatientEventDto {
+export class RegisteredPatientEventDto {
   @Expose()
   @IsUUID('4')
   public readonly id: string;

@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PatientEntity } from '../../entities/patient.entity';
 import { Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
-import { CreatePatientEventDto } from '../../../../../application/patient/dto/create-patient-event.dto';
+import { RegisteredPatientEventDto } from '../../../../../application/patient/dto/registered-patient-event.dto';
 
 @Injectable()
 export class PatientCommandRepositoryImpl implements PatientCommandRepository {
@@ -13,12 +13,12 @@ export class PatientCommandRepositoryImpl implements PatientCommandRepository {
     private readonly patientRepository: Repository<PatientEntity>,
   ) {}
 
-  async save(patient: CreatePatientEventDto): Promise<void> {
+  async save(patient: RegisteredPatientEventDto): Promise<void> {
     const patientEntity = plainToClass(PatientEntity, patient);
     await this.patientRepository.save(patientEntity);
   }
 
-  update(entity: CreatePatientEventDto): Promise<void> {
+  update(entity: RegisteredPatientEventDto): Promise<void> {
     throw new Error('Method not implemented.');
   }
   delete(id: string): Promise<void> {
