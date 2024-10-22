@@ -1,2 +1,3 @@
-export const Consumers = [];
-// PatientCreatedConsumer
+import { RegisteredPatientConsumer } from './registered-patient.consumer';
+
+export const Consumers = [RegisteredPatientConsumer];

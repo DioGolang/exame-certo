@@ -43,7 +43,7 @@ export class Address {
       addressDto.state,
       addressDto.zipCode,
       addressDto.country,
-      addressDto.complement,
+      addressDto?.complement,
     );
   }
 }

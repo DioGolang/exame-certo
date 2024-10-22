@@ -34,7 +34,7 @@ export class DoctorMapper
     return Promise.resolve(doctorBuilder.build());
   }
 
-  toCreateDomainEventDto(doctor: Doctor): CreateDoctorEventDto {
+  toRegisteredDomainEventDto(doctor: Doctor): CreateDoctorEventDto {
     return {
       id: doctor.id,
       name: doctor.name,

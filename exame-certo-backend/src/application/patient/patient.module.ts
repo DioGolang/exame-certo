@@ -12,6 +12,7 @@ import { EventPublisherService } from './services/event-publisher.service';
 import { PatientDomainServiceModule } from '../../domain/services/patient/patient-domain-service.module';
 import { BuildModule } from '../../domain/factories/build/build.module';
 import { PersistenceModule } from '../../domain/factories/persistence/persistence.module';
+import { OutboxModule } from '../shared/services/outbox/outbox.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PersistenceModule } from '../../domain/factories/persistence/persistenc
     BuildModule,
     PersistenceModule,
     PatientDomainServiceModule,
+    OutboxModule,
   ],
   providers: [
     PatientService,

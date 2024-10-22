@@ -31,7 +31,7 @@ export class PatientMapper
     >,
   ) {}
 
-  toCreateDomainEventDto(patient: Patient): RegisteredPatientEventDto {
+  toRegisteredDomainEventDto(patient: Patient): RegisteredPatientEventDto {
     return {
       id: patient.id,
       name: patient.name,

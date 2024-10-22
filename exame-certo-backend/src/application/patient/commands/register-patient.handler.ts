@@ -7,7 +7,7 @@ import { PatientMapper } from '../mappers/patient.mapper';
 import { PatientDomainService } from '../../../domain/services/patient/patient-domain.service';
 import { Patient } from '../../../domain/entities/patient.entity';
 import { InvalidPatientException } from '../../../domain/exceptions/invalid-patient.exception';
-import { OutboxApplicationService } from '../../shared/services/outbox/outbox-application.service';
+import { OutboxOrchestratorService } from '../../shared/services/outbox/outbox-orchestrator.service';
 
 @CommandHandler(RegisterPatientCommand)
 export class RegisterPatientHandler
@@ -17,7 +17,7 @@ export class RegisterPatientHandler
     @Inject('PatientCommandRepository')
     private readonly patientRepository: PatientCommandRepository,
     private readonly patientDomainService: PatientDomainService,
-    // private readonly outbox: OutboxApplicationService,
+    private readonly outboxOrchestrator: OutboxOrchestratorService,
     private readonly eventBus: EventBus,
     private readonly patientMapper: PatientMapper,
   ) {}
@@ -26,7 +26,7 @@ export class RegisterPatientHandler
     try {
       const patient = await this.buildPatient(command);
       await this.savePatient(patient);
-      await this.publishPatientCreatedEvent(patient);
+      await this.publishRegisteredPatientEvent(patient);
     } catch (error) {
       throw new InvalidPatientException(
         'Failed to create patient: ' + error.message,
@@ -40,15 +40,20 @@ export class RegisterPatientHandler
     return this.patientDomainService.createPatient(command);
   }
   private async savePatient(patient: Patient): Promise<void> {
-    const patientEntity = this.patientMapper.toCreateDomainEventDto(patient);
+    const patientEntity =
+      this.patientMapper.toRegisteredDomainEventDto(patient);
     await this.patientRepository.save(patientEntity);
   }
 
-  private async outboxRepositorySave(): Promise<void> {}
+  private async publishRegisteredPatientEvent(patient: Patient): Promise<void> {
+    await this.outboxOrchestrator.processEvent('RegisteredPatientEvent', {
+      patient: this.patientMapper.toRegisteredDomainEventDto(patient),
+    });
+  }
 
   private async publishPatientCreatedEvent(patient: Patient): Promise<void> {
     const event = new RegisteredPatientEvent(
-      this.patientMapper.toCreateDomainEventDto(patient),
+      this.patientMapper.toRegisteredDomainEventDto(patient),
     );
     this.eventBus.publish(event);
   }

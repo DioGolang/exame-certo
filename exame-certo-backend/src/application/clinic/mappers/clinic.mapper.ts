@@ -28,7 +28,7 @@ export class ClinicMapper
     >,
   ) {}
 
-  toCreateDomainEventDto(clinic: Clinic): CreateClinicEventDto {
+  toRegisteredDomainEventDto(clinic: Clinic): CreateClinicEventDto {
     console.log(clinic['_password']);
     return {
       id: clinic.id,

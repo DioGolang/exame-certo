@@ -43,7 +43,7 @@ export class CreateClinicHandler
 
   private async publishCreateClinicEvent(clinic: Clinic): Promise<void> {
     const event = new CreateClinicEvent(
-      this.clinicMapper.toCreateDomainEventDto(clinic),
+      this.clinicMapper.toRegisteredDomainEventDto(clinic),
     );
     this.eventBus.publish(event);
   }
