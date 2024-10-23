@@ -27,6 +27,10 @@ import { OutboxModule } from '../shared/services/outbox/outbox.module';
   providers: [
     PatientService,
     PatientMapper,
+    {
+      provide: 'Mapper',
+      useClass: PatientMapper,
+    },
     EventPublisherService,
     ...CommandsHandlers,
     ...EventsHandlers,
@@ -35,7 +39,7 @@ import { OutboxModule } from '../shared/services/outbox/outbox.module';
   ],
   exports: [
     PatientService,
-    PatientMapper,
+    'Mapper',
     EventPublisherService,
     ...CommandsHandlers,
     ...EventsHandlers,

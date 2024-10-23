@@ -5,4 +5,5 @@ export interface Mapper<Domain, Entity, Document, Dto> {
   toPersistence(domain: Domain): Entity;
   toDocument(domain: Domain): Document;
   documentForDomain(document: Document): Promise<Domain>;
+  fromRegisteredEntityEventDtoToDocument(event: Dto): Document;
 }

@@ -3,11 +3,14 @@ import { RegisterPatientCommand } from './register-patient.command';
 import { Inject } from '@nestjs/common';
 import { PatientCommandRepository } from '../../../domain/repositories/patient-command.repository';
 import { RegisteredPatientEvent } from '../events/registered-patient.event';
-import { PatientMapper } from '../mappers/patient.mapper';
 import { PatientDomainService } from '../../../domain/services/patient/patient-domain.service';
 import { Patient } from '../../../domain/entities/patient.entity';
 import { InvalidPatientException } from '../../../domain/exceptions/invalid-patient.exception';
 import { OutboxOrchestratorService } from '../../shared/services/outbox/outbox-orchestrator.service';
+import { Mapper } from '../../interfaces/mapper.interface';
+import { PatientEntity } from '../../../infra/persistence/postgres/entities/patient.entity';
+import { Patient as PatientDocument } from '../../../infra/persistence/mongodb/schemas/patient.schema';
+import { RegisteredPatientEventDto } from '../dto/registered-patient-event.dto';
 
 @CommandHandler(RegisterPatientCommand)
 export class RegisterPatientHandler
@@ -19,7 +22,13 @@ export class RegisterPatientHandler
     private readonly patientDomainService: PatientDomainService,
     private readonly outboxOrchestrator: OutboxOrchestratorService,
     private readonly eventBus: EventBus,
-    private readonly patientMapper: PatientMapper,
+    @Inject('Mapper')
+    private readonly patientMapper: Mapper<
+      Patient,
+      PatientEntity,
+      PatientDocument,
+      RegisteredPatientEventDto
+    >,
   ) {}
 
   async execute(command: RegisterPatientCommand): Promise<void> {
@@ -46,9 +55,10 @@ export class RegisterPatientHandler
   }
 
   private async publishRegisteredPatientEvent(patient: Patient): Promise<void> {
-    await this.outboxOrchestrator.processEvent('RegisteredPatientEvent', {
-      patient: this.patientMapper.toRegisteredDomainEventDto(patient),
-    });
+    await this.outboxOrchestrator.processEvent(
+      'patient.registered',
+      this.patientMapper.toRegisteredDomainEventDto(patient),
+    );
   }
 
   private async publishPatientCreatedEvent(patient: Patient): Promise<void> {

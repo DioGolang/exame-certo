@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QueueService } from '../../../../infra/queue/queue.service';
 import { OutboxApplicationService } from './outbox-application.service';
+import { RegisteredPatientEventDto } from '../../../patient/dto/registered-patient-event.dto';
 
 @Injectable()
 export class OutboxOrchestratorService {
@@ -9,7 +10,10 @@ export class OutboxOrchestratorService {
     private readonly queueService: QueueService,
   ) {}
 
-  async processEvent(eventType: string, payload: any): Promise<void> {
+  async processEvent(
+    eventType: string,
+    payload: RegisteredPatientEventDto,
+  ): Promise<void> {
     const outboxEntry = await this.outboxRepository.saveEvent(
       eventType,
       payload,

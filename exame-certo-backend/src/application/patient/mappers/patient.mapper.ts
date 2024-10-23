@@ -10,6 +10,7 @@ import { BuilderFactory } from '../../../domain/factories/build/builder.factory'
 import { PatientProps } from '../../../domain/interfaces/props/patient-props.interface';
 import { PersistenceFactory } from '../../../domain/factories/persistence/persistence-factory.interface';
 import { Mapper } from '../../interfaces/mapper.interface';
+import { ContactInfoMapper } from '../../shared/mappers/contact-info.mapper';
 
 @Injectable()
 export class PatientMapper
@@ -73,6 +74,27 @@ export class PatientMapper
     const patientDocument = new PatientDocument();
     this.patientPersistenceFactory.configureDocument(patientDocument, patient);
     return patientDocument;
+  }
+
+  fromRegisteredEntityEventDtoToDocument(
+    event: RegisteredPatientEventDto,
+  ): PatientDocument {
+    const patient = new PatientDocument();
+    patient.id = event.id;
+    patient.name = event.name;
+    patient.lastName = event.lastName;
+    patient.email = event.email;
+    patient.passwordHash = event.passwordHash;
+    patient.dateOfBirth = event.dateOfBirth;
+    patient.sex = event.sex;
+    patient.maritalStatus = event.maritalStatus;
+    patient.socioeconomicInformation = event.socioeconomicInformation;
+    patient.address = AddressMapper.toDocument(event.address);
+    patient.contactInfo = ContactInfoMapper.toDocument(event.contactInfo);
+    patient.documentation = DocumentationMapper.fromDomain(event.documentation);
+    patient.createdAt = event.createdAt;
+    patient.updatedAt = event.updatedAt;
+    return patient;
   }
 
   async documentForDomain(patientDocument: PatientDocument): Promise<Patient> {

@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -7,14 +8,24 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { RegisterPatientCommand } from '../commands/register-patient.command';
 import { GetPatientQuery } from '../queries/get-patient.query';
 import { RegisterPatientDto } from '../dto/register-patient.dto';
-import { PatientMapper } from '../mappers/patient.mapper';
+import { Mapper } from '../../interfaces/mapper.interface';
+import { Patient } from '../../../domain/entities/patient.entity';
+import { PatientEntity } from '../../../infra/persistence/postgres/entities/patient.entity';
+import { Patient as PatientDocument } from '../../../infra/persistence/mongodb/schemas/patient.schema';
+import { RegisteredPatientEventDto } from '../dto/registered-patient-event.dto';
 
 @Injectable()
 export class PatientService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly patientMapper: PatientMapper,
+    @Inject('Mapper')
+    private readonly patientMapper: Mapper<
+      Patient,
+      PatientEntity,
+      PatientDocument,
+      RegisteredPatientEventDto
+    >,
   ) {}
 
   async createPatient(patient: RegisterPatientDto) {

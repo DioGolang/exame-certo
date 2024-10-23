@@ -8,6 +8,8 @@ import { BuilderFactory } from '../../../domain/factories/build/builder.factory'
 import { DoctorProps } from '../../../domain/interfaces/props/doctor-props.interface';
 import { PersistenceFactory } from '../../../domain/factories/persistence/persistence-factory.interface';
 import { Mapper } from '../../interfaces/mapper.interface';
+import { CreateClinicEventDto } from '../../clinic/dto/create-clinic-event.dto';
+import { Clinic as ClinicDocument } from '../../../infra/persistence/mongodb/schemas/clinic.schema';
 
 @Injectable()
 export class DoctorMapper
@@ -65,6 +67,12 @@ export class DoctorMapper
     const doctorDocument = this.doctorPersistenceFactory.createDocument();
     this.doctorPersistenceFactory.configureDocument(doctorDocument, doctor);
     return doctorDocument;
+  }
+
+  fromRegisteredEntityEventDtoToDocument(
+    event: CreateDoctorEventDto,
+  ): DoctorDocument {
+    throw new Error('Method not implemented.');
   }
 
   async documentForDomain(doctorDocument: DoctorDocument): Promise<Doctor> {
