@@ -1,5 +1,5 @@
 export enum OutboxStatus {
-  PENDING = 'PENDING',
   SENT = 'SENT',
+  PENDING = 'PENDING',
   ERROR = 'ERROR',
 }

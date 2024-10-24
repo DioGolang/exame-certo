@@ -8,10 +8,15 @@ export class QueueService {
     @InjectQueue('outbox-queue') private readonly outboxQueue: Queue,
   ) {}
 
-  async enqueueEvent(eventType: string, payload: any): Promise<void> {
+  async enqueueEvent(
+    eventType: string,
+    payload: any,
+    idOutbox: string,
+  ): Promise<void> {
     await this.outboxQueue.add('process-event', {
       event_type: eventType,
       payload,
+      idOutbox,
     });
   }
 }

@@ -21,6 +21,7 @@ services:
       - "27017:27017"
     volumes:
       - ./.docker/mongodb_data:/bitnami/mongodb/data
+    restart: always
 
 
   rabbitmq:
@@ -34,6 +35,7 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - ./.docker/rabbitmq_data:/var/lib/rabbitmq
+    restart: always
 
   redis:
     image: redis:alpine

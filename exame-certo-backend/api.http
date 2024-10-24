@@ -77,23 +77,23 @@ content-type: application/json
 {
   "name": "chewbacca",
   "lastName": "Vasco",
-  "email": "chewbacca3@gmail.com",
+  "email": "chewbacca16@gmail.com",
   "password": "123456",
   "dateOfBirth": "1990-01-01",
   "sex": "Female",
   "maritalStatus": "Solteiro(a)",
   "documentation": {
     "cpf": {
-      "cpf": "123.456.889-55"
+      "cpf": "963.356.476-11"
     },
     "rg": {
-      "rg": "11.545.578-6"
+      "rg": "97.765.511-1"
     },
     "cnh": {
-      "cnh": "12345616511"
+      "cnh": "92767911411"
     },
     "cns": {
-      "cns": "12344378201"
+      "cns": "94767671601"
     }
   },
   "socioeconomicInformation": {
