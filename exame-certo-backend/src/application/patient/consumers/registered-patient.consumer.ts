@@ -28,6 +28,12 @@ export class RegisteredPatientConsumer {
     exchange: 'events_exchange',
     routingKey: 'patient.registered',
     queue: 'patient_registered_queue',
+    queueOptions: {
+      durable: true,
+      arguments: {
+        'x-dead-letter-exchange': 'dlx_exchange',
+      },
+    },
   })
   public async handler(message: {
     event: RegisteredPatientEventDto;

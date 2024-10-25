@@ -17,15 +17,24 @@ export class QueueProcessor extends WorkerHost {
     try {
       console.log(`Processando job ${job.id} com nome: ${job.name}`, job.data);
       const { event_type, payload, idOutbox } = job.data;
-      await this.amqpConnection.publish('events_exchange', event_type, {
-        event: payload,
-        idOutbox,
-      });
+      await this.amqpConnection.publish(
+        'events_exchange',
+        event_type,
+        {
+          event: payload,
+          idOutbox,
+        },
+        {
+          headers: {
+            'x-dead-letter-exchange': 'dlx_exchange',
+          },
+        },
+      );
       await this.outboxRepository.updateStatus(idOutbox, OutboxStatus.SENT);
       console.log(`Evento ${event_type} enviado com sucesso.`);
     } catch (error) {
       console.error(`Erro ao processar o job ${job.id}:`, error);
-      throw new Error('Falha no processamento do evento');
+      throw new Error('Falha no processamento do evento!');
     }
   }
 }
