@@ -61,10 +61,13 @@ export class RegisterPatientHandler
     );
   }
 
-  private async publishPatientCreatedEvent(patient: Patient): Promise<void> {
-    const event = new RegisteredPatientEvent(
-      this.patientMapper.toRegisteredDomainEventDto(patient),
+  private async publishRegisteredPatientEvent2(
+    patient: Patient,
+  ): Promise<void> {
+    await this.eventBus.publish(
+      new RegisteredPatientEvent(
+        this.patientMapper.toRegisteredDomainEventDto(patient),
+      ),
     );
-    this.eventBus.publish(event);
   }
 }

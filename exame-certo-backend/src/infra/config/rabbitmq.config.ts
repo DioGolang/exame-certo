@@ -16,7 +16,7 @@ export const rabbitMQConfig: RabbitMQConfig = {
     },
   ],
   uri: `amqp://${process.env.RABBITMQ_DEFAULT_USER}:${process.env.RABBITMQ_DEFAULT_PASS}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`,
-  connectionInitOptions: { wait: true, timeout: 10000 },
+  connectionInitOptions: { wait: true, timeout: 30000 },
   channels: { 'channel-1': { prefetchCount: 5, default: true } },
   queues: [
     {
@@ -25,6 +25,7 @@ export const rabbitMQConfig: RabbitMQConfig = {
         durable: true,
         arguments: {
           'x-dead-letter-exchange': 'dlx_exchange',
+          'x-dead-letter-routing-key': 'patient.registered.dlq',
         },
       },
     },

@@ -5,7 +5,7 @@ import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 export class DlcRegisteredPatientConsumer {
   @RabbitSubscribe({
     exchange: 'dlx_exchange',
-    routingKey: 'patient.registered',
+    routingKey: 'patient.registered.dlq',
     queue: 'patient_dlq',
   })
   async handle(msg: any) {

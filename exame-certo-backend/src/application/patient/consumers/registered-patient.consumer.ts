@@ -29,10 +29,8 @@ export class RegisteredPatientConsumer {
     routingKey: 'patient.registered',
     queue: 'patient_registered_queue',
     queueOptions: {
-      durable: true,
-      arguments: {
-        'x-dead-letter-exchange': 'dlx_exchange',
-      },
+      deadLetterExchange: 'dlx_exchange',
+      deadLetterRoutingKey: 'patient.registered.dlq',
     },
   })
   public async handler(message: {
