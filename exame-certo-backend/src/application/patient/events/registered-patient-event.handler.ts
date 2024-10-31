@@ -16,7 +16,7 @@
 //
 //   async handle(event: RegisteredPatientEvent): Promise<void> {
 //     console.log('RegisteredDoctorEvent', event);
-//     const patientSchema = plainToClass(Patient, event.createPatientEventDto);
+//     const patientSchema = plainToClass(Patient, event.registeredPatientEventDto);
 //     await this.patientMongoRepository.save(patientSchema);
 //   }
 // }

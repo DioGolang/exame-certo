@@ -34,8 +34,9 @@ export class RegisterPatientHandler
   async execute(command: RegisterPatientCommand): Promise<void> {
     try {
       const patient = await this.buildPatient(command);
-      await this.savePatient(patient);
-      await this.publishRegisteredPatientEvent(patient);
+      const patientDto = await this.domainToDto(patient);
+      await this.savePatient(patientDto);
+      await this.publishRegisteredPatientEvent(patientDto);
     } catch (error) {
       throw new InvalidPatientException(
         'Failed to create patient: ' + error.message,
@@ -48,26 +49,22 @@ export class RegisterPatientHandler
   ): Promise<Patient> {
     return this.patientDomainService.createPatient(command);
   }
-  private async savePatient(patient: Patient): Promise<void> {
-    const patientEntity =
-      this.patientMapper.toRegisteredDomainEventDto(patient);
-    await this.patientRepository.save(patientEntity);
-  }
 
-  private async publishRegisteredPatientEvent(patient: Patient): Promise<void> {
-    await this.outboxOrchestrator.processEvent(
-      'patient.registered',
-      this.patientMapper.toRegisteredDomainEventDto(patient),
-    );
-  }
-
-  private async publishRegisteredPatientEvent2(
+  private async domainToDto(
     patient: Patient,
+  ): Promise<RegisteredPatientEventDto> {
+    return this.patientMapper.toRegisteredDomainEventDto(patient);
+  }
+
+  private async savePatient(
+    patientDto: RegisteredPatientEventDto,
   ): Promise<void> {
-    await this.eventBus.publish(
-      new RegisteredPatientEvent(
-        this.patientMapper.toRegisteredDomainEventDto(patient),
-      ),
-    );
+    await this.patientRepository.save(patientDto);
+  }
+
+  private async publishRegisteredPatientEvent(
+    patientDto: RegisteredPatientEventDto,
+  ): Promise<void> {
+    await this.eventBus.publish(new RegisteredPatientEvent(patientDto));
   }
 }
