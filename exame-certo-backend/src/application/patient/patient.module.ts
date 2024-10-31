@@ -13,6 +13,7 @@ import { PatientDomainServiceModule } from '../../domain/services/patient/patien
 import { BuildModule } from '../../domain/factories/build/build.module';
 import { PersistenceModule } from '../../domain/factories/persistence/persistence.module';
 import { OutboxModule } from '../shared/services/outbox/outbox.module';
+import { PatientSaga } from './saga';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { OutboxModule } from '../shared/services/outbox/outbox.module';
     ...EventsHandlers,
     ...QueriesHandlers,
     ...Consumers,
+    ...PatientSaga,
   ],
   exports: [
     PatientService,
@@ -45,6 +47,7 @@ import { OutboxModule } from '../shared/services/outbox/outbox.module';
     ...EventsHandlers,
     ...QueriesHandlers,
     ...Consumers,
+    ...PatientSaga,
   ],
 })
 export class PatientModule {}
