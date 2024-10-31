@@ -65,7 +65,7 @@ sudo chown -R 1001:1001 ./.docker/redis_data
 
 Necessário ter Node.js e o docker instalado.
 
-caso não tenha docker, é preciso ter localmente : PostgreSQL, MongoDB  e RabbitMQ.
+caso não tenha docker, é preciso ter localmente : PostgreSQL, MongoDB, Redis e RabbitMQ.
 
 ---
 
