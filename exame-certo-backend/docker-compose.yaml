@@ -8,7 +8,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./.docker/postgres_data:/var/lib/typeorm/data
+      - ./.docker/postgres_data:/var/lib/typeorm/data:z
 
   mongodb:
     image: bitnami/mongodb:latest
@@ -20,7 +20,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./.docker/mongodb_data:/bitnami/mongodb/data
+      - ./.docker/mongodb_data:/bitnami/mongodb/data:z
     restart: always
 
 
@@ -34,7 +34,7 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
-      - ./.docker/rabbitmq_data:/var/lib/rabbitmq
+      - ./.docker/rabbitmq_data:/var/lib/rabbitmq:z
     restart: always
 
   redis:
@@ -42,7 +42,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./.docker/redis_data:/data
+      - ./.docker/redis_data:/data:z
     environment:
      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
