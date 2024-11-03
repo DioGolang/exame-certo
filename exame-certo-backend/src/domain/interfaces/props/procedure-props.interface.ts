@@ -8,11 +8,11 @@ export interface ProcedureProps {
   service: Service;
   doctor?: Doctor;
   nursing?: Nursing;
-  typeProcedure: TypeProcedure;
   description: string;
+  typeProcedure: TypeProcedure;
   procedureStatus: ProcedureStatus;
-  start_date?: Date;
-  end_date?: Date;
+  // start_date?: Date;
+  // end_date?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }

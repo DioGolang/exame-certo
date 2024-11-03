@@ -1,10 +1,19 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Identification } from '../../../../domain/value-objects/identification.vo';
 import { PersonalHistory } from '../../../../domain/value-objects/personal-history.vo';
 import { PatientEntity } from './patient.entity';
 import { DoctorEntity } from './doctor.entity';
 import { ClinicEntity } from './clinic.entity';
 import { Medicine } from '../../../../domain/value-objects/medicine.vo';
+import { NursingEntity } from './nursing.entity';
+import { ScreeningEntity } from './screening.entity';
 
 @Entity('anamnesis')
 export class AnamnesisEntity {
@@ -14,11 +23,20 @@ export class AnamnesisEntity {
   @ManyToOne(() => PatientEntity, (patient) => patient.anamnesis)
   patient: PatientEntity;
 
+  @ManyToOne(() => NursingEntity, (nursing) => nursing.anamnesis)
+  nursing: NursingEntity;
+
   @ManyToOne(() => DoctorEntity, (doctor) => doctor.anamnesis)
   doctor: DoctorEntity;
 
   @ManyToOne(() => ClinicEntity, (clinic) => clinic.anamnesis)
   clinic: ClinicEntity;
+
+  @OneToOne(() => ScreeningEntity, (screening) => screening.anamnesis, {
+    lazy: true,
+  })
+  @JoinColumn()
+  screening: ScreeningEntity;
 
   @Column()
   date: Date;

@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Address } from '../../../../domain/value-objects/address.vo';
 import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
 import { SocioEconomicInformation } from '../../../../domain/value-objects/socio-economic-information.vo';
@@ -9,6 +17,9 @@ import { ExamEntity } from './exam.entity';
 import { ClinicEntity } from './clinic.entity';
 import { AnamnesisEntity } from './anamnesis.entity';
 import { Documentation } from '../../../../domain/value-objects/documentation.vo';
+import { ServiceEntity } from './service.entity';
+import { ScreeningEntity } from './screening.entity';
+import { SchedulingEntity } from './scheduling.entity';
 
 @Entity('patients')
 export class PatientEntity {
@@ -59,8 +70,21 @@ export class PatientEntity {
   @OneToMany(() => ExamEntity, (exam) => exam.patient, { lazy: true })
   exams: ExamEntity[];
 
+  @OneToMany(() => SchedulingEntity, (scheduling) => scheduling.patient, {
+    lazy: true,
+  })
+  scheduling: SchedulingEntity[];
+
   @ManyToMany(() => ClinicEntity, (clinic) => clinic.patients)
   clinics: ClinicEntity[];
+
+  @OneToOne(() => ServiceEntity, (service) => service.patient)
+  @JoinColumn()
+  service: ServiceEntity;
+
+  @OneToOne(() => ScreeningEntity, (screening) => screening.patient)
+  @JoinColumn()
+  screening: ScreeningEntity;
 
   @Column({ type: 'timestamp' })
   createdAt: Date;

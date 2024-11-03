@@ -1,8 +1,11 @@
 import { Doctor } from '../../entities/doctor.entity';
-import { Patient } from '../../entities/patient.entity';
+import { Service } from '../../entities/service.entity';
+import { StatusTobeConsulted } from '../../enums/status-tobe-consulted.enum';
 
 export class ConsultationProps {
   date: Date;
   doctor: Doctor;
-  patient: Patient;
+  service: Service; // o agendamento deve ficar no atendimento
+  reason: string;
+  statusTobeConsulted: StatusTobeConsulted;
 }

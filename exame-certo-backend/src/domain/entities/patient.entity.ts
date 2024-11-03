@@ -13,6 +13,7 @@ import { PatientProps } from '../interfaces/props/patient-props.interface';
 import { PasswordHash } from '../../application/interfaces/hasher.interface';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
 import { EntityUtils } from '../../shared/utils/entity.utils';
+import { SchedulingEntity } from '../../infra/persistence/postgres/entities/scheduling.entity';
 
 export class Patient {
   private readonly _id: string;
@@ -22,6 +23,7 @@ export class Patient {
   private readonly _exams: Exam[] = [];
   private readonly _clinics: Clinic[] = [];
   private readonly _doctors: Doctor[] = [];
+  private readonly _scheduling: SchedulingEntity[];
 
   constructor(id: string, props: PatientProps, passwordHash: string) {
     this._id = id;

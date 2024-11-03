@@ -9,6 +9,7 @@ import { Address } from '../value-objects/address.vo';
 import { PasswordHash } from '../../application/interfaces/hasher.interface';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
 import { EntityUtils } from '../../shared/utils/entity.utils';
+import { Scheduling } from './scheduling.entity';
 
 export class Doctor {
   private readonly _id: string;
@@ -18,6 +19,7 @@ export class Doctor {
   private _exams: Exam[] = [];
   private _clinics: Clinic[] = [];
   private _reports: Report[] = [];
+  private _scheduling: Scheduling[] = [];
 
   constructor(id: string, props: DoctorProps, passwordHash: string) {
     this._id = id;

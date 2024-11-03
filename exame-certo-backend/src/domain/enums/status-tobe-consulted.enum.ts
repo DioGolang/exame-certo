@@ -1,0 +1,6 @@
+export enum StatusTobeConsulted {
+  NOT_CONSULTED = 'NOT_CONSULTED',
+  CONSULTED = 'CONSULTED',
+  CANCELED = 'CANCELED',
+  POSTPONED = 'POSTPONED',
+}

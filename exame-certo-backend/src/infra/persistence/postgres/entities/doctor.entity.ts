@@ -5,6 +5,8 @@ import { ClinicEntity } from './clinic.entity';
 import { ExamEntity } from './exam.entity';
 import { AnamnesisEntity } from './anamnesis.entity';
 import { ReportEntity } from './report.entity';
+import { SchedulingEntity } from './scheduling.entity';
+import { ConsultationEntity } from './consultation.entity';
 
 @Entity('doctors')
 export class DoctorEntity {
@@ -36,6 +38,16 @@ export class DoctorEntity {
     lazy: true,
   })
   anamnesis: AnamnesisEntity[];
+
+  @OneToMany(() => SchedulingEntity, (scheduling) => scheduling.doctor, {
+    lazy: true,
+  })
+  scheduling: SchedulingEntity[];
+
+  @OneToMany(() => ConsultationEntity, (consultation) => consultation.doctor, {
+    lazy: true,
+  })
+  consultations: ConsultationEntity[];
 
   @OneToMany(() => ExamEntity, (exam) => exam.doctor, { lazy: true })
   exams: ExamEntity[];
