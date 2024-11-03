@@ -1,7 +1,6 @@
 import { Signature } from '../value-objects/signature.vo';
 import { AdditionalInformation } from '../value-objects/additional-information.vo';
 import { CID10 } from '../value-objects/cid.vo';
-import { Exam } from './exam.entity';
 import { InvalidReportException } from '../exceptions/invalid-report.exception';
 import { ReportProps } from '../interfaces/props/report-props.interface';
 import { ValidationUtils } from '../../shared/utils/validation.utils';
@@ -11,7 +10,6 @@ import { Doctor } from './doctor.entity';
 export class Report {
   private readonly _id: string;
   private readonly _props: Readonly<ReportProps>;
-  private readonly _exams: Exam[];
 
   constructor(id: string, props: ReportProps) {
     this._id = id;
@@ -90,16 +88,16 @@ export class Report {
   }
 
   // Add methods for specific collections
-  public addExam(exam: Exam): void {
-    EntityUtils.addToCollection(this._exams, exam, (item) =>
-      EntityUtils.checkDuplicate(
-        item,
-        this._exams,
-        'Exam',
-        InvalidReportException,
-      ),
-    );
-  }
+  // public addExam(exam: Exam): void {
+  //   EntityUtils.addToCollection(this._exams, exam, (item) =>
+  //     EntityUtils.checkDuplicate(
+  //       item,
+  //       this._exams,
+  //       'Exam',
+  //       InvalidReportException,
+  //     ),
+  //   );
+  // }
 
   public addCID10(cid: CID10): void {
     EntityUtils.addToCollectionCID10(this._props.CID10, cid, (item) =>
@@ -112,14 +110,14 @@ export class Report {
     );
   }
 
-  public removeExam(exam: Exam): void {
-    EntityUtils.removeFromCollection(
-      this._exams,
-      exam,
-      InvalidReportException,
-      'Exam not found',
-    );
-  }
+  // public removeExam(exam: Exam): void {
+  //   EntityUtils.removeFromCollection(
+  //     this._exams,
+  //     exam,
+  //     InvalidReportException,
+  //     'Exam not found',
+  //   );
+  // }
 
   get id(): string {
     return this._id;
@@ -193,9 +191,9 @@ export class Report {
     return this._props.illnessHistory;
   }
 
-  get exams(): Exam[] {
-    return [...this._exams];
-  }
+  // get exams(): Exam[] {
+  //   return [...this._exams];
+  // }
 
   get createdAt(): Date {
     return this._props.createdAt;

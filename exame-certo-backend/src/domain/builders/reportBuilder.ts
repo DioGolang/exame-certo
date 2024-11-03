@@ -129,7 +129,7 @@ export class ReportBuilder {
   async build(): Promise<Report> {
     const report = new Report(this._id, this._props as ReportProps);
     this._props.CID10.forEach((c) => report.addCID10(c));
-    this._exams.forEach((e) => report.addExam(e));
+    // this._exams.forEach((e) => report.addExam(e));
     return report;
   }
 }

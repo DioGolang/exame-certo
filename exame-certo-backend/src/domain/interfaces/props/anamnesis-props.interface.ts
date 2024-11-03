@@ -4,12 +4,14 @@ import { Identification } from '../../value-objects/identification.vo';
 import { PersonalHistory } from '../../value-objects/personal-history.vo';
 import { Clinic } from '../../entities/clinic.entity';
 import { Medicine } from '../../value-objects/medicine.vo';
+import { Nursing } from '../../entities/nursing.entity';
 
 export interface AnamnesisProps {
   date: Date;
   patient: Patient;
   clinic: Clinic;
   doctor: Doctor;
+  nursing: Nursing;
   identification: Identification;
   mainComplaint: string;
   historyOfPresentIllness: string;
