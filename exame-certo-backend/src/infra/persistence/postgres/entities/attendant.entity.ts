@@ -1,7 +1,8 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
 import { Address } from '../../../../domain/value-objects/address.vo';
 import { SchedulingEntity } from './scheduling.entity';
+import { ClinicEntity } from './clinic.entity';
 
 @Entity()
 export class AttendantEntity {
@@ -34,4 +35,7 @@ export class AttendantEntity {
 
   @OneToMany(() => SchedulingEntity, (scheduling) => scheduling.attendant)
   scheduling: SchedulingEntity[];
+
+  @OneToOne(() => ClinicEntity, (clinic) => clinic.attendant)
+  clinic: ClinicEntity;
 }

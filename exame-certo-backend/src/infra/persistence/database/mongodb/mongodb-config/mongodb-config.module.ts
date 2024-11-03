@@ -74,6 +74,31 @@ import {
   ExamReport,
   ExamReportSchema,
 } from '../../../mongodb/schemas/exam-report.schema';
+import {
+  Attendant,
+  AttendantSchema,
+} from '../../../mongodb/schemas/attendant.schema';
+import {
+  Consultation,
+  ConsultationSchema,
+} from '../../../mongodb/schemas/consultation.schema';
+import {
+  Nursing,
+  NursingSchema,
+} from '../../../mongodb/schemas/nursing.schema';
+import {
+  Service,
+  ServiceSchema,
+} from '../../../mongodb/schemas/service.schema';
+import {
+  Procedure,
+  ProcedureSchema,
+} from '../../../mongodb/schemas/procedure.schema';
+import {
+  Scheduling,
+  SchedulingSchema,
+} from '../../../mongodb/schemas/scheduling.schema';
+import { Screening, ScreeningSchema } from '../../../mongodb/schemas/screening.schema';
 
 @Global()
 @Module({
@@ -105,6 +130,13 @@ import {
       { name: Exam.name, schema: ExamSchema },
       { name: Report.name, schema: ReportSchema },
       { name: ExamReport.name, schema: ExamReportSchema },
+      { name: Attendant.name, schema: AttendantSchema },
+      { name: Consultation.name, schema: ConsultationSchema },
+      { name: Nursing.name, schema: NursingSchema },
+      { name: Service.name, schema: ServiceSchema },
+      { name: Procedure.name, schema: ProcedureSchema },
+      { name: Scheduling.name, schema: SchedulingSchema },
+      { name: Screening.name, schema: ScreeningSchema },
     ]),
   ],
   providers: [],

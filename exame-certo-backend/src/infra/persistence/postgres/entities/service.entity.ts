@@ -1,10 +1,18 @@
-import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { TypeService } from '../../../../domain/enums/type-service.enum';
 import { ServiceStatus } from '../../../../domain/enums/service-status.enum';
 import { ManchesterProtocol } from '../../../../domain/enums/manchester-protocol.enum';
 import { PatientEntity } from './patient.entity';
 import { ProcedureEntity } from './procedure.entity';
 import { ConsultationEntity } from './consultation.entity';
+import { ClinicEntity } from './clinic.entity';
 
 @Entity()
 export class ServiceEntity {
@@ -40,6 +48,9 @@ export class ServiceEntity {
 
   @OneToMany(() => ProcedureEntity, (procedure) => procedure.service)
   procedures: ProcedureEntity[];
+
+  @ManyToOne(() => ClinicEntity, (clinic) => clinic.services)
+  clinic: ClinicEntity;
 
   @Column({ type: 'timestamp' })
   createdAt: Date;
