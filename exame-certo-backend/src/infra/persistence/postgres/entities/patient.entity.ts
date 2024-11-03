@@ -41,10 +41,10 @@ export class PatientEntity {
   @Column()
   dateOfBirth: Date;
 
-  @Column('jsonb')
+  @Column({ type: 'enum', enum: Sex })
   sex: Sex;
 
-  @Column('jsonb')
+  @Column({ type: 'enum', enum: MaritalStatus })
   maritalStatus: MaritalStatus;
 
   @Column('jsonb')

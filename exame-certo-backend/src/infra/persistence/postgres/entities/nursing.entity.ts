@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { ContactInfo } from '../../mongodb/schemas/contact-info.schema';
 import { Address } from '../../mongodb/schemas/address.schema';
 import { AnamnesisEntity } from './anamnesis.entity';
@@ -43,9 +36,8 @@ export class NursingEntity {
   })
   anamnesis: AnamnesisEntity[];
 
-  @OneToOne(() => ScreeningEntity, (screening) => screening.nursing)
-  @JoinColumn()
-  screening: ScreeningEntity;
+  @OneToMany(() => ScreeningEntity, (screening) => screening.nursing)
+  screening: ScreeningEntity[];
 
   @Column({ type: 'timestamp' })
   createdAt: Date;

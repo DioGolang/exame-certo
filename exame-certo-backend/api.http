@@ -75,25 +75,25 @@ POST http://localhost:3000/patients
 content-type: application/json
 
 {
-  "name": "chewbacca",
+  "name": "chewbacca2",
   "lastName": "Vasco",
-  "email": "chewbacca@gmail.com",
+  "email": "chewbacca2@gmail.com",
   "password": "123456",
   "dateOfBirth": "1990-01-01",
   "sex": "Female",
   "maritalStatus": "Solteiro(a)",
   "documentation": {
     "cpf": {
-      "cpf": "936.356.476-11"
+      "cpf": "978.356.476-11"
     },
     "rg": {
-      "rg": "97.455.511-1"
+      "rg": "97.411.511-1"
     },
     "cnh": {
-      "cnh": "92327911411"
+      "cnh": "95311911411"
     },
     "cns": {
-      "cns": "94767111601"
+      "cns": "94897111601"
     }
   },
   "socioeconomicInformation": {

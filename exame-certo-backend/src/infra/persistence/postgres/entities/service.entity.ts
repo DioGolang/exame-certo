@@ -45,5 +45,5 @@ export class ServiceEntity {
   createdAt: Date;
 
   @Column({ type: 'timestamp' })
-  updatedAt?: Date;
+  updatedAt: Date;
 }
