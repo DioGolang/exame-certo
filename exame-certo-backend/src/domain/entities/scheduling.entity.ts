@@ -20,4 +20,8 @@ export class Scheduling {
   //     throw new InvalidSchedulingException(errors.join('; '));
   //   }
   // }
+
+  get id(): string {
+    return this._id;
+  }
 }
