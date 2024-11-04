@@ -4,6 +4,7 @@ import { DoctorDomainServiceModule } from './services/doctor/doctor-domain-servi
 import { PatientDomainServiceModule } from './services/patient/patient-domain-service.module';
 import { BuildModule } from './factories/build/build.module';
 import { PersistenceModule } from './factories/persistence/persistence.module';
+import { AttendantModule } from './services/attendant/attendant.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { PersistenceModule } from './factories/persistence/persistence.module';
     PatientDomainServiceModule,
     BuildModule,
     PersistenceModule,
+    AttendantModule,
   ],
 })
 export class DomainModule {}
