@@ -11,6 +11,7 @@ import { NursingControllersModule } from './nursing/http/controllers/nursing-con
     DoctorControllersModule,
     PatientControllersModule,
     NursingControllersModule,
+    AttendantControllersModule,
   ],
 })
 export class PresentationModule {}
