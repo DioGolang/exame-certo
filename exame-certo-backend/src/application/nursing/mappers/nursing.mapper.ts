@@ -3,7 +3,6 @@ import { Nursing } from '../../../domain/entities/nursing.entity';
 import { NursingEntity } from '../../../infra/persistence/postgres/entities/nursing.entity';
 import { Nursing as NursingDocument } from '../../../infra/persistence/mongodb/schemas/nursing.schema';
 import { RegisterNursingEventDto } from '../dto/register-nursing-event.dto';
-import { Document, Types } from 'mongoose';
 import { Inject } from '@nestjs/common';
 import { BuilderFactory } from '../../../domain/factories/build/builder.factory';
 import { NursingProps } from '../../../domain/interfaces/props/nursing-props.interface';
@@ -29,32 +28,59 @@ export class NursingMapper
     >,
   ) {}
 
-  toRegisteredDomainEventDto(domain: Nursing): RegisterNursingEventDto {
-    throw new Error('Method not implemented.');
+  toRegisteredDomainEventDto(nursing: Nursing): RegisterNursingEventDto {
+    return {
+      id: nursing.id,
+      name: nursing.name,
+      email: nursing.email,
+      passwordHash: nursing['_passwordHash'],
+      nursingLevel: nursing.nursingLevel,
+      address: nursing.address,
+      contactInfo: nursing.contactInfo,
+      COREN: nursing.COREN,
+      createdAt: nursing.createdAt,
+      updatedAt: nursing.updatedAt,
+    };
   }
   fromEventDtoToDomain(dto: RegisterNursingEventDto): Promise<Nursing> {
-    throw new Error('Method not implemented.');
+    const nursingBuilder = this.nursingBuilderFactory.createBuilder();
+    this.nursingBuilderFactory.configureBuilder(nursingBuilder, dto);
+    return Promise.resolve(nursingBuilder.build());
   }
   toDomain(entity: NursingEntity): Promise<Nursing> {
-    throw new Error('Method not implemented.');
+    const nursingBuilder = this.nursingBuilderFactory.createBuilder();
+    this.nursingBuilderFactory.configureBuilder(nursingBuilder, entity);
+    return Promise.resolve(nursingBuilder.build());
   }
   toPersistence(domain: Nursing): NursingEntity {
-    throw new Error('Method not implemented.');
+    const nursingEntity = this.nursingPersistenceFactory.createEntity();
+    this.nursingPersistenceFactory.configurePersistence(nursingEntity, domain);
+    return nursingEntity;
   }
-  toDocument(
-    domain: Nursing,
-  ): Document<unknown, {}, Nursing> & Nursing & { _id: Types.ObjectId } {
-    throw new Error('Method not implemented.');
+  toDocument(domain: Nursing): NursingDocument {
+    const nursingDocument = this.nursingPersistenceFactory.createDocument();
+    this.nursingPersistenceFactory.configureDocument(nursingDocument, domain);
+    return nursingDocument;
   }
-  documentForDomain(
-    document: Document<unknown, {}, Nursing> &
-      Nursing & { _id: Types.ObjectId },
-  ): Promise<Nursing> {
-    throw new Error('Method not implemented.');
+  async documentForDomain(document: NursingDocument): Promise<Nursing> {
+    const nursingBuilder = this.nursingBuilderFactory.createBuilder();
+    this.nursingBuilderFactory.configureBuilder(nursingBuilder, document);
+    return nursingBuilder.build();
   }
   fromRegisteredEntityEventDtoToDocument(
     event: RegisterNursingEventDto,
-  ): Document<unknown, {}, Nursing> & Nursing & { _id: Types.ObjectId } {
-    throw new Error('Method not implemented.');
+  ): NursingDocument {
+    const nursingDocument = new NursingDocument();
+    nursingDocument.id = event.id;
+    nursingDocument.name = event.name;
+    nursingDocument.email = event.email;
+    nursingDocument.passwordHash = event.passwordHash;
+    nursingDocument.nursingLevel = event.nursingLevel;
+    nursingDocument.address = event.address;
+    nursingDocument.contactInfo = event.contactInfo;
+    nursingDocument.COREN = event.COREN;
+    nursingDocument.createdAt = event.createdAt;
+    nursingDocument.updatedAt = event.updatedAt;
+    return nursingDocument;
   }
 }
