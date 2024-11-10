@@ -13,7 +13,7 @@ import { NursingLevel } from '../../../domain/enums/nursing-level.enum';
 export class RegisterNursingDto {
   @IsString()
   @MinLength(8)
-  public readonly passwordHash: string;
+  public readonly password: string;
 
   @IsString()
   public readonly name: string;

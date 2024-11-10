@@ -9,15 +9,16 @@ export class AttendantBuilder extends BaseEntityBuilder<
 > {
   private scheduling: Scheduling[] = [];
 
-  withName(name: string): this {
-    this._props.name = name;
-    return this;
-  }
-
   withDepartment(department: string): this {
     this._props.department = department;
     return this;
   }
+
+  withScheduling(scheduling: Scheduling[]): this {
+    this.scheduling = scheduling;
+    return this;
+  }
+
   public async build(): Promise<Attendant> {
     this.validateRequiredProperties();
     const attendant = new Attendant(

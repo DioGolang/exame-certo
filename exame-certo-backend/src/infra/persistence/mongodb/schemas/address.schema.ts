@@ -27,7 +27,7 @@ export class Address {
   country: string;
 
   @Prop()
-  complement: string;
+  complement?: string;
 }
 
 export const AddressSchema = SchemaFactory.createForClass(Address);

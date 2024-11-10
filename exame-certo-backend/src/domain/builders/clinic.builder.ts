@@ -12,11 +12,6 @@ export class ClinicBuilder extends BaseEntityBuilder<Clinic, ClinicProps> {
   private _patients: Patient[] = [];
   private _doctors: Doctor[] = [];
 
-  withName(name: string): ClinicBuilder {
-    this._props.name = name;
-    return this;
-  }
-
   withAnamnesis(anamnesis: Anamnesis[]): ClinicBuilder {
     this._anamnesis = anamnesis;
     return this;

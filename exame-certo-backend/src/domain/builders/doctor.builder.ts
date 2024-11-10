@@ -12,11 +12,6 @@ export class DoctorBuilder extends BaseEntityBuilder<Doctor, DoctorProps> {
   private _clinics: Clinic[] = [];
   private _reports: Report[] = [];
 
-  withName(name: string): this {
-    this._props.name = name;
-    return this;
-  }
-
   withRegistrationNumber(registrationNumber: string): this {
     this._props.registrationNumber = registrationNumber;
     return this;

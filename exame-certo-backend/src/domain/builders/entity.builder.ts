@@ -18,6 +18,11 @@ export abstract class BaseEntityBuilder<
     return this;
   }
 
+  withName(name: string): this {
+    this._props.name = name;
+    return this;
+  }
+
   withPasswordHash(passwordHash: string): this {
     this._passwordHash = passwordHash;
     return this;

@@ -4,16 +4,18 @@ import { DoctorDomainServiceModule } from './services/doctor/doctor-domain-servi
 import { PatientDomainServiceModule } from './services/patient/patient-domain-service.module';
 import { BuildModule } from './factories/build/build.module';
 import { PersistenceModule } from './factories/persistence/persistence.module';
-import { AttendantModule } from './services/attendant/attendant.module';
+import { AttendantDomainModule } from './services/attendant/attendant-domain.module';
+import { NursingDomainModule } from './services/nursing/nursing-domain.module';
 
 @Module({
   imports: [
     ClinicDomainServiceModule,
     DoctorDomainServiceModule,
     PatientDomainServiceModule,
+    AttendantDomainModule,
+    NursingDomainModule,
     BuildModule,
     PersistenceModule,
-    AttendantModule,
   ],
 })
 export class DomainModule {}

@@ -89,4 +89,12 @@ export class Attendant {
   get scheduling(): Scheduling[] {
     return [...this._scheduling];
   }
+
+  get createdAt(): Date {
+    return this._props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._props.updatedAt;
+  }
 }

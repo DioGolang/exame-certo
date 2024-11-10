@@ -21,13 +21,13 @@ export class ContactInfo {
   email: string;
 
   @Prop()
-  extension: string;
+  extension?: string;
 
   @Prop()
-  extension2: string;
+  extension2?: string;
 
   @Prop()
-  extension3: string;
+  extension3?: string;
 }
 
 export const ContactInfoSchema = SchemaFactory.createForClass(ContactInfo);

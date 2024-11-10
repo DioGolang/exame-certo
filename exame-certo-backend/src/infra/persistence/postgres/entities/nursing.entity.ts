@@ -1,12 +1,12 @@
 import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
-import { ContactInfo } from '../../mongodb/schemas/contact-info.schema';
-import { Address } from '../../mongodb/schemas/address.schema';
 import { AnamnesisEntity } from './anamnesis.entity';
 import { NursingLevel } from '../../../../domain/enums/nursing-level.enum';
 import { ScreeningEntity } from './screening.entity';
 import { ClinicEntity } from './clinic.entity';
+import { ContactInfo } from '../../../../domain/value-objects/contact-info.vo';
+import { Address } from '../../../../domain/value-objects/address.vo';
 
-@Entity()
+@Entity('nursing')
 export class NursingEntity {
   @PrimaryColumn('uuid')
   id: string;
@@ -21,10 +21,10 @@ export class NursingEntity {
   passwordHash: string;
 
   @Column('jsonb')
-  contactInfo: ContactInfo;
+  address: Address;
 
   @Column('jsonb')
-  address: Address;
+  contactInfo: ContactInfo;
 
   @Column({ type: 'enum', enum: NursingLevel })
   nursingLevel: NursingLevel;
