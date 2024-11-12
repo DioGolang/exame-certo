@@ -1,4 +1,4 @@
-import { IsString, MinLength, ValidateNested } from 'class-validator';
+import { IsEmail, IsString, MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
@@ -7,6 +7,7 @@ export class RegisterAttendantDto {
   @IsString()
   public readonly name: string;
 
+  @IsEmail()
   public readonly email: string;
 
   @IsString()

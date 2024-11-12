@@ -2,7 +2,7 @@ import { NursingQueryRepository } from '../../../../../domain/repositories/nursi
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { NotFoundException } from '@nestjs/common';
-import { RegisterNursingEventDto } from '../../../../../application/nursing/dto/register-nursing-event.dto';
+import { RegisteredNursingEventDto } from '../../../../../application/nursing/dto/registered-nursing-event.dto';
 import { Nursing } from '../../schemas/nursing.schema';
 
 export class NursingQueryRepositoryImpl implements NursingQueryRepository {
@@ -46,7 +46,7 @@ export class NursingQueryRepositoryImpl implements NursingQueryRepository {
     }
   }
 
-  async save(nursing: RegisterNursingEventDto): Promise<void> {
+  async save(nursing: RegisteredNursingEventDto): Promise<void> {
     await new this.nursingModel(nursing).save();
   }
 }

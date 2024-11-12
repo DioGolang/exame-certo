@@ -2,9 +2,10 @@ import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
 import { Exclude, Expose, Type } from 'class-transformer';
 import { IsDate, IsUUID } from 'class-validator';
+import { EventDto } from '../../interfaces/event.dto.interface';
 
 @Exclude()
-export class CreateClinicEventDto {
+export class CreateClinicEventDto implements EventDto {
   @Expose()
   @IsUUID('4')
   public readonly id: string;

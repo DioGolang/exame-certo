@@ -75,25 +75,25 @@ POST http://localhost:3000/patients
 content-type: application/json
 
 {
-  "name": "chewbacca2",
+  "name": "chewbacca",
   "lastName": "Vasco",
-  "email": "chewbacca2@gmail.com",
+  "email": "chewbacca@gmail.com",
   "password": "123456",
   "dateOfBirth": "1990-01-01",
   "sex": "Female",
   "maritalStatus": "Solteiro(a)",
   "documentation": {
     "cpf": {
-      "cpf": "978.356.476-11"
+      "cpf": "966.351.176-11"
     },
     "rg": {
-      "rg": "97.411.511-1"
+      "rg": "66.422.511-1"
     },
     "cnh": {
-      "cnh": "95311911411"
+      "cnh": "66315211411"
     },
     "cns": {
-      "cns": "94897111601"
+      "cns": "66897162601"
     }
   },
   "socioeconomicInformation": {
@@ -124,4 +124,75 @@ content-type: application/json
     "extension3": "123"
   },
   "healthInsurance": "Unimed"
+}
+
+### GET PATIENT
+GET http://localhost:3000/patient/
+
+### POST CREATE Attendant
+POST http://localhost:3000/attendants
+content-type: application/json
+
+{
+  "name": "Joaquim",
+  "email": "joaquim@gmail.com",
+  "password": "12345689",
+  "department": "Recepção",
+  "address": {
+    "street": "Rua São Shibituba",
+    "number": "123",
+    "neighborhood": "jaçana",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "12345-678",
+    "country": "Brasil",
+    "complement": "Sala 1"
+  },
+  "contactInfo": {
+    "phone": "11 1234-5678",
+    "emergencyPhone": "11 98765-4321",
+    "emergencyPhone2": "11 98765-4321",
+    "emergencyPhone3": "11 98765-4321",
+    "email": "contato@clinica2.com.br",
+    "extension": "123",
+    "extension2": "123",
+    "extension3": "123"
+  }
+}
+
+### GET ATTENDANT
+GET http://localhost:3000/attendant
+
+
+### POST NERSING
+POST http://localhost:3000/nursing
+content-type: application/json
+
+{
+  "name": "Maria",
+  "email": "maria.enfe@clinic.com.br",
+  "password": "12345687",
+  "nursingLevel": "NURSE",
+  "COREN": "123",
+    "address": {
+        "street": "Rua São Shibituba",
+        "number": "123",
+        "neighborhood": "jaçana",
+        "city": "São Paulo",
+        "state": "SP",
+        "zipCode": "12345-678",
+        "country": "Brasil",
+        "complement": "Sala 1"
+    },
+    "contactInfo": {
+        "phone": "11 1234-5678",
+        "emergencyPhone": "11 98765-4321",
+        "emergencyPhone2": "11 98765-4321",
+        "emergencyPhone3": "11 98765-4321",
+        "email": "contato@contato.com.br",
+        "extension": "123",
+        "extension2": "123",
+        "extension3": "123"
+    }
+
 }

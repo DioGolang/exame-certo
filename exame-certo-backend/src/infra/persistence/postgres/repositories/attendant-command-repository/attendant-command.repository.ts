@@ -1,10 +1,8 @@
 import { AttendantCommandRepository } from '../../../../../domain/repositories/attendant-command.repository';
 import { AttendantEntity } from '../../entities/attendant.entity';
 import { Repository } from 'typeorm';
-import { plainToClass } from 'class-transformer';
 import { InjectRepository } from '@nestjs/typeorm';
-
-class RegisteredAttendantEventDto {}
+import { RegisteredAttendantEventDto } from '../../../../../application/attendant/dto/registered-attendant-event.dto';
 
 export class AttendantCommandRepositoryImpl
   implements AttendantCommandRepository
@@ -15,8 +13,8 @@ export class AttendantCommandRepositoryImpl
   ) {}
 
   async save(attendant: RegisteredAttendantEventDto): Promise<void> {
-    const attendantEntity = plainToClass(AttendantEntity, attendant);
-    await this.attendantRepository.save(attendantEntity);
+    console.log('AttendantCommandRepositoryImpl.save', attendant);
+    await this.attendantRepository.save(attendant);
   }
 
   update(entity: RegisteredAttendantEventDto): Promise<void> {

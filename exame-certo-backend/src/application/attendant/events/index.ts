@@ -1,1 +1,3 @@
-export const EventsHandlers = [];
+import { RegisteredAttendantEvent } from './resgistered-attendant.event';
+
+export const EventsHandlers = [RegisteredAttendantEvent];

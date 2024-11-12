@@ -14,9 +14,10 @@ import { DocumentationDto } from '../../shared/dtos/documentation.dto';
 import { SocioEconomicInformationDto } from '../../shared/dtos/socio-economic-information.dto';
 import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
+import { EventDto } from '../../interfaces/event.dto.interface';
 
 @Exclude()
-export class RegisteredPatientEventDto {
+export class RegisteredPatientEventDto implements EventDto {
   @Expose()
   @IsUUID('4')
   public readonly id: string;

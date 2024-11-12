@@ -2,7 +2,7 @@ import { AttendantQueryRepository } from '../../../../../domain/repositories/att
 import { Attendant } from '../../schemas/attendant.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { NotFoundException } from '@nestjs/common';
-import { RegisterAttendantEventDto } from '../../../../../application/attendant/dto/register-attendant-event.dto';
+import { RegisteredAttendantEventDto } from '../../../../../application/attendant/dto/registered-attendant-event.dto';
 import { Model } from 'mongoose';
 
 export class AttendantQueryRepositoryImpl implements AttendantQueryRepository {
@@ -38,7 +38,7 @@ export class AttendantQueryRepositoryImpl implements AttendantQueryRepository {
     return await this.attendantModel.find().exec();
   }
 
-  async save(attendant: RegisterAttendantEventDto): Promise<void> {
+  async save(attendant: RegisteredAttendantEventDto): Promise<void> {
     await new this.attendantModel(attendant).save();
   }
 }

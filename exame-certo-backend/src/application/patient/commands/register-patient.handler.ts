@@ -6,7 +6,6 @@ import { RegisteredPatientEvent } from '../events/registered-patient.event';
 import { PatientDomainService } from '../../../domain/services/patient/patient-domain.service';
 import { Patient } from '../../../domain/entities/patient.entity';
 import { InvalidPatientException } from '../../../domain/exceptions/invalid-patient.exception';
-import { OutboxOrchestratorService } from '../../shared/services/outbox/outbox-orchestrator.service';
 import { Mapper } from '../../interfaces/mapper.interface';
 import { PatientEntity } from '../../../infra/persistence/postgres/entities/patient.entity';
 import { Patient as PatientDocument } from '../../../infra/persistence/mongodb/schemas/patient.schema';
@@ -20,7 +19,6 @@ export class RegisterPatientHandler
     @Inject('PatientCommandRepository')
     private readonly patientRepository: PatientCommandRepository,
     private readonly patientDomainService: PatientDomainService,
-    private readonly outboxOrchestrator: OutboxOrchestratorService,
     private readonly eventBus: EventBus,
     @Inject('Mapper')
     private readonly patientMapper: Mapper<

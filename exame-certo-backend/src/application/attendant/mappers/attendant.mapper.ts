@@ -3,7 +3,7 @@ import { Mapper } from '../../interfaces/mapper.interface';
 import { Attendant } from '../../../domain/entities/attendant.entity';
 import { AttendantEntity } from '../../../infra/persistence/postgres/entities/attendant.entity';
 import { Attendant as AttendantDocument } from '../../../infra/persistence/mongodb/schemas/attendant.schema';
-import { RegisterAttendantEventDto } from '../dto/register-attendant-event.dto';
+import { RegisteredAttendantEventDto } from '../dto/registered-attendant-event.dto';
 import { BuilderFactory } from '../../../domain/factories/build/builder.factory';
 import { AttendantProps } from '../../../domain/interfaces/props/attendant-props.interface';
 import { AttendantBuilder } from '../../../domain/builders/attendant.build';
@@ -16,7 +16,7 @@ export class AttendantMapper
       Attendant,
       AttendantEntity,
       AttendantDocument,
-      RegisterAttendantEventDto
+      RegisteredAttendantEventDto
     >
 {
   constructor(
@@ -34,7 +34,9 @@ export class AttendantMapper
     >,
   ) {}
 
-  toRegisteredDomainEventDto(attendant: Attendant): RegisterAttendantEventDto {
+  toRegisteredDomainEventDto(
+    attendant: Attendant,
+  ): RegisteredAttendantEventDto {
     return {
       id: attendant.id,
       name: attendant.name,
@@ -48,7 +50,7 @@ export class AttendantMapper
     };
   }
 
-  fromEventDtoToDomain(dto: RegisterAttendantEventDto): Promise<Attendant> {
+  fromEventDtoToDomain(dto: RegisteredAttendantEventDto): Promise<Attendant> {
     const attendantBuilder = this.attendantBuilderFactory.createBuilder();
     this.attendantBuilderFactory.configureBuilder(attendantBuilder, dto);
     return Promise.resolve(attendantBuilder.build());
@@ -88,7 +90,7 @@ export class AttendantMapper
   }
 
   fromRegisteredEntityEventDtoToDocument(
-    dto: RegisterAttendantEventDto,
+    dto: RegisteredAttendantEventDto,
   ): AttendantDocument {
     const attendantDocument = this.attendantPersistenceFactory.createDocument();
     attendantDocument.id = dto.id;

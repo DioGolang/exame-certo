@@ -24,7 +24,7 @@ import { AttendantPersistenceFactory } from './attendant-persistence.factory';
       useClass: NursingPersistenceFactory,
     },
     {
-      provide: 'AttendancePersistenceFactory',
+      provide: 'AttendantPersistenceFactory',
       useClass: AttendantPersistenceFactory,
     },
   ],
@@ -33,7 +33,7 @@ import { AttendantPersistenceFactory } from './attendant-persistence.factory';
     'PatientPersistenceFactory',
     'DoctorPersistenceFactory',
     'NursingPersistenceFactory',
-    'AttendancePersistenceFactory',
+    'AttendantPersistenceFactory',
   ],
 })
 export class PersistenceModule {}

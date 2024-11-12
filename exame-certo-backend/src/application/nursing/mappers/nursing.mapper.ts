@@ -2,7 +2,7 @@ import { Mapper } from '../../interfaces/mapper.interface';
 import { Nursing } from '../../../domain/entities/nursing.entity';
 import { NursingEntity } from '../../../infra/persistence/postgres/entities/nursing.entity';
 import { Nursing as NursingDocument } from '../../../infra/persistence/mongodb/schemas/nursing.schema';
-import { RegisterNursingEventDto } from '../dto/register-nursing-event.dto';
+import { RegisteredNursingEventDto } from '../dto/registered-nursing-event.dto';
 import { Inject } from '@nestjs/common';
 import { BuilderFactory } from '../../../domain/factories/build/builder.factory';
 import { NursingProps } from '../../../domain/interfaces/props/nursing-props.interface';
@@ -11,7 +11,7 @@ import { PersistenceFactory } from '../../../domain/factories/persistence/persis
 
 export class NursingMapper
   implements
-    Mapper<Nursing, NursingEntity, NursingDocument, RegisterNursingEventDto>
+    Mapper<Nursing, NursingEntity, NursingDocument, RegisteredNursingEventDto>
 {
   constructor(
     @Inject('NursingBuilderFactory')
@@ -28,7 +28,7 @@ export class NursingMapper
     >,
   ) {}
 
-  toRegisteredDomainEventDto(nursing: Nursing): RegisterNursingEventDto {
+  toRegisteredDomainEventDto(nursing: Nursing): RegisteredNursingEventDto {
     return {
       id: nursing.id,
       name: nursing.name,
@@ -42,7 +42,7 @@ export class NursingMapper
       updatedAt: nursing.updatedAt,
     };
   }
-  fromEventDtoToDomain(dto: RegisterNursingEventDto): Promise<Nursing> {
+  fromEventDtoToDomain(dto: RegisteredNursingEventDto): Promise<Nursing> {
     const nursingBuilder = this.nursingBuilderFactory.createBuilder();
     this.nursingBuilderFactory.configureBuilder(nursingBuilder, dto);
     return Promise.resolve(nursingBuilder.build());
@@ -68,7 +68,7 @@ export class NursingMapper
     return nursingBuilder.build();
   }
   fromRegisteredEntityEventDtoToDocument(
-    event: RegisterNursingEventDto,
+    event: RegisteredNursingEventDto,
   ): NursingDocument {
     const nursingDocument = new NursingDocument();
     nursingDocument.id = event.id;

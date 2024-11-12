@@ -3,9 +3,10 @@ import { IsUUID } from 'class-validator';
 import { AddressDto } from '../../shared/dtos/address.dto';
 import { ContactInfoDto } from '../../shared/dtos/contact-info.dto';
 import { NursingLevel } from '../../../domain/enums/nursing-level.enum';
+import { EventDto } from '../../interfaces/event.dto.interface';
 
 @Exclude()
-export class RegisterNursingEventDto {
+export class RegisteredNursingEventDto implements EventDto {
   @Expose()
   @IsUUID('4')
   public readonly id: string;

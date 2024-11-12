@@ -1,6 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { plainToClass } from 'class-transformer';
 import { NursingCommandRepository } from '../../../../../domain/repositories/nursing-command.repository';
 import { NursingEntity } from '../../entities/nursing.entity';
 
@@ -13,8 +12,7 @@ export class NursingCommandRepositoryImpl implements NursingCommandRepository {
   ) {}
 
   async save(nursing: RegisteredNursingEventDto): Promise<void> {
-    const nursingEntity = plainToClass(NursingEntity, nursing);
-    await this.nursingRepository.save(nursingEntity);
+    await this.nursingRepository.save(nursing);
   }
 
   update(entity: RegisteredNursingEventDto): Promise<void> {

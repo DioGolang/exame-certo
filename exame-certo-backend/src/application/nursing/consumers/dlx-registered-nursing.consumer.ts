@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 
 @Injectable()
-export class DlcRegisteredPatientConsumer {
+export class DlcRegisteredNursingConsumer {
   @RabbitSubscribe({
     exchange: 'dlx_exchange',
-    routingKey: 'patient.registered.dlq',
-    queue: 'patient_dlq',
+    routingKey: 'nursing.registered.dlq',
+    queue: 'nursing_dlq',
   })
   async handle(msg: any) {
     try {

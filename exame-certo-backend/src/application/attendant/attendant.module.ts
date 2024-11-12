@@ -11,6 +11,8 @@ import { EventsHandlers } from './events';
 import { QueriesHandlers } from './queries';
 import { Consumers } from './consumers';
 import { AttendantSaga } from './saga';
+import { AttendantMapper } from './mappers/attendant.mapper';
+import { AttendantService } from './services/Attendant.service';
 
 @Module({
   imports: [
@@ -23,6 +25,12 @@ import { AttendantSaga } from './saga';
     OutboxModule,
   ],
   providers: [
+    AttendantMapper,
+    AttendantService,
+    {
+      provide: 'Mapper',
+      useClass: AttendantMapper,
+    },
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,
@@ -30,6 +38,8 @@ import { AttendantSaga } from './saga';
     ...AttendantSaga,
   ],
   exports: [
+    AttendantService,
+    'Mapper',
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,

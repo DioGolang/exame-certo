@@ -11,6 +11,8 @@ import { OutboxModule } from '../shared/services/outbox/outbox.module';
 import { NursingDomainModule } from '../../domain/services/nursing/nursing-domain.module';
 import { NursingQueryRepositoryModule } from '../../infra/persistence/mongodb/repositories/nursing-query-repository/nursing-query-repository.module';
 import { NursingCommandRepositoryModule } from '../../infra/persistence/postgres/repositories/nursing-command-repository/nursing-command-repository.module';
+import { NursingMapper } from './mappers/nursing.mapper';
+import { NursingService } from './services/nursing.service';
 
 @Module({
   imports: [
@@ -23,6 +25,12 @@ import { NursingCommandRepositoryModule } from '../../infra/persistence/postgres
     OutboxModule,
   ],
   providers: [
+    NursingMapper,
+    NursingService,
+    {
+      provide: 'Mapper',
+      useClass: NursingMapper,
+    },
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,
@@ -30,6 +38,8 @@ import { NursingCommandRepositoryModule } from '../../infra/persistence/postgres
     ...NursingSaga,
   ],
   exports: [
+    NursingService,
+    'Mapper',
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,
