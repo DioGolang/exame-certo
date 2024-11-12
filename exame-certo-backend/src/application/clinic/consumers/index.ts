@@ -1,3 +1,7 @@
-import { ClinicCreatedConsumer } from './clinic-created.consumer';
+import { ClinicRegisteredConsumer } from './clinic-registered.consumer';
+import { DlcRegisteredClinicConsumer } from './dlc-registered-clinic.consumer';
 
-export const Consumers = [ClinicCreatedConsumer];
+export const Consumers = [
+  ClinicRegisteredConsumer,
+  DlcRegisteredClinicConsumer,
+];

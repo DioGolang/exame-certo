@@ -3,7 +3,6 @@ import { ClinicQueryRepositoryModule } from '../../infra/persistence/mongodb/rep
 import { ClinicCommandRepositoryModule } from '../../infra/persistence/postgres/repositories/clinic-command-repository/clinic-command-repository.module';
 import { ClinicService } from './services/clinic.service';
 import { CqrsModule } from '@nestjs/cqrs';
-import { ClinicSaga } from './saga/clinic.saga';
 import { CommandsHandlers } from './commands';
 import { QueriesHandlers } from './queries';
 import { EventsHandlers } from './events';
@@ -13,6 +12,8 @@ import { ClinicMapper } from './mappers/clinic.mapper';
 import { ClinicDomainServiceModule } from '../../domain/services/clinic/clinic-domain-service.module';
 import { BuildModule } from '../../domain/factories/build/build.module';
 import { PersistenceModule } from '../../domain/factories/persistence/persistence.module';
+import { ClinicSaga } from './saga';
+import { OutboxModule } from '../shared/services/outbox/outbox.module';
 
 @Module({
   imports: [
@@ -22,14 +23,19 @@ import { PersistenceModule } from '../../domain/factories/persistence/persistenc
     BuildModule,
     PersistenceModule,
     ClinicDomainServiceModule,
+    OutboxModule,
   ],
   providers: [
     ClinicService,
     EventPublisherService,
     ClinicMapper,
+    {
+      provide: 'Mapper',
+      useClass: ClinicMapper,
+    },
     ...CommandsHandlers,
     ...EventsHandlers,
-    ClinicSaga,
+    ...ClinicSaga,
     ...QueriesHandlers,
     ...Consumers,
   ],
@@ -39,7 +45,7 @@ import { PersistenceModule } from '../../domain/factories/persistence/persistenc
     ClinicMapper,
     ...CommandsHandlers,
     ...EventsHandlers,
-    ClinicSaga,
+    ...ClinicSaga,
     ...QueriesHandlers,
     ...Consumers,
   ],

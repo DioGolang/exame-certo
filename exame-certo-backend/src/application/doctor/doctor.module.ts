@@ -13,6 +13,8 @@ import { DoctorMapper } from './mappers/doctor.mapper';
 import { EventPublisherService } from './services/event-publisher.service';
 import { BuildModule } from '../../domain/factories/build/build.module';
 import { PersistenceModule } from '../../domain/factories/persistence/persistence.module';
+import { DoctorSaga } from './saga';
+import { OutboxModule } from '../shared/services/outbox/outbox.module';
 
 @Module({
   imports: [
@@ -22,26 +24,29 @@ import { PersistenceModule } from '../../domain/factories/persistence/persistenc
     BuildModule,
     PersistenceModule,
     DoctorDomainServiceModule,
+    OutboxModule,
   ],
   providers: [
     DoctorService,
     EventPublisherService,
-    DoctorMapper,
     ...Mappers,
+    { provide: 'Mapper', useClass: DoctorMapper },
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,
     ...Consumers,
+    ...DoctorSaga,
   ],
   exports: [
     DoctorService,
     EventPublisherService,
     DoctorMapper,
-    ...Mappers,
+    'Mapper',
     ...CommandsHandlers,
     ...EventsHandlers,
     ...QueriesHandlers,
     ...Consumers,
+    ...DoctorSaga,
   ],
 })
 export class DoctorModule {}

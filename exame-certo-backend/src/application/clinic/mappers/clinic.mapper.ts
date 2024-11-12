@@ -74,7 +74,16 @@ export class ClinicMapper
   fromRegisteredEntityEventDtoToDocument(
     event: CreateClinicEventDto,
   ): ClinicDocument {
-    throw new Error('Method not implemented.');
+    const clinicDocument = this.clinicPersistenceFactory.createDocument();
+    clinicDocument.id = event.id;
+    clinicDocument.name = event.name;
+    clinicDocument.email = event.email;
+    clinicDocument.passwordHash = event.passwordHash;
+    clinicDocument.address = event.address;
+    clinicDocument.contactInfo = event.contactInfo;
+    clinicDocument.createdAt = event.createdAt;
+    clinicDocument.updatedAt = event.updatedAt;
+    return clinicDocument;
   }
 
   async documentForDomain(clinicDocument: ClinicDocument): Promise<Clinic> {

@@ -54,5 +54,4 @@ export class Doctor {
   @Prop()
   updatedAt: Date;
 }
-
 export const DoctorSchema = SchemaFactory.createForClass(Doctor);

@@ -47,6 +47,7 @@ export class DoctorQueryRepositoryImpl implements DoctorQueryRepository {
   }
 
   async save(doctor: CreateDoctorEventDto): Promise<void> {
+    console.log('doctor, MONGO', doctor);
     await new this.doctorModel(doctor).save();
   }
 }

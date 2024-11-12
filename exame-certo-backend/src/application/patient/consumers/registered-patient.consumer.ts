@@ -41,7 +41,6 @@ export class RegisteredPatientConsumer {
     console.log(
       `Recebido evento de registro do paciente: ${JSON.stringify(event)}`,
     );
-
     console.log(`Recebido evento e id do Outbox: ${idOutbox}`);
 
     try {
