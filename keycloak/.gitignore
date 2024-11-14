@@ -1,0 +1,4 @@
+.idea
+keycloak_data
+keycloak_db_data
+.env
