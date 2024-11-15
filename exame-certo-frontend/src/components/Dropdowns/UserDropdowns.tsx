@@ -28,7 +28,7 @@ export default function UserDropdowns() {
                 ref={btnDropdownRef}
                 onClick={(e) => {
                     e.preventDefault();
-                    dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
+                    (() => dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover())();
                 }}
             >
                 <div className="items-center flex">
