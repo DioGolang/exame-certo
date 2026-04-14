@@ -23,7 +23,7 @@
     "@golevelup/nestjs-rabbitmq": "^5.4.1",
     "@nestjs/bullmq": "^10.2.1",
     "@nestjs/common": "^10.0.0",
-    "@nestjs/config": "^3.2.3",
+    "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^10.0.0",
     "@nestjs/cqrs": "^10.2.7",
     "@nestjs/jwt": "^10.2.0",
